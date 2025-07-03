@@ -20,4 +20,12 @@ public class Helper {
         }
         return true;
     }
+
+    public static boolean isValidLong(Long accountNumber) {
+        return false;
+    }
+
+    public static boolean isValidDouble(double accountBalance) {
+        return false;
+    }
 }
