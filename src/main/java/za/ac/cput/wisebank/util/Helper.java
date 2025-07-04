@@ -5,15 +5,15 @@ public class Helper {
         return str == null || str.isEmpty();
     }
 
-    // Todo: isValidPostalCode method - 4 digits with range 1000 to 9999
-    public static boolean isValidShort(short postalCode) {
-        if (postalCode < 1000 || postalCode > 9999) {
+    // Todo: isValidShort method - 4 digits with range 1000 to 9999
+    public static boolean isValidShort(short value) {
+        if (value < 1000 || value > 9999) {
             return false;
         }
         return true;
     }
 
-    // Todo: isValidErfNumber method - 1 to 5 digits with range 1 to 99999
+    // Todo: isValidInteger method - 1 to 5 digits with range 1 to 99999
     public static boolean isValidInt(int value) {
         if (value < 1 || value > 99999) {
             return false;
@@ -21,11 +21,24 @@ public class Helper {
         return true;
     }
 
+
     public static boolean isValidLong(Long accountNumber) {
         return false;
     }
 
     public static boolean isValidDouble(double accountBalance) {
         return false;
+
+    // Todo: idBoolean valid or not
+    public static boolean isValidBoolean(Boolean value) {
+        return value != null;
+    }
+    public static boolean isValidDouble(double value) {
+        return value >= 0.0 && value <= 100000.0;
+    }
+
+    public static boolean isValidInteger(Integer value) {
+        return value != null && value >= 1 && value <= 99999;
+
     }
 }
