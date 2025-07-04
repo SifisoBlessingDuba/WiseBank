@@ -20,6 +20,15 @@ public class Helper {
         }
         return true;
     }
+
+
+    public static boolean isValidLong(Long accountNumber) {
+        return false;
+    }
+
+    public static boolean isValidDouble(double accountBalance) {
+        return false;
+
     // Todo: idBoolean valid or not
     public static boolean isValidBoolean(Boolean value) {
         return value != null;
@@ -30,5 +39,6 @@ public class Helper {
 
     public static boolean isValidInteger(Integer value) {
         return value != null && value >= 1 && value <= 99999;
+
     }
 }
