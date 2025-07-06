@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -14,7 +16,7 @@ public class LoanPayment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentId;
     private Integer loanId;
-    private Date paymentDate;
+    private LocalDateTime paymentDate;
     private Double amountPaid;
     private String status;
 
@@ -22,7 +24,7 @@ public class LoanPayment {
 
     }
 
-    private LoanPayment(Builder builder) {
+    public LoanPayment(Builder builder) {
         this.paymentId = builder.paymentId;
         this.loanId = builder.loanId;
         this.paymentDate = builder.paymentDate;
@@ -37,7 +39,7 @@ public class LoanPayment {
         return loanId;
     }
 
-    public Date getPaymentDate() {
+    public LocalDateTime getPaymentDate() {
         return paymentDate;
     }
 
@@ -62,7 +64,7 @@ public class LoanPayment {
 
         private Integer paymentId;
         private Integer loanId;
-        private Date paymentDate;
+        private LocalDateTime paymentDate;
         private Double amountPaid;
         private String status;
 
@@ -76,7 +78,7 @@ public class LoanPayment {
             return this;
         }
 
-        public Builder setPaymentDate(Date paymentDate) {
+        public Builder setPaymentDate(LocalDateTime paymentDate) {
             this.paymentDate = paymentDate;
             return this;
         }

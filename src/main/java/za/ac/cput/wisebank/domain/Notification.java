@@ -24,7 +24,7 @@ public class Notification {
     protected Notification() {
 
     }
-    private Notification(Builder builder) {
+    public Notification(Builder builder) {
         this.notificationId = builder.notificationId;
         this.userId = builder.userId;
         this.title = builder.title;
