@@ -1,4 +1,4 @@
-package za.ac.cput.wisebank.factory;
+package za.ac.cput.wisebank.Factory;
 
 import org.springframework.stereotype.Component;
 import za.ac.cput.wisebank.domain.Transaction;
@@ -34,21 +34,4 @@ public class TransactionFactory {
 
     }
 
-    public Transaction updateTransaction(Transaction existingTransaction, Transaction newData) {
-        return new Transaction.Builder()
-                .setTransactionId(existingTransaction.getTransactionId())
-
-                .setSenderAccountId(newData.getSenderAccountId() != null ? newData.getSenderAccountId() : existingTransaction.getSenderAccountId())
-
-                .setAmount(newData.getAmount() != null ? newData.getAmount() : existingTransaction.getAmount())
-
-                .setTransactionType(newData.getTransactionType() != null ? newData.getTransactionType() : existingTransaction.getTransactionType())
-
-                .setTimestamp(newData.getTimestamp() != null ? newData.getTimestamp() : existingTransaction.getTimestamp())
-
-                .setDescription(newData.getDescription() != null ? newData.getDescription() : existingTransaction.getDescription())
-
-                .setStatus(newData.getStatus() != null ? newData.getStatus() : existingTransaction.getStatus())
-                .build();
-    }
 }
