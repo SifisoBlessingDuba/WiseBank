@@ -7,22 +7,16 @@ import java.time.LocalDate;
 
 @Component
 public class BeneficiaryFactory {
+    public static Beneficiary createBeneficiary(Integer beneficiaryId, int userId, String accountNumber, String name, String bankName, LocalDate addedAt) {
+        return new Beneficiary.Builder()
+                .setBeneficiaryId(beneficiaryId)
+                .setUserId(userId)
+                .setAccountNumber(accountNumber)
+                .setName(name)
+                .setBankName(bankName)
+                .setAddedAt(addedAt)
+                .build();
 
-    public Beneficiary createBeneficiary(
-            int beneficiaryId,
-            int userId,
-            String accountNumber,
-            String name,
-            String bankName
-    ) {
-        return new Beneficiary(
-                beneficiaryId,
-                userId,
-                accountNumber,
-                name,
-                bankName,
-                LocalDate.now()
-        );
     }
 }
 

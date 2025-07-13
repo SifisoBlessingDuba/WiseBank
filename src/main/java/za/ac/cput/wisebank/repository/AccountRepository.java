@@ -1,13 +1,15 @@
 package za.ac.cput.wisebank.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import za.ac.cput.wisebank.domain.Account;
 import java.util.List;
 import java.util.Optional;
 
-public interface AccountRepository extends CrudRepository<Account, Integer> {
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Integer> {
 
-    /*@Override
+    @Override
     Account save(Account account);
 
     @Override
@@ -17,6 +19,6 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
     Optional<Account> findById(Integer accountId);
 
     @Override
-    List<Account> findAll();*/
+    List<Account> findAll();
 }
 
