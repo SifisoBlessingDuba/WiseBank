@@ -1,10 +1,8 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
 import za.ac.cput.wisebank.domain.LoanPayment;
-import za.ac.cput.wisebank.util.Helper;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class LoanPaymentFactory {
 

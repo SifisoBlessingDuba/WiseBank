@@ -1,4 +1,4 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
 import za.ac.cput.wisebank.domain.Card;
 import za.ac.cput.wisebank.util.Helper;
