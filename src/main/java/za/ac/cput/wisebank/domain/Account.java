@@ -1,21 +1,23 @@
 package za.ac.cput.wisebank.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+import jakarta.persistence.*;
 
 @Entity
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
     private int accountId;
     private long accountNumber;
-    private String accountType;
+
     private double accountBalance;
     private double currency;
     private String bankName;
     private String status;
+    @OneToMany
+    @JoinColumn(name = "User_Id")
+    private User user;
 
     public Account() {
 

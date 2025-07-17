@@ -1,10 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int userid;
     private String email;
     private String password;
@@ -26,6 +24,10 @@ public class User {
     private String address;
     private LocalDate createdAt;
     private String lastLogin;
+    @OneToMany
+    @JoinColumn(name = "Account_Id")
+    private Account account;
+
 
     public User(){
 
