@@ -16,6 +16,9 @@ public class Card {
     private int cvv;
     private LocalDate expiryDate;
     private LocalDate issuedDate;
+    @OneToOne
+    @JoinColumn(name = "account_id", nullable = false, unique = true)
+    private Account account;
 
 
     protected Card() {
@@ -65,19 +68,29 @@ public class Card {
         return issuedDate;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public double getCardLimit() {
+        return cardLimit;
+    }
+
     @Override
     public String toString() {
         return "Card{" +
-                "cadId=" + cardId +
+                "cardId=" + cardId +
                 ", cardNumber='" + cardNumber + '\'' +
                 ", cardType='" + cardType + '\'' +
-                ", status='" + status + '\'' +
-                ", limit=" + cardLimit +
+                ", status=" + status +
+                ", cardLimit=" + cardLimit +
                 ", cvv=" + cvv +
                 ", expiryDate=" + expiryDate +
                 ", issuedDate=" + issuedDate +
+                ", account=" + account +
                 '}';
     }
+
     public static class Builder {
         private Integer cardId;
         private String cardNumber;
@@ -87,6 +100,7 @@ public class Card {
         private int cvv;
         private LocalDate expiryDate;
         private LocalDate issuedDate;
+        private Account account;
 
         public Builder setCardId(Integer cardId) {
             this.cardId = cardId;
@@ -118,6 +132,10 @@ public class Card {
         }
         public Builder setIssuedDate(LocalDate issuedDate) {
             this.issuedDate = issuedDate;
+            return this;
+        }
+        public Builder setAccount(Account account) {
+            this.account = account;
             return this;
         }
         public Card build() {

@@ -11,7 +11,7 @@ class LoanFactoryTest {
 
     @Test
     void createLoan() {
-        Loan loan = LoanFactory.createLoan(12637, "Fixed", "payed", 50000.00,5.2, 30000.00, 5000.00, 35000.00, LocalDateTime.now());
+        Loan loan = LoanFactory.createLoan(12637, "Fixed", "payed", 50000.00,5.2, 30000.00, 5000.00, 35000.00, LocalDateTime.now(), null);
         assertNotNull(loan);
         System.out.println(loan);
     }

@@ -3,6 +3,7 @@ package za.ac.cput.wisebank.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Loan {
@@ -18,6 +19,10 @@ public class Loan {
     private double outstandingPayment;
     private LocalDateTime loanDate;
 
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LoanPayment> payments;
+
+
     protected Loan(){
 
     }
@@ -31,6 +36,8 @@ public class Loan {
         this.monthlyPayment = builder.monthlyPayment;
         this.outstandingPayment = builder.outstandingPayment;
         this.loanDate = builder.loanDate;
+        this.payments = builder.payments;
+
     }
 
     public Integer getLoanId() {
@@ -69,6 +76,10 @@ public class Loan {
         return loanDate;
     }
 
+    public List<LoanPayment> getPayments() {
+        return payments;
+    }
+
     @Override
     public String toString() {
         return "Loan{" +
@@ -81,8 +92,10 @@ public class Loan {
                 ", monthlyPayment=" + monthlyPayment +
                 ", outstandingPayment=" + outstandingPayment +
                 ", loanDate=" + loanDate +
+                ", payments=" + payments +
                 '}';
     }
+
     public static class Builder {
         private Integer loanId;
         private String loanType;
@@ -93,6 +106,7 @@ public class Loan {
         private double monthlyPayment;
         private double outstandingPayment;
         private LocalDateTime loanDate;
+        private List<LoanPayment> payments;
 
         public Builder setLoanId(Integer loanId) {
             this.loanId = loanId;
@@ -128,6 +142,10 @@ public class Loan {
         }
         public Builder setLoanDate(LocalDateTime loanDate) {
             this.loanDate = loanDate;
+            return this;
+        }
+        public Builder setLoanPayments(List<LoanPayment> payments) {
+            this.payments = payments;
             return this;
         }
         public Loan build() {

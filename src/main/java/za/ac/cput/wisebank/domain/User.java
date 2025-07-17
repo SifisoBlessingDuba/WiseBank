@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.time.LocalDate;
 import java.util.Date;
-
 @Entity
 public class User {
 

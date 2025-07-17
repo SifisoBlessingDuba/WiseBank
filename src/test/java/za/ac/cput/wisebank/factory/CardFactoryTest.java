@@ -10,7 +10,7 @@ class CardFactoryTest {
 
     @Test
     void createCard() {
-        Card card = CardFactory.createCard( "123456789", "Savings", true, 1000.00,123, LocalDate.now(),LocalDate.now());
+        Card card = CardFactory.createCard( "123456789", "Savings", true, 1000.00,123, LocalDate.now(),LocalDate.now(), null);
         assertNotNull(card);
         System.out.println(card);
     }
