@@ -7,30 +7,106 @@ import java.time.LocalDate;
 public class Beneficiary {
 
     @Id
-    private int beneficiaryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer beneficiaryId;
 
-    private int userId;
     private String accountNumber;
     private String name;
     private String bankName;
     private LocalDate addedAt;
 
-    protected Beneficiary() {} // required by JPA
+    // Relationship: Many Beneficiaries → One User
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
-    public Beneficiary(int beneficiaryId, int userId, String accountNumber, String name, String bankName, LocalDate addedAt) {
-        this.beneficiaryId = beneficiaryId;
-        this.userId = userId;
-        this.accountNumber = accountNumber;
-        this.name = name;
-        this.bankName = bankName;
-        this.addedAt = addedAt;
+    protected Beneficiary() {}
+
+    public Beneficiary(Builder builder) {
+        this.beneficiaryId = builder.beneficiaryId;
+        this.user = builder.user;
+        this.accountNumber = builder.accountNumber;
+        this.name = builder.name;
+        this.bankName = builder.bankName;
+        this.addedAt = builder.addedAt;
     }
 
-    // Getters
-    public int getBeneficiaryId() { return beneficiaryId; }
-    public int getUserId() { return userId; }
-    public String getAccountNumber() { return accountNumber; }
-    public String getName() { return name; }
-    public String getBankName() { return bankName; }
-    public LocalDate getAddedAt() { return addedAt; }
+    public int getBeneficiaryId() {
+        return beneficiaryId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public LocalDate getAddedAt() {
+        return addedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Beneficiary{" +
+                "beneficiaryId=" + beneficiaryId +
+                ", user=" + (user != null ? user.getId() : null) +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", bankName='" + bankName + '\'' +
+                ", addedAt=" + addedAt +
+                '}';
+    }
+
+    public static class Builder {
+        private Integer beneficiaryId;
+        private User user;
+        private String accountNumber;
+        private String name;
+        private String bankName;
+        private LocalDate addedAt;
+
+        public Builder setBeneficiaryId(Integer beneficiaryId) {
+            this.beneficiaryId = beneficiaryId;
+            return this;
+        }
+
+        public Builder setUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder setAccountNumber(String accountNumber) {
+            this.accountNumber = accountNumber;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setBankName(String bankName) {
+            this.bankName = bankName;
+            return this;
+        }
+
+        public Builder setAddedAt(LocalDate addedAt) {
+            this.addedAt = addedAt;
+            return this;
+        }
+
+        public Beneficiary build() {
+            return new Beneficiary(this);
+        }
+    }
 }
