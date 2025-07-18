@@ -1,10 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,8 +17,16 @@ public class LoanPayment {
     private Double amountPaid;
     private String status;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "loan_id")
+    private Loan loan;
+
     protected LoanPayment() {
 
+    }
+
+    public void setLoan(Loan loan){
+        this.loan = loan;
     }
 
     public LoanPayment(Builder builder) {
@@ -51,6 +56,10 @@ public class LoanPayment {
         return status;
     }
 
+    public Loan getLoan() {
+        return loan;
+    }
+
     @Override
     public String toString() {
         return "LoanPayment{" + "paymentId=" + paymentId
@@ -67,6 +76,7 @@ public class LoanPayment {
         private LocalDateTime paymentDate;
         private Double amountPaid;
         private String status;
+        private Loan loan;
 
         public Builder setPaymentId(Integer paymentId) {
             this.paymentId = paymentId;
@@ -85,6 +95,11 @@ public class LoanPayment {
 
         public Builder setAmountPaid(Double amountPaid) {
             this.amountPaid = amountPaid;
+            return this;
+        }
+
+        public Builder setLoan(Loan loan){
+            this.loan = loan;
             return this;
         }
 

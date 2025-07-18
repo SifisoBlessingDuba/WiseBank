@@ -1,10 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -20,10 +17,19 @@ public class Notification {
     private String isRead;
     private LocalDateTime timeStamp;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
 
     protected Notification() {
 
     }
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
     public Notification(Builder builder) {
         this.notificationId = builder.notificationId;
         this.userId = builder.userId;
@@ -65,6 +71,10 @@ public class Notification {
         return timeStamp;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         return "Notification{" +
@@ -86,6 +96,7 @@ public class Notification {
         private String notificationType;
         private String isRead;
         private LocalDateTime timeStamp;
+        private User user;
 
         public Builder setNotificationId(Integer notificationId) {
             this.notificationId = notificationId;
@@ -114,6 +125,11 @@ public class Notification {
 
         public Builder setIsRead(String isRead) {
             this.isRead = isRead;
+            return this;
+        }
+
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
 
