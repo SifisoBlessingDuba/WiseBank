@@ -1,37 +1,30 @@
 package za.ac.cput.wisebank.Factory;
 
-import org.springframework.stereotype.Component;
 import za.ac.cput.wisebank.domain.Transaction;
+import za.ac.cput.wisebank.util.Helper;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-@Component
+import java.time.LocalDate;
+
 public class TransactionFactory {
-    public static Transaction createTransaction(Long transactionId, Long senderAccountId, BigDecimal amount,
-                                                String transactionType, LocalDateTime timestamp, String description,
-                                                String status) {
-
+    public static Transaction createTransaction(Integer senderAccountId, Integer receiverAccountId,
+                                                double amount, String status, String description, LocalDate transactionDate,
+                                                String transactionType) {
+        if(!Helper.isValidInteger(senderAccountId) ||
+                !Helper.isValidInteger(receiverAccountId) ||
+                !Helper.isValidDouble(amount) ||
+                Helper.isNullOrEmpty(status) ||
+                Helper.isNullOrEmpty(description) ||
+                Helper.isNullOrEmpty(transactionType)){
+            return null;
+        }
         return new Transaction.Builder()
-                .setTransactionId(transactionId)
                 .setSenderAccountId(senderAccountId)
+                .setReceiverAccountId(receiverAccountId)
                 .setAmount(amount)
-                .setTransactionType(transactionType)
-                .setTimestamp(timestamp)
-                .setDescription(description)
                 .setStatus(status)
-                .build();
-    }
-
-    public static Transaction createTransaction(Long transactionId, Long senderAccountId, BigDecimal amount,
-                                                String transactionType, LocalDateTime timestamp) {
-        return new Transaction.Builder()
-                .setTransactionId(transactionId)
-                .setSenderAccountId(senderAccountId)
-                .setAmount(amount)
+                .setDescription(description)
+                .setTransactionDate(transactionDate)
                 .setTransactionType(transactionType)
-                .setTimestamp(timestamp)
                 .build();
-
     }
-
 }

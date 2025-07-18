@@ -67,7 +67,7 @@ public class Notification {
 
     @Override
     public String toString() {
-        return "Notification{" +
+        return "NotificationRepository{" +
                 "notificationId=" + notificationId
                 + ", userId=" + userId +'\''
                 + ", title='" + title + '\''

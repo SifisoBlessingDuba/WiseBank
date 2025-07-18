@@ -1,4 +1,4 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
 public class test {
 }

@@ -51,7 +51,7 @@ public class LoanPayment {
 
     @Override
     public String toString() {
-        return "LoanPayment{" + "paymentId=" + paymentId
+        return "LoanPaymentRepository{" + "paymentId=" + paymentId
                 + ", loanId=" + loanId + '\''
                 + ", paymentDate=" + paymentDate + '\''
                 + ", amountPaid=" + amountPaid + '\''

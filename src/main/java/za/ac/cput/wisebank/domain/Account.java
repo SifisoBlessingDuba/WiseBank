@@ -1,9 +1,8 @@
 package za.ac.cput.wisebank.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Collection;
 
 @Entity
 public class Account {
@@ -128,5 +127,16 @@ public class Account {
         public Account build() {
             return new Account(this);
         }
+    }
+
+    @OneToMany(mappedBy = "senderAccountId")
+    private Collection<Transaction> transaction;
+
+    public Collection<Transaction> getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Collection<Transaction> transaction) {
+        this.transaction = transaction;
     }
 }

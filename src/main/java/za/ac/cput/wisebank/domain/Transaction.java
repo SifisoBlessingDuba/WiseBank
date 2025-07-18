@@ -1,10 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
@@ -16,13 +13,19 @@ import java.time.LocalDateTime;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long transactionId;
-    private Long senderAccountId;
+    private int transactionId;
+    @ManyToOne
+    @JoinColumn(name = "sender_account_id_account_id")
+    private Account senderAccountId;
     private BigDecimal amount;
     private String transactionType;
     private LocalDateTime timestamp;
     private String description;
     private String status;
+
+    public void setSenderAccountId(Account senderAccountId) {
+        this.senderAccountId = senderAccountId;
+    }
 
     protected Transaction() {}
     private Transaction(Builder builder) {
@@ -37,11 +40,11 @@ public class Transaction {
 
     }
 
-    public Long getTransactionId() {
+    public int getTransactionId() {
         return transactionId;
     }
 
-    public Long getSenderAccountId() {
+    public Account getSenderAccountId() {
         return senderAccountId;
     }
 
@@ -77,20 +80,20 @@ public class Transaction {
     }
 
     public static class Builder {
-        private Long transactionId;
-        private Long senderAccountId;
+        private int transactionId;
+        private Account senderAccountId;
         private BigDecimal amount;
         private String transactionType;
         private LocalDateTime timestamp;
         private String description;
         private String status;
 
-        public Builder setTransactionId(Long transactionId) {
+        public Builder setTransactionId(int transactionId) {
             this.transactionId = transactionId;
             return this;
         }
 
-        public Builder setSenderAccountId(Long senderAccountId) {
+        public Builder setSenderAccountId(Account senderAccountId) {
             this.senderAccountId = senderAccountId;
             return this;
         }

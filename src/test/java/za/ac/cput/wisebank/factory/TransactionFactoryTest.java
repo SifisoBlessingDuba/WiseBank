@@ -1,7 +1,9 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
 import org.junit.jupiter.api.Test;
+import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Transaction;
+import za.ac.cput.wisebank.factory.TransactionFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,8 +14,8 @@ class TransactionFactoryTest {
     @Test
     void createTransaction() {
         // Create test data
-        Long transactionId = 1L;
-        Long senderAccountId = 100L;
+        int transactionId = 1;
+        Account senderAccountId = 100;
         BigDecimal amount = new BigDecimal("1000.00");
         String transactionType = "DEPOSIT";
         LocalDateTime timestamp = LocalDateTime.now();
@@ -47,8 +49,8 @@ class TransactionFactoryTest {
     @Test
     void testCreateTransaction() {
         // Create test data
-        Long transactionId = 2L;
-        Long senderAccountId = 200L;
+        int transactionId = 2;
+        Account senderAccountId = 200;
         BigDecimal amount = new BigDecimal("500.00");
         String transactionType = "WITHDRAWAL";
         LocalDateTime timestamp = LocalDateTime.now();
