@@ -3,6 +3,8 @@ package za.ac.cput.wisebank.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Loan {
@@ -18,9 +20,27 @@ public class Loan {
     private double outstandingPayment;
     private LocalDateTime loanDate;
 
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LoanPayment> payments = new ArrayList<>();
+
     protected Loan(){
 
     }
+
+    public void addPayment(LoanPayment payment){
+        payments.add(payment);
+        payment.setLoan(this);
+    }
+
+    public void removePayment(LoanPayment payment){
+        payments.remove(payment);
+        payment.setLoan(null);
+    }
+
+    public List<LoanPayment> getPayments(){
+        return payments;
+    }
+
     public Loan(Builder builder) {
         this.loanId = builder.loanId;
         this.loanType = builder.loanType;
