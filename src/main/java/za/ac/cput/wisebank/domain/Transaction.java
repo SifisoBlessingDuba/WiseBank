@@ -1,10 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
@@ -17,7 +14,11 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long transactionId;
-    private Long senderAccountId;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+    
     private BigDecimal amount;
     private String transactionType;
     private LocalDateTime timestamp;
@@ -27,22 +28,20 @@ public class Transaction {
     protected Transaction() {}
     private Transaction(Builder builder) {
         this.transactionId = builder.transactionId;
-        this.senderAccountId = builder.senderAccountId;
+        this.account = builder.account;
         this.amount = builder.amount;
         this.transactionType = builder.transactionType;
         this.timestamp = builder.timestamp;
         this.description= builder.description;
         this.status = builder.status;
-        this.transactionType= builder.transactionType;
-
     }
 
     public Long getTransactionId() {
         return transactionId;
     }
 
-    public Long getSenderAccountId() {
-        return senderAccountId;
+    public Account getAccount() {
+        return account;
     }
 
     public BigDecimal getAmount() {
@@ -67,7 +66,7 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "transactionId=" + transactionId +
-                ", senderAccountId=" + senderAccountId +
+                ", account=" + account +
                 ", amount=" + amount +
                 ", transactionType='" + transactionType + '\'' +
                 ", timestamp=" + timestamp +
@@ -78,7 +77,7 @@ public class Transaction {
 
     public static class Builder {
         private Long transactionId;
-        private Long senderAccountId;
+        private Account account;
         private BigDecimal amount;
         private String transactionType;
         private LocalDateTime timestamp;
@@ -90,8 +89,8 @@ public class Transaction {
             return this;
         }
 
-        public Builder setSenderAccountId(Long senderAccountId) {
-            this.senderAccountId = senderAccountId;
+        public Builder setAccount(Account account) {
+            this.account = account;
             return this;
         }
 

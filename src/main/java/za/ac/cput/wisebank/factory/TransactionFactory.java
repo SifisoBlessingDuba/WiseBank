@@ -1,19 +1,20 @@
 package za.ac.cput.wisebank.factory;
 
 import org.springframework.stereotype.Component;
+import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 @Component
 public class TransactionFactory {
-    public static Transaction createTransaction(Long transactionId, Long senderAccountId, BigDecimal amount,
+    public static Transaction createTransaction(Long transactionId, Account account, BigDecimal amount,
                                                 String transactionType, LocalDateTime timestamp, String description,
                                                 String status) {
 
         return new Transaction.Builder()
                 .setTransactionId(transactionId)
-                .setSenderAccountId(senderAccountId)
+                .setAccount(account)
                 .setAmount(amount)
                 .setTransactionType(transactionType)
                 .setTimestamp(timestamp)
@@ -22,11 +23,11 @@ public class TransactionFactory {
                 .build();
     }
 
-    public static Transaction createTransaction(Long transactionId, Long senderAccountId, BigDecimal amount,
+    public static Transaction createTransaction(Long transactionId, Account account, BigDecimal amount,
                                                 String transactionType, LocalDateTime timestamp) {
         return new Transaction.Builder()
                 .setTransactionId(transactionId)
-                .setSenderAccountId(senderAccountId)
+                .setAccount(account)
                 .setAmount(amount)
                 .setTransactionType(transactionType)
                 .setTimestamp(timestamp)
