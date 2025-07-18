@@ -1,8 +1,9 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
 import org.junit.jupiter.api.Test;
+import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Transaction;
-
+import za.ac.cput.wisebank.Factory.TransactionFactory;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -13,7 +14,15 @@ class TransactionFactoryTest {
     void createTransaction() {
         // Create test data
         Long transactionId = 1L;
-        Long senderAccountId = 100L;
+        Account testAccount = new Account.Builder()
+                .setAccountId(100)
+                .setAccountNumber(12345678L)
+                .setAccountType("SAVINGS")
+                .setAccountBalance(2000.00)
+                .setCurrency(1.0)
+                .setBankName("Test Bank")
+                .setStatus("ACTIVE")
+                .build();
         BigDecimal amount = new BigDecimal("1000.00");
         String transactionType = "DEPOSIT";
         LocalDateTime timestamp = LocalDateTime.now();
@@ -23,7 +32,7 @@ class TransactionFactoryTest {
         // Create transaction using factory
         Transaction transaction = TransactionFactory.createTransaction(
                 transactionId, 
-                senderAccountId, 
+                testAccount, 
                 amount, 
                 transactionType, 
                 timestamp, 
@@ -36,7 +45,8 @@ class TransactionFactoryTest {
 
         // Assert that all fields are set correctly
         assertEquals(transactionId, transaction.getTransactionId());
-        assertEquals(senderAccountId, transaction.getSenderAccountId());
+        assertNotNull(transaction.getAccount());
+        assertEquals(testAccount.getAccountId(), transaction.getAccount().getAccountId());
         assertEquals(amount, transaction.getAmount());
         assertEquals(transactionType, transaction.getTransactionType());
         assertEquals(timestamp, transaction.getTimestamp());
@@ -48,7 +58,15 @@ class TransactionFactoryTest {
     void testCreateTransaction() {
         // Create test data
         Long transactionId = 2L;
-        Long senderAccountId = 200L;
+        Account testAccount = new Account.Builder()
+                .setAccountId(200)
+                .setAccountNumber(87654321L)
+                .setAccountType("CHECKING")
+                .setAccountBalance(3000.00)
+                .setCurrency(1.0)
+                .setBankName("Test Bank")
+                .setStatus("ACTIVE")
+                .build();
         BigDecimal amount = new BigDecimal("500.00");
         String transactionType = "WITHDRAWAL";
         LocalDateTime timestamp = LocalDateTime.now();
@@ -56,7 +74,7 @@ class TransactionFactoryTest {
         // Create transaction using factory (overloaded method with fewer parameters)
         Transaction transaction = TransactionFactory.createTransaction(
                 transactionId, 
-                senderAccountId, 
+                testAccount, 
                 amount, 
                 transactionType, 
                 timestamp
@@ -67,7 +85,8 @@ class TransactionFactoryTest {
 
         // Assert that all provided fields are set correctly
         assertEquals(transactionId, transaction.getTransactionId());
-        assertEquals(senderAccountId, transaction.getSenderAccountId());
+        assertNotNull(transaction.getAccount());
+        assertEquals(testAccount.getAccountId(), transaction.getAccount().getAccountId());
         assertEquals(amount, transaction.getAmount());
         assertEquals(transactionType, transaction.getTransactionType());
         assertEquals(timestamp, transaction.getTimestamp());
