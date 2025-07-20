@@ -10,14 +10,50 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer messageId;
 
-    private int senderUserId;
-    private int receiverUserId;
     private String content;
     private LocalDateTime timestamp;
     private String status;
 
-    protected Message() {} // required by JPA
+    // Relationship: Many Messages → One User
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "sender_user_id", referencedColumnName = "id")
+    private User sender;
 
+    // Relationship: Many Messages → One User
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "receiver_user_id", referencedColumnName = "id")
+    private User receiver;
+
+    protected Message() {}
+
+    public Message(Builder builder) {
+        this.messageId = builder.messageId;
+        this.sender = builder.sender;
+        this.receiver = builder.receiver;
+        this.content = builder.content;
+        this.timestamp = builder.timestamp;
+        this.status = builder.status;
+    }
+
+    public Integer getMessageId() {
+        return messageId;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
     public Message(Builder builder) {
         this.messageId = builder.messageId;
         this.senderUserId = builder.senderUserId;
@@ -51,6 +87,8 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
+                ", sender=" + (sender != null ? sender.getId() : null) +
+                ", receiver=" + (receiver != null ? receiver.getId() : null) +
                 ", senderUserId=" + senderUserId +
                 ", receiverUserId=" + receiverUserId +
                 ", content='" + content + '\'' +
@@ -58,6 +96,11 @@ public class Message {
                 ", status='" + status + '\'' +
                 '}';
     }
+
+    public static class Builder {
+        private Integer messageId;
+        private User sender;
+        private User receiver;
     public static class Builder{
         private Integer messageId;
         private int senderUserId;
@@ -70,6 +113,17 @@ public class Message {
             this.messageId = messageId;
             return this;
         }
+
+        public Builder setSender(User sender) {
+            this.sender = sender;
+            return this;
+        }
+
+        public Builder setReceiver(User receiver) {
+            this.receiver = receiver;
+            return this;
+        }
+
         public Builder setSenderUserId(int senderUserId) {
             this.senderUserId = senderUserId;
             return this;
@@ -94,6 +148,4 @@ public class Message {
             return new Message(this);
         }
     }
-
-
 }
