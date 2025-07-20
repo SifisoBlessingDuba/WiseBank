@@ -3,22 +3,22 @@ package za.ac.cput.wisebank.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import za.ac.cput.wisebank.domain.Account;
-import za.ac.cput.wisebank.domain.Beneficiary;
-
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Integer> {
-    @Override
-    Beneficiary save(Beneficiary beneficiary);
+public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     @Override
-    void deleteById(Integer beneficiaryId);
+    Account save(Account account);
 
     @Override
-    Optional<Beneficiary> findById(Integer beneficiaryId);
+    void deleteById(Integer accountId);
 
     @Override
-    List<Beneficiary> findAll();
+    Optional<Account> findById(Integer accountId);
+
+    @Override
+    List<Account> findAll();
 }
+

@@ -7,9 +7,16 @@ import java.time.LocalDateTime;
 
 @Component
 public class MessageFactory {
-    public Message createMessage(int messageId, int senderUserId, int receiverUserId, String content, String status) {
-        return new Message(messageId, senderUserId, receiverUserId, content, LocalDateTime.now(), status);
-    }
+ public static Message createMessage(Integer messageId, int senderUserId, int receiverUserId, String content, LocalDateTime timestamp, String status){
+     return new Message.Builder()
+             .setMessageId(messageId)
+             .setSenderUserId(senderUserId)
+             .setReceiverUserId(receiverUserId)
+             .setContent(content)
+             .setTimestamp(timestamp)
+             .setStatus(status)
+             .build();
+ }
 }
 
 
