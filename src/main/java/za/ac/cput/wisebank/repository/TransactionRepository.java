@@ -1,19 +1,27 @@
 package za.ac.cput.wisebank.repository;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import za.ac.cput.wisebank.domain.Transaction;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
+
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+
     @Override
     Transaction save(Transaction transaction);
 
     @Override
-    void deleteById(Integer TransactionId);
+    void deleteById(Long TransactionId);
 
     @Override
-    Optional<Transaction> findById(Integer TransactionId);
+    Optional<Transaction> findById(Long TransactionId);
 
     @Override
     List<Transaction> findAll();
+
 }

@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class User {
@@ -29,8 +31,25 @@ public class User {
     private Account account;
 
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications = new ArrayList<>();
+
     public User(){
 
+    }
+
+    public void addNotification(Notification notification){
+        notifications.add(notification);
+        notification.setUser(this);
+    }
+
+    public void removeNotification(Notification notification){
+        notifications.remove(notification);
+        notification.setUser(null);
+    }
+
+    public List<Notification> getNotifications(){
+        return notifications;
     }
 
     private User(int userid, String email, String password, int idNumber, String firstName, String lastName, Date dateOfBirth, Long phoneNumber,String address, LocalDate createdAt, String lastLogin) {

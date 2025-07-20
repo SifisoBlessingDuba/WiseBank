@@ -26,19 +26,16 @@ public class Helper {
         return false;
     }
 
-    public static boolean isValidDouble(double accountBalance) {
-        return false;
+    public static boolean isValidDouble(double value) {
+        return value >= 0.0 && value <= 100000.0;
+    }
 
     // Todo: idBoolean valid or not
     public static boolean isValidBoolean(Boolean value) {
         return value != null;
     }
-    public static boolean isValidDouble(double value) {
-        return value >= 0.0 && value <= 100000.0;
-    }
 
     public static boolean isValidInteger(Integer value) {
         return value != null && value >= 1 && value <= 99999;
-
     }
 }

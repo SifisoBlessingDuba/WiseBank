@@ -1,11 +1,10 @@
 package za.ac.cput.wisebank.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -14,15 +13,23 @@ public class LoanPayment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentId;
     private Integer loanId;
-    private Date paymentDate;
+    private LocalDateTime paymentDate;
     private Double amountPaid;
     private String status;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "loan_id")
+    private Loan loan;
 
     protected LoanPayment() {
 
     }
 
-    private LoanPayment(Builder builder) {
+    public void setLoan(Loan loan){
+        this.loan = loan;
+    }
+
+    public LoanPayment(Builder builder) {
         this.paymentId = builder.paymentId;
         this.loanId = builder.loanId;
         this.paymentDate = builder.paymentDate;
@@ -37,7 +44,7 @@ public class LoanPayment {
         return loanId;
     }
 
-    public Date getPaymentDate() {
+    public LocalDateTime getPaymentDate() {
         return paymentDate;
     }
 
@@ -47,6 +54,10 @@ public class LoanPayment {
 
     public String getStatus() {
         return status;
+    }
+
+    public Loan getLoan() {
+        return loan;
     }
 
     @Override
@@ -62,9 +73,10 @@ public class LoanPayment {
 
         private Integer paymentId;
         private Integer loanId;
-        private Date paymentDate;
+        private LocalDateTime paymentDate;
         private Double amountPaid;
         private String status;
+        private Loan loan;
 
         public Builder setPaymentId(Integer paymentId) {
             this.paymentId = paymentId;
@@ -76,13 +88,18 @@ public class LoanPayment {
             return this;
         }
 
-        public Builder setPaymentDate(Date paymentDate) {
+        public Builder setPaymentDate(LocalDateTime paymentDate) {
             this.paymentDate = paymentDate;
             return this;
         }
 
         public Builder setAmountPaid(Double amountPaid) {
             this.amountPaid = amountPaid;
+            return this;
+        }
+
+        public Builder setLoan(Loan loan){
+            this.loan = loan;
             return this;
         }
 

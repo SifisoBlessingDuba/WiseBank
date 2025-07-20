@@ -1,12 +1,13 @@
 package za.ac.cput.wisebank.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import za.ac.cput.wisebank.domain.Notification;
 
 import java.util.List;
 import java.util.Optional;
-
-public interface Notification extends JpaRepository<Notification, Integer> {
-
+@Repository
+public interface NotificationRepository extends JpaRepository<Notification, Integer> {
     @Override
     Notification save (Notification notification);
 
@@ -18,7 +19,4 @@ public interface Notification extends JpaRepository<Notification, Integer> {
 
     @Override
     List<Notification> findAll();
-
-
-
 }

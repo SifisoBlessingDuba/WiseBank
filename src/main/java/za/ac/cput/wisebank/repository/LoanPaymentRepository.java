@@ -1,13 +1,14 @@
 package za.ac.cput.wisebank.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import za.ac.cput.wisebank.domain.LoanPayment;
 
 import java.util.List;
 import java.util.Optional;
 
-
-public interface LoanPayment extends JpaRepository<LoanPayment, Integer> {
-
+@Repository
+public interface LoanPaymentRepository extends JpaRepository<LoanPayment, Integer> {
     @Override
     LoanPayment save (LoanPayment loanpayment);
 
@@ -20,3 +21,4 @@ public interface LoanPayment extends JpaRepository<LoanPayment, Integer> {
     @Override
     List<LoanPayment> findAll();
 }
+

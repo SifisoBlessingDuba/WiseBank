@@ -1,13 +1,13 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
+import za.ac.cput.wisebank.domain.Loan;
 import za.ac.cput.wisebank.domain.LoanPayment;
-import za.ac.cput.wisebank.util.Helper;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class LoanPaymentFactory {
 
-    public static LoanPayment createLoanPayment(Integer paymentId, Integer loanId, Date paymentDate, Double amountPaid, String status) {
+    public static LoanPayment createLoanPayment(Integer paymentId, Integer loanId, LocalDateTime paymentDate, Double amountPaid, String status, Loan loan) {
 
         return new LoanPayment.Builder()
                 .setPaymentId(paymentId)
@@ -15,6 +15,7 @@ public class LoanPaymentFactory {
                 .setPaymentDate(paymentDate)
                 .setAmountPaid(amountPaid)
                 .setStatus(status)
+                .setLoan(loan)
                 .build();
 
     }

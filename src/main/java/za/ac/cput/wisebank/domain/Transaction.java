@@ -1,126 +1,125 @@
 package za.ac.cput.wisebank.domain;
 
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
+@Transactional
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer transactionId;
-    private Integer senderAccountId;
-    private Integer receiverAccountId;
-    private double amount;
-    private String status;
-    private String description;
-    private LocalDate transactionDate;
+    private Long transactionId;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+    
+    private BigDecimal amount;
     private String transactionType;
+    private LocalDateTime timestamp;
+    private String description;
+    private String status;
 
-    protected Transaction() {
-
-    }
-    public Transaction(Builder builder) {
+    protected Transaction() {}
+    private Transaction(Builder builder) {
         this.transactionId = builder.transactionId;
-        this.senderAccountId = builder.senderAccountId;
-        this.receiverAccountId = builder.receiverAccountId;
+        this.account = builder.account;
         this.amount = builder.amount;
-        this.status = builder.status;
-        this.description = builder.description;
-        this.transactionDate = builder.transactionDate;
         this.transactionType = builder.transactionType;
+        this.timestamp = builder.timestamp;
+        this.description= builder.description;
+        this.status = builder.status;
     }
 
-    public Integer getTransactionId() {
+    public Long getTransactionId() {
         return transactionId;
     }
 
-    public Integer getSenderAccountId() {
-        return senderAccountId;
+    public Account getAccount() {
+        return account;
     }
 
-    public Integer getReceiverAccountId() {
-        return receiverAccountId;
-    }
-
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDate getTransactionDate() {
-        return transactionDate;
     }
 
     public String getTransactionType() {
         return transactionType;
     }
 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public String getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
                 "transactionId=" + transactionId +
-                ", senderAccountId=" + senderAccountId +
-                ", receiverAccountId=" + receiverAccountId +
+                ", account=" + account +
                 ", amount=" + amount +
-                ", status='" + status + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", timestamp=" + timestamp +
                 ", description='" + description + '\'' +
-                ", transactionDate=" + transactionDate +
-                ", Transaction_Type='" + transactionType + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
-    public static class Builder {
-        private Integer transactionId;
-        private Integer senderAccountId;
-        private Integer receiverAccountId;
-        private double amount;
-        private String status;
-        private String description;
-        private LocalDate transactionDate;
-        private String transactionType;
 
-        public Builder setTransactionId(Integer transactionId) {
+    public static class Builder {
+        private Long transactionId;
+        private Account account;
+        private BigDecimal amount;
+        private String transactionType;
+        private LocalDateTime timestamp;
+        private String description;
+        private String status;
+
+        public Builder setTransactionId(Long transactionId) {
             this.transactionId = transactionId;
             return this;
         }
-        public Builder setSenderAccountId(Integer senderAccountId) {
-            this.senderAccountId = senderAccountId;
+
+        public Builder setAccount(Account account) {
+            this.account = account;
             return this;
         }
-        public Builder setReceiverAccountId(Integer receiverAccountId) {
-            this.receiverAccountId = receiverAccountId;
-            return this;
-        }
-        public Builder setAmount(double amount) {
+
+        public Builder setAmount(BigDecimal amount) {
             this.amount = amount;
             return this;
         }
-        public Builder setStatus(String status) {
-            this.status = status;
+
+        public Builder setTransactionType(String transactionType) {
+            this.transactionType = transactionType;
+            return this;
+        }
+
+        public Builder setTimestamp(LocalDateTime timestamp) {
+            this.timestamp = timestamp;
             return this;
         }
         public Builder setDescription(String description) {
             this.description = description;
             return this;
         }
-        public Builder setTransactionDate(LocalDate transactionDate) {
-            this.transactionDate = transactionDate;
-            return this;
-        }
-        public Builder setTransactionType(String transactionType) {
-            this.transactionType = transactionType;
+        public Builder setStatus(String status) {
+            this.status = status;
             return this;
         }
         public Transaction build() {
             return new Transaction(this);
         }
+
 
     }
 }

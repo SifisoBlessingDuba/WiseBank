@@ -1,11 +1,7 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
 import org.junit.jupiter.api.Test;
 import za.ac.cput.wisebank.domain.Account;
-import za.ac.cput.wisebank.domain.User;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 class AccountFactoryTest {
@@ -20,4 +16,4 @@ class AccountFactoryTest {
     }
 }
 
-  
+
