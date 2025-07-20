@@ -14,6 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int userid;
     private String email;
     private String password;
@@ -25,6 +26,10 @@ public class User {
     private String address;
     private LocalDate createdAt;
     private String lastLogin;
+    @OneToMany
+    @JoinColumn(name = "Account_Id")
+    private Account account;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications = new ArrayList<>();

@@ -1,5 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+import jakarta.persistence.*;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +10,22 @@ import java.util.List;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
     private int accountId;
     private long accountNumber;
-    private String accountType;
+
     private double accountBalance;
     private double currency;
     private String bankName;
     private String status;
+    @OneToMany
+    @JoinColumn(name = "User_Id")
+    private User user;
+
     
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
+
 
     public Account() {
 
