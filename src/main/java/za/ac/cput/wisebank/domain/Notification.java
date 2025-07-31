@@ -17,8 +17,8 @@ public class Notification {
     private String isRead;
     private LocalDateTime timeStamp;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
 
@@ -38,6 +38,7 @@ public class Notification {
         this.notificationType = builder.notificationType;
         this.isRead = builder.isRead;
         this.timeStamp = builder.timeStamp;
+        this.user = builder.user;
 
     }
 
@@ -84,7 +85,8 @@ public class Notification {
                 + ", message='" + message + '\''
                 + ", notificationType='" + notificationType + '\''
                 + ", isRead='" + isRead + '\''
-                + ", timeStamp=" + timeStamp +
+                + ", timeStamp=" + timeStamp + '\''
+                + ", user=" + user +
                 '}';
     }
 

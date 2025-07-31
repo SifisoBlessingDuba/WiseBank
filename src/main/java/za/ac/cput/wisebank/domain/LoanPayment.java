@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class LoanPayment {
@@ -17,7 +18,8 @@ public class LoanPayment {
     private Double amountPaid;
     private String status;
 
-    @ManyToOne(optional = false)
+
+    @ManyToOne
     @JoinColumn(name = "loan_id")
     private Loan loan;
 
@@ -35,6 +37,7 @@ public class LoanPayment {
         this.paymentDate = builder.paymentDate;
         this.amountPaid = builder.amountPaid;
         this.status = builder.status;
+        this.loan = builder.loan;
     }
     public Integer getPaymentId() {
         return paymentId;
@@ -66,7 +69,8 @@ public class LoanPayment {
                 + ", loanId=" + loanId + '\''
                 + ", paymentDate=" + paymentDate + '\''
                 + ", amountPaid=" + amountPaid + '\''
-                + ", status=" + status + '}';
+                + ", status=" + status +  '\''
+                + "loan=" + loan +'}';
     }
 
     public static class Builder {
