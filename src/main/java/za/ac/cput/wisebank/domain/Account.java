@@ -129,7 +129,7 @@ public class Account {
         }
     }
 
-    @OneToMany(mappedBy = "senderAccountId")
+    @OneToMany(mappedBy = "senderAccount")
     private Collection<Transaction> transaction;
 
     public Collection<Transaction> getTransaction() {

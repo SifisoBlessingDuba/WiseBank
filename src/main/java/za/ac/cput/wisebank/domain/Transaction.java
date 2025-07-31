@@ -13,24 +13,22 @@ import java.time.LocalDateTime;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int transactionId;
+    private Integer transactionId;
     @ManyToOne
-    @JoinColumn(name = "sender_account_id_account_id")
-    private Account senderAccountId;
+    @JoinColumn(name = "sender_account")
+    private Account senderAccount;
     private BigDecimal amount;
     private String transactionType;
     private LocalDateTime timestamp;
     private String description;
     private String status;
 
-    public void setSenderAccountId(Account senderAccountId) {
-        this.senderAccountId = senderAccountId;
-    }
+
 
     protected Transaction() {}
     private Transaction(Builder builder) {
         this.transactionId = builder.transactionId;
-        this.senderAccountId = builder.senderAccountId;
+        this.senderAccount = builder.senderAccount;
         this.amount = builder.amount;
         this.transactionType = builder.transactionType;
         this.timestamp = builder.timestamp;
@@ -40,12 +38,12 @@ public class Transaction {
 
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public Account getSenderAccountId() {
-        return senderAccountId;
+    public Account getSenderAccount() {
+        return senderAccount;
     }
 
     public BigDecimal getAmount() {
@@ -70,18 +68,18 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "transactionId=" + transactionId +
-                ", senderAccountId=" + senderAccountId +
+                ", senderAccountId=" + senderAccount +
                 ", amount=" + amount +
                 ", transactionType='" + transactionType + '\'' +
-                ", timestamp=" + timestamp +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
+                ", Date=" + timestamp +
+                ", Description='" + description + '\'' +
+                ", Status" + status + '\'' +
                 '}';
     }
 
     public static class Builder {
         private int transactionId;
-        private Account senderAccountId;
+        private Account senderAccount;
         private BigDecimal amount;
         private String transactionType;
         private LocalDateTime timestamp;
@@ -93,8 +91,8 @@ public class Transaction {
             return this;
         }
 
-        public Builder setSenderAccountId(Account senderAccountId) {
-            this.senderAccountId = senderAccountId;
+        public Builder setSenderAccount(Account senderAccount) {
+            this.senderAccount = senderAccount;
             return this;
         }
 
@@ -109,7 +107,7 @@ public class Transaction {
         }
 
         public Builder setTimestamp(LocalDateTime timestamp) {
-            this.timestamp = timestamp;
+            this.timestamp = timestamp.now();
             return this;
         }
         public Builder setDescription(String description) {

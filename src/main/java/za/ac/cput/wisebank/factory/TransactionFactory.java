@@ -1,30 +1,38 @@
-package za.ac.cput.wisebank.Factory;
+package za.ac.cput.wisebank.factory;
 
+import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Transaction;
 import za.ac.cput.wisebank.util.Helper;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TransactionFactory {
-    public static Transaction createTransaction(Integer senderAccountId, Integer receiverAccountId,
-                                                double amount, String status, String description, LocalDate transactionDate,
-                                                String transactionType) {
-        if(!Helper.isValidInteger(senderAccountId) ||
-                !Helper.isValidInteger(receiverAccountId) ||
-                !Helper.isValidDouble(amount) ||
-                Helper.isNullOrEmpty(status) ||
+    public static Transaction createTransaction(Integer transactionId, Account senderAccount,
+                                                BigDecimal amount, String transactionType,
+                                                LocalDateTime timestamp, String description,
+                                                String status) {
+        if(
+                !Helper.isValidInt(transactionId) ||
+                senderAccount == null ||
+                amount == null || amount.compareTo(BigDecimal.ZERO) <= 0 ||
+                Helper.isNullOrEmpty(transactionType) ||
+                timestamp == null ||
                 Helper.isNullOrEmpty(description) ||
-                Helper.isNullOrEmpty(transactionType)){
+                Helper.isNullOrEmpty(status)
+        ) {
             return null;
         }
+
         return new Transaction.Builder()
-                .setSenderAccountId(senderAccountId)
-                .setReceiverAccountId(receiverAccountId)
+                .setTransactionId(transactionId)
+                .setSenderAccount(senderAccount)
                 .setAmount(amount)
-                .setStatus(status)
-                .setDescription(description)
-                .setTransactionDate(transactionDate)
                 .setTransactionType(transactionType)
+                .setTimestamp(timestamp)
+                .setDescription(description)
+                .setStatus(status)
                 .build();
     }
 }

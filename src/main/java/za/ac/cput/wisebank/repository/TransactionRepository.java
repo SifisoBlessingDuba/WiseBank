@@ -10,16 +10,16 @@ import java.util.Optional;
 
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
     @Override
     Transaction save(Transaction transaction);
 
     @Override
-    void deleteById(Long TransactionId);
+    void deleteById(Integer TransactionId);
 
     @Override
-    Optional<Transaction> findById(Long TransactionId);
+    Optional<Transaction> findById(Integer TransactionId);
 
     @Override
     List<Transaction> findAll();
