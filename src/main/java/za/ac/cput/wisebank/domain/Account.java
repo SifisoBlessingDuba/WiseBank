@@ -1,8 +1,8 @@
 package za.ac.cput.wisebank.domain;
 
 import jakarta.persistence.*;
-
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Account {
@@ -15,6 +15,9 @@ public class Account {
     private double currency;
     private String bankName;
     private String status;
+    
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Transaction> transactions = new ArrayList<>();
 
     public Account() {
 
@@ -37,7 +40,9 @@ public class Account {
         this.currency=builder.currency;
         this.bankName=builder.bankName;
         this.status=builder.status;
-
+        if (builder.transactions != null) {
+            this.transactions = builder.transactions;
+        }
     }
 
     public int getAccountId() {
@@ -67,6 +72,20 @@ public class Account {
     public String getStatus() {
         return status;
     }
+    
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+    
+    // Helper method to add a transaction to this account
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+    }
+    
+    // Helper method to remove a transaction from this account
+    public void removeTransaction(Transaction transaction) {
+        transactions.remove(transaction);
+    }
 
     @Override
     public String toString() {
@@ -78,6 +97,7 @@ public class Account {
                 ", currency=" + currency +
                 ", bankName='" + bankName + '\'' +
                 ", status='" + status + '\'' +
+                ", transactions=" + (transactions != null ? transactions.size() : 0) + " items" +
                 '}';
     }
 
@@ -89,6 +109,7 @@ public class Account {
         private double currency;
         private String bankName;
         private String status;
+        private List<Transaction> transactions;
 
         public Builder setAccountId(int accountId) {
             this.accountId = accountId;
@@ -124,19 +145,14 @@ public class Account {
             this.status = status;
             return this;
         }
+        
+        public Builder setTransactions(List<Transaction> transactions) {
+            this.transactions = transactions;
+            return this;
+        }
+        
         public Account build() {
             return new Account(this);
         }
-    }
-
-    @OneToMany(mappedBy = "senderAccount")
-    private Collection<Transaction> transaction;
-
-    public Collection<Transaction> getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Collection<Transaction> transaction) {
-        this.transaction = transaction;
     }
 }
