@@ -10,6 +10,9 @@ public class Beneficiary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer beneficiaryId;
 
+
+
+    private int userId;
     private String accountNumber;
     private String name;
     private String bankName;
@@ -25,6 +28,11 @@ public class Beneficiary {
     public Beneficiary(Builder builder) {
         this.beneficiaryId = builder.beneficiaryId;
         this.user = builder.user;
+
+    public Beneficiary(Builder builder) {
+        this.beneficiaryId = builder.beneficiaryId;
+        this.userId = builder.userId;
+
         this.accountNumber = builder.accountNumber;
         this.name = builder.name;
         this.bankName = builder.bankName;
@@ -52,6 +60,25 @@ public class Beneficiary {
         return bankName;
     }
 
+    }
+
+    // Getters
+    public int getBeneficiaryId() {
+        return beneficiaryId;
+    }
+    public int getUserId() {
+        return userId;
+    }
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getBankName() {
+        return bankName;
+    }
+
     public LocalDate getAddedAt() {
         return addedAt;
     }
@@ -60,7 +87,10 @@ public class Beneficiary {
     public String toString() {
         return "Beneficiary{" +
                 "beneficiaryId=" + beneficiaryId +
+
                 ", user=" + (user != null ? user.getId() : null) +
+
+                ", userId=" + userId +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", bankName='" + bankName + '\'' +
@@ -68,21 +98,35 @@ public class Beneficiary {
                 '}';
     }
 
+
     public static class Builder {
         private Integer beneficiaryId;
         private User user;
+    public static class Builder {
+        private Integer beneficiaryId;
+        private int userId;
         private String accountNumber;
         private String name;
         private String bankName;
         private LocalDate addedAt;
+
+        public Builder() {}
+
 
         public Builder setBeneficiaryId(Integer beneficiaryId) {
             this.beneficiaryId = beneficiaryId;
             return this;
         }
 
+
         public Builder setUser(User user) {
             this.user = user;
+            return this;
+        }
+
+
+        public Builder setUserId(int userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -95,17 +139,14 @@ public class Beneficiary {
             this.name = name;
             return this;
         }
-
         public Builder setBankName(String bankName) {
             this.bankName = bankName;
             return this;
         }
-
         public Builder setAddedAt(LocalDate addedAt) {
             this.addedAt = addedAt;
             return this;
         }
-
         public Beneficiary build() {
             return new Beneficiary(this);
         }
