@@ -15,7 +15,7 @@ public class Beneficiary {
     private String bankName;
     private LocalDate addedAt;
 
-    // Relationship: Many Beneficiaries → One User
+    // Many Beneficiaries → One User
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -31,7 +31,8 @@ public class Beneficiary {
         this.addedAt = builder.addedAt;
     }
 
-    public int getBeneficiaryId() {
+    // Getters
+    public Integer getBeneficiaryId() {
         return beneficiaryId;
     }
 

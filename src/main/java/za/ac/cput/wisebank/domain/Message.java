@@ -14,12 +14,12 @@ public class Message {
     private LocalDateTime timestamp;
     private String status;
 
-    // Relationship: Many Messages → One User
+    // Many Messages → One User (Sender)
     @ManyToOne(optional = false)
     @JoinColumn(name = "sender_user_id", referencedColumnName = "id")
     private User sender;
 
-    // Relationship: Many Messages → One User
+    // Many Messages → One User (Receiver)
     @ManyToOne(optional = false)
     @JoinColumn(name = "receiver_user_id", referencedColumnName = "id")
     private User receiver;
