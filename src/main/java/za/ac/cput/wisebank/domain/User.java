@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,33 +25,32 @@ public class User {
     private String address;
     private LocalDate createdAt;
     private String lastLogin;
-    @OneToMany
-    @JoinColumn(name = "Account_Id")
+
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account account;
 
+    @OneToOne
+    @JoinColumn(name = "loan_id", referencedColumnName = "loan_id")
+    private LoanPayment loanpayment;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Notification> notifications = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "beneficiary_id", referencedColumnName = "beneficiary_id")
+    private Beneficiary beneficiary;
 
-    public User(){
+    @OneToOne
+    @JoinColumn(name = "message_id", referencedColumnName = "message_id")
+    private Message message;
+
+    @OneToOne
+    @JoinColumn(name = "notification_id", referencedColumnName = "notification_id")
+    private Notification notification;
+
+    protected User(){
 
     }
 
-    public void addNotification(Notification notification){
-        notifications.add(notification);
-        notification.setUser(this);
-    }
-
-    public void removeNotification(Notification notification){
-        notifications.remove(notification);
-        notification.setUser(null);
-    }
-
-    public List<Notification> getNotifications(){
-        return notifications;
-    }
-
-    private User(int userid, String email, String password, int idNumber, String firstName, String lastName, Date dateOfBirth, Long phoneNumber,String address, LocalDate createdAt, String lastLogin) {
+    public User(int userid, String email, String password, int idNumber, String firstName, String lastName, Date dateOfBirth, Long phoneNumber, String address, LocalDate createdAt, String lastLogin, Account account, LoanPayment loanpayment, Beneficiary beneficiary, Message message, Notification notification) {
         this.userid = userid;
         this.email = email;
         this.password = password;
@@ -64,9 +62,14 @@ public class User {
         this.address = address;
         this.createdAt = createdAt;
         this.lastLogin = lastLogin;
+        this.account = account;
+        this.loanpayment = loanpayment;
+        this.beneficiary = beneficiary;
+        this.message = message;
+        this.notification = notification;
     }
 
-    private User (Builder builder) {
+    public User (Builder builder) {
         this.userid = builder.userid;
         this.email = builder.email;
         this.password = builder.password;
@@ -78,6 +81,13 @@ public class User {
         this.address = builder.address;
         this.createdAt = builder.createdAt;
         this.lastLogin = builder.lastLogin;
+        this.account = builder.account;
+        this.loanpayment = builder.loanpayment;
+        this.beneficiary = builder.beneficiary;
+        this.message = builder.message;
+        this.notification = builder.notification;
+
+
 
 
     }
@@ -126,6 +136,24 @@ public class User {
         return lastLogin;
     }
 
+public Account getAccount() {
+        return account;
+}
+public LoanPayment getLoanpayment() {
+        return loanpayment;
+}
+public Beneficiary getBeneficiary() {
+        return beneficiary;
+
+}
+public Message getMessage() {
+        return message;
+}
+public Notification getNotification() {
+        return notification;
+}
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -137,9 +165,14 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber=" + phoneNumber +
-                ", address=" + address +
+                ", address='" + address + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLogin='" + lastLogin + '\'' +
+                ", account=" + account +
+                ", loanpayment=" + loanpayment +
+                ", beneficiary=" + beneficiary +
+                ", message=" + message +
+                ", notification=" + notification +
                 '}';
     }
 
@@ -155,6 +188,12 @@ public class User {
         private String address;
         private LocalDate createdAt;
         private String lastLogin;
+        private Account account;
+
+        private LoanPayment loanpayment;
+        private Beneficiary beneficiary;
+        private Message message;
+        private Notification notification;
 
 
 
@@ -202,6 +241,27 @@ public class User {
             this.lastLogin = lastLogin;
             return this;
     }
+   public Builder setAccount(Account account){
+            this.account = account;
+            return this;
+   }
+   public Builder setLoanpayment(LoanPayment loanpayment){
+            this.loanpayment = loanpayment;
+            return this;
+   }
+   public Builder setBeneficiary(Beneficiary beneficiary){
+            this.beneficiary = beneficiary;
+            return this;
+   }
+  public Builder setMessage(Message message){
+            this.message = message;
+            return this;
+  }
+  public Builder setNotification(Notification notification){
+            this.notification = notification;
+            return this;
+  }
+
     public User build() {
             return new User(this);
     }

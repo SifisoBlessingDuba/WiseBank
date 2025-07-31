@@ -25,11 +25,15 @@ class UserFactoryTest {
                 8333388L,  // phoneNumber
                 "123 Sunset Blvd, Soweto",  // address
                 LocalDate.now(),  // createdAt
-                "2025-07-02 18:00:00"
+                "2025-07-02 18:00:00",888,99,88,12,66
         );
 
         assertNotNull(user);
         System.out.println(user);
+    }
+
+    @Test
+    void testCreateUser() {
     }
 }
 
