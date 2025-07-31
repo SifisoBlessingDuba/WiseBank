@@ -3,6 +3,7 @@ package za.ac.cput.wisebank.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Card {
@@ -16,9 +17,12 @@ public class Card {
     private int cvv;
     private LocalDate expiryDate;
     private LocalDate issuedDate;
+    @OneToMany
+    @JoinColumn(name = "account_id")
+    private List<Account> account;
     @OneToOne
-    @JoinColumn(name = "account_id", nullable = false, unique = true)
-    private Account account;
+    @JoinColumn(name = "User_Id")
+    private User user;
 
 
     protected Card() {
@@ -34,6 +38,8 @@ public class Card {
         this.cvv = builder.cvv;
         this.expiryDate = builder.expiryDate;
         this.issuedDate = builder.issuedDate;
+        this.account = builder.account;
+        this.user = builder.user;
     }
 
     public Integer getCardId() {
@@ -68,12 +74,16 @@ public class Card {
         return issuedDate;
     }
 
-    public Account getAccount() {
+    public List<Account> getAccount() {
         return account;
     }
 
     public double getCardLimit() {
         return cardLimit;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
@@ -88,6 +98,7 @@ public class Card {
                 ", expiryDate=" + expiryDate +
                 ", issuedDate=" + issuedDate +
                 ", account=" + account +
+                ", user=" + user +
                 '}';
     }
 
@@ -100,7 +111,9 @@ public class Card {
         private int cvv;
         private LocalDate expiryDate;
         private LocalDate issuedDate;
-        private Account account;
+        private List<Account> account;
+        private User user;
+
 
         public Builder setCardId(Integer cardId) {
             this.cardId = cardId;
@@ -134,8 +147,12 @@ public class Card {
             this.issuedDate = issuedDate;
             return this;
         }
-        public Builder setAccount(Account account) {
+        public Builder setAccount(List<Account> account) {
             this.account = account;
+            return this;
+        }
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
         public Card build() {
