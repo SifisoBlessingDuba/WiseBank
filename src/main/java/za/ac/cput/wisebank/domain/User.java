@@ -2,7 +2,6 @@ package za.ac.cput.wisebank.domain;
 
 
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -12,9 +11,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int userid;
+    private String userId;
     private String email;
     private String password;
     private int idNumber;
@@ -26,51 +24,31 @@ public class User {
     private LocalDate createdAt;
     private String lastLogin;
 
-    @OneToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    private Account account;
+    @OneToMany(mappedBy = "user")
+    private List<Beneficiary> beneficiaries;
 
-    @OneToOne
-    @JoinColumn(name = "loan_id", referencedColumnName = "loan_id")
-    private LoanPayment loanpayment;
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications;
 
-    @OneToOne
-    @JoinColumn(name = "beneficiary_id", referencedColumnName = "beneficiary_id")
-    private Beneficiary beneficiary;
+    @OneToMany(mappedBy = "user")
+    private List<Message> messages;
 
-    @OneToOne
-    @JoinColumn(name = "message_id", referencedColumnName = "message_id")
-    private Message message;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Card> cards;
 
-    @OneToOne
-    @JoinColumn(name = "notification_id", referencedColumnName = "notification_id")
-    private Notification notification;
+    @OneToMany(mappedBy = "user")
+    private List<Loan> loans;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accounts;
+
 
     protected User(){
 
     }
 
-    public User(int userid, String email, String password, int idNumber, String firstName, String lastName, Date dateOfBirth, Long phoneNumber, String address, LocalDate createdAt, String lastLogin, Account account, LoanPayment loanpayment, Beneficiary beneficiary, Message message, Notification notification) {
-        this.userid = userid;
-        this.email = email;
-        this.password = password;
-        this.idNumber = idNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.createdAt = createdAt;
-        this.lastLogin = lastLogin;
-        this.account = account;
-        this.loanpayment = loanpayment;
-        this.beneficiary = beneficiary;
-        this.message = message;
-        this.notification = notification;
-    }
-
     public User (Builder builder) {
-        this.userid = builder.userid;
+        this.userId = builder.userId;
         this.email = builder.email;
         this.password = builder.password;
         this.idNumber = builder.idNumber;
@@ -81,19 +59,16 @@ public class User {
         this.address = builder.address;
         this.createdAt = builder.createdAt;
         this.lastLogin = builder.lastLogin;
-        this.account = builder.account;
-        this.loanpayment = builder.loanpayment;
-        this.beneficiary = builder.beneficiary;
-        this.message = builder.message;
-        this.notification = builder.notification;
-
-
-
-
+        this.accounts = builder.accounts;
+        this.beneficiaries = builder.beneficiaries;
+        this.messages = builder.messages;
+        this.notifications = builder.notifications;
+        this.loans = builder.loans;
+        this.cards = builder.cards;
     }
 
-    public int getUserid() {
-        return userid;
+    public String getUserid() {
+        return userId;
     }
 
     public String getEmail() {
@@ -136,28 +111,34 @@ public class User {
         return lastLogin;
     }
 
-public Account getAccount() {
-        return account;
-}
-public LoanPayment getLoanpayment() {
-        return loanpayment;
-}
-public Beneficiary getBeneficiary() {
-        return beneficiary;
+    public List<Account> getAccount() {
+        return accounts;
+    }
 
-}
-public Message getMessage() {
-        return message;
-}
-public Notification getNotification() {
-        return notification;
-}
+    public List<Beneficiary> getBeneficiary() {
+        return beneficiaries;
+    }
 
+    public List<Message> getMessage() {
+        return messages;
+    }
+
+    public List<Notification> getNotification() {
+        return notifications;
+    }
+
+    public List<Loan> getLoan() {
+        return loans;
+    }
+
+    public List<Card> getCard() {
+        return cards;
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "userid=" + userid +
+                "userid=" + userId +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", idNumber=" + idNumber +
@@ -168,16 +149,17 @@ public Notification getNotification() {
                 ", address='" + address + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLogin='" + lastLogin + '\'' +
-                ", account=" + account +
-                ", loanpayment=" + loanpayment +
-                ", beneficiary=" + beneficiary +
-                ", message=" + message +
-                ", notification=" + notification +
+                ", account=" + accounts +
+                ", beneficiary=" + beneficiaries +
+                ", message=" + messages +
+                ", notification=" + notifications +
+                ", loan=" + loans +
+                ", card=" + cards +
                 '}';
     }
 
     public static class Builder {
-        private int userid;
+        private String userId;
         private String email;
         private String password;
         private int idNumber;
@@ -188,17 +170,18 @@ public Notification getNotification() {
         private String address;
         private LocalDate createdAt;
         private String lastLogin;
-        private Account account;
+        private List<Account> accounts;
 
-        private LoanPayment loanpayment;
-        private Beneficiary beneficiary;
-        private Message message;
-        private Notification notification;
+        private List<Beneficiary> beneficiaries;
+        private List<Message> messages;
+        private List<Notification> notifications;
+        private List<Loan> loans;
+        private List<Card> cards;
 
 
 
-        public Builder setUserid(Integer userid){
-            this.userid= userid;
+        public Builder setUserid(String userId){
+            this.userId= userId;
             return this;
     }
     public Builder setEmail(String email){
@@ -241,28 +224,32 @@ public Notification getNotification() {
             this.lastLogin = lastLogin;
             return this;
     }
-   public Builder setAccount(Account account){
-            this.account = account;
+   public Builder setAccount(List<Account> accounts){
+            this.accounts = accounts;
             return this;
    }
-   public Builder setLoanpayment(LoanPayment loanpayment){
-            this.loanpayment = loanpayment;
+   public Builder setBeneficiary(List<Beneficiary> beneficiaries){
+            this.beneficiaries = beneficiaries;
             return this;
    }
-   public Builder setBeneficiary(Beneficiary beneficiary){
-            this.beneficiary = beneficiary;
-            return this;
-   }
-  public Builder setMessage(Message message){
-            this.message = message;
+  public Builder setMessage(List<Message> messages){
+            this.messages= messages;
             return this;
   }
-  public Builder setNotification(Notification notification){
-            this.notification = notification;
+  public Builder setNotification(List<Notification> notifications){
+            this.notifications = notifications;
+            return this;
+  }
+  public Builder setLoan(List<Loan> loans){
+            this.loans = loans;
+            return this;
+  }
+  public Builder setCard(List<Card> cards){
+            this.cards = cards;
             return this;
   }
 
-    public User build() {
+    public User build()  {
             return new User(this);
     }
 }

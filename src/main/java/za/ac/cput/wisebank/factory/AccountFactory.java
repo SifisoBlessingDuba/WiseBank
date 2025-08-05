@@ -9,16 +9,8 @@ import java.util.List;
 
 @Component
 public class AccountFactory {
-    public static Account createAccount(Integer accountId,
-                                        Long accountNumber,
-                                        String accountType,
-                                        double accountBalance ,
-                                        double currency ,
-                                        String status ,
-                                        User user,
-                                        Card card,
-                                        List<Transaction> transactions,
-                                        List<LoanPayment> loans) {
+    public static Account createAccount(String accountNumber, String accountType, double accountBalance , double currency , String status , User user, Card card,
+                                        List<Transaction> transactions, List<Loan> loans) {
         /*if (
                 !Helper.isValidLong(accountNumber) ||
                         Helper.isNullOrEmpty(accountType) ||
@@ -29,7 +21,6 @@ public class AccountFactory {
             return null;
         }*/
         return new Account.Builder()
-                .setAccountId(accountId)
                 .setAccountNumber(accountNumber)
                 .setAccountType(accountType)
                 .setAccountBalance(accountBalance)
@@ -38,7 +29,7 @@ public class AccountFactory {
                 .setUser(user)
                 .setCard(card)
                 .setTransactions(transactions)
-                .setLoans(loans)
+                .setLoan(loans)
                 .build();
 
     }

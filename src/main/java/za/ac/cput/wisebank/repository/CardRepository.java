@@ -5,15 +5,15 @@ import za.ac.cput.wisebank.domain.Card;
 import java.util.List;
 import java.util.Optional;
 @Repository
-public interface CardRepository extends JpaRepository<Card, Integer> {
+public interface CardRepository extends JpaRepository<Card, String> {
     @Override
     Card save(Card card);
 
     @Override
-    void deleteById(Integer cardId);
+    void deleteById(String cardNumber);
 
     @Override
-    Optional<Card> findById(Integer cardId);
+    Optional<Card> findById(String cardNumber);
 
     @Override
     List<Card> findAll();

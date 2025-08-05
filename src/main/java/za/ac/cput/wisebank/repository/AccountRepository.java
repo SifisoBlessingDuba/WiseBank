@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Integer> {
+public interface AccountRepository extends JpaRepository<Account, String> {
 
     @Override
     Account save(Account account);
 
     @Override
-    void deleteById(Integer accountId);
+    void deleteById(String accountNumber);
 
     @Override
-    Optional<Account> findById(Integer accountId);
+    Optional<Account> findById(String accountNumber);
 
     @Override
     List<Account> findAll();

@@ -19,8 +19,7 @@ public class MessageFactory {
 
         return new Message.Builder()
                 .setMessageId(messageId)
-                .setSender(sender)
-                .setReceiver(receiver)
+                .setUser(sender)
                 .setContent(content)
                 .setTimestamp(timestamp)
                 .setStatus(status)

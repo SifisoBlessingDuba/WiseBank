@@ -7,11 +7,10 @@ import java.time.LocalDateTime;
 
 public class NotificationFactory {
 
-    public static Notification createNotification(Integer notificationId, Integer userId, String title, String message, String notificationType, String isRead, LocalDateTime timeStamp, User user) {
+    public static Notification createNotification(Integer notificationId, String title, String message, String notificationType, String isRead, LocalDateTime timeStamp, User user) {
 
         return new Notification.Builder()
                 .setNotificationId(notificationId)
-                .setUserId(userId)
                 .setTitle(title)
                 .setMessage(message)
                 .setNotificationType(notificationType)

@@ -9,16 +9,16 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "notification_id")
     private Integer notificationId;
-    private Integer userId;
     private String title;
     private String message;
     private String notificationType;
     private String isRead;
     private LocalDateTime timeStamp;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
 
@@ -26,30 +26,20 @@ public class Notification {
 
     }
 
-    public void setUser(User user){
-        this.user = user;
-    }
-
     public Notification(Builder builder) {
         this.notificationId = builder.notificationId;
-        this.userId = builder.userId;
         this.title = builder.title;
         this.message = builder.message;
         this.notificationType = builder.notificationType;
         this.isRead = builder.isRead;
         this.timeStamp = builder.timeStamp;
+        this.user = builder.user;
 
     }
 
     public Integer getNotificationId() {
         return notificationId;
     }
-
-
-    public Integer getUserId() {
-        return userId;
-    }
-
 
     public String getTitle() {
         return title;
@@ -78,19 +68,18 @@ public class Notification {
     @Override
     public String toString() {
         return "Notification{" +
-                "notificationId=" + notificationId
-                + ", userId=" + userId +'\''
-                + ", title='" + title + '\''
-                + ", message='" + message + '\''
-                + ", notificationType='" + notificationType + '\''
-                + ", isRead='" + isRead + '\''
-                + ", timeStamp=" + timeStamp +
+                "notificationId=" + notificationId +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                ", notificationType='" + notificationType + '\'' +
+                ", isRead='" + isRead + '\'' +
+                ", timeStamp=" + timeStamp +
+                ", user=" + user.getUserid() +
                 '}';
     }
 
     public static class Builder {
         private Integer notificationId;
-        private Integer userId;
         private String title;
         private String message;
         private String notificationType;
@@ -100,11 +89,6 @@ public class Notification {
 
         public Builder setNotificationId(Integer notificationId) {
             this.notificationId = notificationId;
-            return this;
-        }
-
-        public Builder setUserId(Integer userId) {
-            this.userId = userId;
             return this;
         }
 

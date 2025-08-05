@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
     @Override
     User save(User user);
 
     @Override
-    void deleteById(Integer userId);
+    void deleteById(String userId);
 
     @Override
-    Optional<User> findById(Integer userId);
+    Optional<User> findById(String userId);
 
     @Override
     List<User> findAll();

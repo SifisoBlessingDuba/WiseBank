@@ -12,7 +12,7 @@ class NotificationFactoryTest {
     @Test
     void createNotification() {
 
-        Notification notification = NotificationFactory.createNotification(123456, 7891011, "Loan", "Loan payment in process", "Message/Income", "True", LocalDateTime.now(), null );
+        Notification notification = NotificationFactory.createNotification(123456,  "Loan", "Loan payment in process", "Message/Income", "True", LocalDateTime.now(), null );
         assertNotNull(notification);
     }
 }
