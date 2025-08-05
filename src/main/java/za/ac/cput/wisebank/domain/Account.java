@@ -2,12 +2,11 @@ package za.ac.cput.wisebank.domain;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import jakarta.persistence.*;
-import jakarta.persistence.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Entity
-public class Account {
+ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
@@ -15,32 +14,42 @@ public class Account {
     private long accountNumber;
 
     private double accountBalance;
+    private String accountType;
     private double currency;
     private String bankName;
     private String status;
-    @OneToMany
-    @JoinColumn(name = "User_Id")
-    private User user;
 
-    
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Transaction> transactions = new ArrayList<>();
+   @OneToOne(mappedBy = "account")
+   private User user;
 
+    @OneToOne(mappedBy = "linkedAccount")
+    private Card card;
 
-    public Account() {
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions;
+
+    @OneToMany(mappedBy = "account")
+    private List<LoanPayment> loanpayement;
+
+    protected Account() {
 
     }
 
-    private Account(int accountId, long accountNumber, String accountType, double accountBalance, double currency, String bankName, String status) {
+    public Account(int accountId, long accountNumber, double accountBalance, String accountType, double currency, String bankName, String status, User user, Card card, List<Transaction> transactions, List<LoanPayment> loanpayement) {
         this.accountId = accountId;
         this.accountNumber = accountNumber;
-        this.accountType = accountType;
         this.accountBalance = accountBalance;
+        this.accountType = accountType;
         this.currency = currency;
         this.bankName = bankName;
         this.status = status;
+        this.user = user;
+        this.card = card;
+        this.transactions = transactions;
+        this.loanpayement = loanpayement;
     }
-    private Account (Builder builder){
+
+    public Account (Builder builder){
         this.accountId=builder.accountId;
         this.accountNumber=builder.accountNumber;
         this.accountType=builder.accountType;
@@ -48,9 +57,11 @@ public class Account {
         this.currency=builder.currency;
         this.bankName=builder.bankName;
         this.status=builder.status;
-        if (builder.transactions != null) {
-            this.transactions = builder.transactions;
-        }
+        this.user = builder.user;
+        this.card = builder.card;
+        this.transactions =builder.transactions;
+        this.loanpayement = builder.loanpayement;
+
     }
 
     public int getAccountId() {
@@ -80,32 +91,22 @@ public class Account {
     public String getStatus() {
         return status;
     }
-    
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-    
-    // Helper method to add a transaction to this account
-    public void addTransaction(Transaction transaction) {
-        transactions.add(transaction);
-    }
-    
-    // Helper method to remove a transaction from this account
-    public void removeTransaction(Transaction transaction) {
-        transactions.remove(transaction);
-    }
+
 
     @Override
     public String toString() {
         return "Account{" +
                 "accountId=" + accountId +
                 ", accountNumber=" + accountNumber +
-                ", accountType='" + accountType + '\'' +
                 ", accountBalance=" + accountBalance +
+                ", accountType='" + accountType + '\'' +
                 ", currency=" + currency +
                 ", bankName='" + bankName + '\'' +
                 ", status='" + status + '\'' +
-                ", transactions=" + (transactions != null ? transactions.size() : 0) + " items" +
+                ", user=" + user +
+                ", card=" + card +
+                ", transactions=" + transactions +
+                ", loanpayement=" + loanpayement +
                 '}';
     }
 
@@ -117,7 +118,11 @@ public class Account {
         private double currency;
         private String bankName;
         private String status;
+        private User user;
+        private Card card;
         private List<Transaction> transactions;
+        private List<LoanPayment> loanpayement;
+
 
         public Builder setAccountId(int accountId) {
             this.accountId = accountId;
@@ -153,14 +158,29 @@ public class Account {
             this.status = status;
             return this;
         }
-        
+        public Builder setUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder setCard(Card card) {
+            this.card = card;
+            return this;
+        }
+
         public Builder setTransactions(List<Transaction> transactions) {
             this.transactions = transactions;
             return this;
         }
-        
+
+        public Builder setLoans(List<LoanPayment> loanpayment) {
+            this.loanpayement = loanpayment;
+            return this;
+        }
+
+
         public Account build() {
             return new Account(this);
         }
-    }
-}
+    }}
+

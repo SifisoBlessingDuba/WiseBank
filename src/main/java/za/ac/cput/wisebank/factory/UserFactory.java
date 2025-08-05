@@ -1,10 +1,13 @@
 package za.ac.cput.wisebank.factory;
 
-import za.ac.cput.wisebank.domain.User;
+import org.springframework.stereotype.Component;
+import za.ac.cput.wisebank.domain.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
+@Component
 public class UserFactory {
     public static User createUser(Integer userid,
                                   String email,
@@ -16,7 +19,14 @@ public class UserFactory {
                                   Long phoneNumber ,
                                   String address ,
                                   LocalDate createdAt,
-                                  String lastLogin) {
+                                  String lastLogin ,
+                                  Account account,
+                                  LoanPayment loanpayment,
+                                  Beneficiary beneficiary,
+                                  Message messages,
+                                  Notification notifications
+
+                                  ) {
         return new User.Builder()
                 .setUserid(userid)
                 .setEmail(email)
@@ -29,6 +39,11 @@ public class UserFactory {
                 .setAddress(address)
                 .setCreatedAt(createdAt)
                 .setLastLogin(lastLogin)
+                .setAccount(account)
+                .setLoanpayment(loanpayment)
+                .setBeneficiary(beneficiary)
+                .setMessage(messages)
+                .setNotification(notifications)
                 .build();
 
     }
