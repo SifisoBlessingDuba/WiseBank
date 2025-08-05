@@ -1,12 +1,14 @@
 package za.ac.cput.wisebank.factory;
 
+import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Card;
 import za.ac.cput.wisebank.util.Helper;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class CardFactory {
-    public static Card createCard(String cardNumber, String cardType, Boolean status, double cardLimit, int cvv, LocalDate expiryDate, LocalDate issuedDate){
+    public static Card createCard(String cardNumber, String cardType, Boolean status, double cardLimit, int cvv, LocalDate expiryDate, LocalDate issuedDate, List<Account> account){
 
         if(Helper.isNullOrEmpty(cardNumber) ||
                 Helper.isNullOrEmpty(cardType) ||
@@ -25,6 +27,7 @@ public class CardFactory {
                 .setCvv(cvv)
                 .setExpiryDate(expiryDate)
                 .setIssuedDate(issuedDate)
+                .setAccount(account)
                 .build();
     }
 }

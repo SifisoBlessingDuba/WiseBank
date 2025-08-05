@@ -3,6 +3,7 @@ package za.ac.cput.wisebank.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Card {
@@ -16,6 +17,12 @@ public class Card {
     private int cvv;
     private LocalDate expiryDate;
     private LocalDate issuedDate;
+    @OneToMany
+    @JoinColumn(name = "account_id")
+    private List<Account> account;
+    @OneToOne
+    @JoinColumn(name = "User_Id")
+    private User user;
 
 
     protected Card() {
@@ -31,6 +38,8 @@ public class Card {
         this.cvv = builder.cvv;
         this.expiryDate = builder.expiryDate;
         this.issuedDate = builder.issuedDate;
+        this.account = builder.account;
+        this.user = builder.user;
     }
 
     public Integer getCardId() {
@@ -65,19 +74,34 @@ public class Card {
         return issuedDate;
     }
 
+    public List<Account> getAccount() {
+        return account;
+    }
+
+    public double getCardLimit() {
+        return cardLimit;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         return "Card{" +
-                "cadId=" + cardId +
+                "cardId=" + cardId +
                 ", cardNumber='" + cardNumber + '\'' +
                 ", cardType='" + cardType + '\'' +
-                ", status='" + status + '\'' +
-                ", limit=" + cardLimit +
+                ", status=" + status +
+                ", cardLimit=" + cardLimit +
                 ", cvv=" + cvv +
                 ", expiryDate=" + expiryDate +
                 ", issuedDate=" + issuedDate +
+                ", account=" + account +
+                ", user=" + user +
                 '}';
     }
+
     public static class Builder {
         private Integer cardId;
         private String cardNumber;
@@ -87,6 +111,9 @@ public class Card {
         private int cvv;
         private LocalDate expiryDate;
         private LocalDate issuedDate;
+        private List<Account> account;
+        private User user;
+
 
         public Builder setCardId(Integer cardId) {
             this.cardId = cardId;
@@ -118,6 +145,14 @@ public class Card {
         }
         public Builder setIssuedDate(LocalDate issuedDate) {
             this.issuedDate = issuedDate;
+            return this;
+        }
+        public Builder setAccount(List<Account> account) {
+            this.account = account;
+            return this;
+        }
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
         public Card build() {
