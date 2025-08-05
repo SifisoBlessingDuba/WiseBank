@@ -8,28 +8,22 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_id")
     private Integer messageId;
-
     private String content;
     private LocalDateTime timestamp;
     private String status;
 
-    // Many Messages → One User (Sender)
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "sender_user_id", referencedColumnName = "id")
-    private User sender;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    // Many Messages → One User (Receiver)
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "receiver_user_id", referencedColumnName = "id")
-    private User receiver;
 
     protected Message() {}
 
     public Message(Builder builder) {
         this.messageId = builder.messageId;
-        this.sender = builder.sender;
-        this.receiver = builder.receiver;
+        this.user = builder.user;
         this.content = builder.content;
         this.timestamp = builder.timestamp;
         this.status = builder.status;
@@ -39,12 +33,10 @@ public class Message {
         return messageId;
     }
 
-    public User getSender() {
-        return sender;
-    }
 
-    public User getReceiver() {
-        return receiver;
+
+    public User getUser() {
+        return user;
     }
 
     public String getContent() {
@@ -63,8 +55,7 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
-                ", sender=" + (sender != null ? sender.getId() : null) +
-                ", receiver=" + (receiver != null ? receiver.getId() : null) +
+                ", sender=" + (user != null ? user.getUserid() : null) +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
                 ", status='" + status + '\'' +
@@ -73,8 +64,7 @@ public class Message {
 
     public static class Builder {
         private Integer messageId;
-        private User sender;
-        private User receiver;
+        private User user;
         private String content;
         private LocalDateTime timestamp;
         private String status;
@@ -84,16 +74,10 @@ public class Message {
             return this;
         }
 
-        public Builder setSender(User sender) {
-            this.sender = sender;
+        public Builder setUser(User user) {
+            this.user = user;
             return this;
         }
-
-        public Builder setReceiver(User receiver) {
-            this.receiver = receiver;
-            return this;
-        }
-
         public Builder setContent(String content) {
             this.content = content;
             return this;

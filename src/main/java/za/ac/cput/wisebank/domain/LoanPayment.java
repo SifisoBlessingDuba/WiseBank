@@ -12,13 +12,12 @@ public class LoanPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentId;
-    private Integer loanId;
     private LocalDateTime paymentDate;
     private Double amountPaid;
     private String status;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "loan_id")
+    @OneToOne()
+    @JoinColumn(name = "loan_id", nullable = false)
     private Loan loan;
 
     protected LoanPayment() {
@@ -31,17 +30,13 @@ public class LoanPayment {
 
     public LoanPayment(Builder builder) {
         this.paymentId = builder.paymentId;
-        this.loanId = builder.loanId;
         this.paymentDate = builder.paymentDate;
         this.amountPaid = builder.amountPaid;
         this.status = builder.status;
+        this.loan = builder.loan;
     }
     public Integer getPaymentId() {
         return paymentId;
-    }
-
-    public Integer getLoanId() {
-        return loanId;
     }
 
     public LocalDateTime getPaymentDate() {
@@ -62,17 +57,18 @@ public class LoanPayment {
 
     @Override
     public String toString() {
-        return "LoanPayment{" + "paymentId=" + paymentId
-                + ", loanId=" + loanId + '\''
-                + ", paymentDate=" + paymentDate + '\''
-                + ", amountPaid=" + amountPaid + '\''
-                + ", status=" + status + '}';
+        return "LoanPayment{" +
+                "paymentId=" + paymentId +
+                ", paymentDate=" + paymentDate +
+                ", amountPaid=" + amountPaid +
+                ", status='" + status + '\'' +
+                ", loan=" + loan +
+                '}';
     }
 
     public static class Builder {
 
         private Integer paymentId;
-        private Integer loanId;
         private LocalDateTime paymentDate;
         private Double amountPaid;
         private String status;
@@ -80,11 +76,6 @@ public class LoanPayment {
 
         public Builder setPaymentId(Integer paymentId) {
             this.paymentId = paymentId;
-            return this;
-        }
-
-        public Builder setLoanId(Integer loanId) {
-            this.loanId = loanId;
             return this;
         }
 

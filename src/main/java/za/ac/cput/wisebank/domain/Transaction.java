@@ -13,12 +13,13 @@ import java.time.LocalDateTime;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "transaction_id")
     private Long transactionId;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id", nullable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "account_number", referencedColumnName = "account_number", nullable = false)
     private Account account;
-    
+
     private BigDecimal amount;
     private String transactionType;
     private LocalDateTime timestamp;

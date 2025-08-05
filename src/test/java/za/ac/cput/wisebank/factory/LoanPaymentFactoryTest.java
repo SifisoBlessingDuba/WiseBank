@@ -11,7 +11,7 @@ class LoanPaymentFactoryTest {
     @Test
     void createLoanPayment() {
 
-        LoanPayment loanPayment = LoanPaymentFactory.createLoanPayment(123456, 7891011, LocalDateTime.now(), 50000.00, "paid", null);
+        LoanPayment loanPayment = LoanPaymentFactory.createLoanPayment(123456,  LocalDateTime.now(), 50000.00, "paid", null);
         assertNotNull(loanPayment);
     }
 

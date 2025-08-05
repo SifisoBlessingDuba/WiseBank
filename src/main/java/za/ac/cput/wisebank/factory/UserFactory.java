@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class UserFactory {
-    public static User createUser(Integer userid,
+    public static User createUser(String userid,
                                   String email,
                                   String password ,
                                   Integer idNumber,
@@ -20,11 +20,14 @@ public class UserFactory {
                                   String address ,
                                   LocalDate createdAt,
                                   String lastLogin ,
-                                  Account account,
-                                  LoanPayment loanpayment,
-                                  Beneficiary beneficiary,
-                                  Message messages,
-                                  Notification notifications
+                                  List<Account> account,
+                                  List<LoanPayment> loanpayment,
+                                  List<Beneficiary> beneficiary,
+                                  List<Message> messages,
+                                 List<Notification> notifications,
+                                  List<Card> cards,
+                                  List<Loan> loans
+
 
                                   ) {
         return new User.Builder()
@@ -40,7 +43,6 @@ public class UserFactory {
                 .setCreatedAt(createdAt)
                 .setLastLogin(lastLogin)
                 .setAccount(account)
-                .setLoanpayment(loanpayment)
                 .setBeneficiary(beneficiary)
                 .setMessage(messages)
                 .setNotification(notifications)

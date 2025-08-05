@@ -1,5 +1,6 @@
 package za.ac.cput.wisebank.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import jakarta.persistence.*;
 
@@ -8,49 +9,32 @@ import java.util.List;
 @Entity
  public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
-    private int accountId;
-    private long accountNumber;
-
+    @Column(name = "account_number")
+    private String accountNumber;
     private double accountBalance;
     private String accountType;
     private double currency;
     private String bankName;
     private String status;
 
-   @OneToOne(mappedBy = "account")
-   private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @OneToOne(mappedBy = "linkedAccount")
-    private Card card;
-
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "account")
-    private List<LoanPayment> loanpayement;
+    private List<Loan> loans;
+
+    @OneToOne(mappedBy = "account")
+    private Card card;
 
     protected Account() {
 
     }
 
-    public Account(int accountId, long accountNumber, double accountBalance, String accountType, double currency, String bankName, String status, User user, Card card, List<Transaction> transactions, List<LoanPayment> loanpayement) {
-        this.accountId = accountId;
-        this.accountNumber = accountNumber;
-        this.accountBalance = accountBalance;
-        this.accountType = accountType;
-        this.currency = currency;
-        this.bankName = bankName;
-        this.status = status;
-        this.user = user;
-        this.card = card;
-        this.transactions = transactions;
-        this.loanpayement = loanpayement;
-    }
-
     public Account (Builder builder){
-        this.accountId=builder.accountId;
         this.accountNumber=builder.accountNumber;
         this.accountType=builder.accountType;
         this.accountBalance=builder.accountBalance;
@@ -60,15 +44,11 @@ import java.util.List;
         this.user = builder.user;
         this.card = builder.card;
         this.transactions =builder.transactions;
-        this.loanpayement = builder.loanpayement;
+        this.loans = builder.loan;
 
     }
 
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public long getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
@@ -92,11 +72,25 @@ import java.util.List;
         return status;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public List<Loan> getLoan() {
+        return loans;
+    }
 
     @Override
     public String toString() {
         return "Account{" +
-                "accountId=" + accountId +
                 ", accountNumber=" + accountNumber +
                 ", accountBalance=" + accountBalance +
                 ", accountType='" + accountType + '\'' +
@@ -104,15 +98,14 @@ import java.util.List;
                 ", bankName='" + bankName + '\'' +
                 ", status='" + status + '\'' +
                 ", user=" + user +
-                ", card=" + card +
+                ", card=" + card+
                 ", transactions=" + transactions +
-                ", loanpayement=" + loanpayement +
+                ", loan=" + loans +
                 '}';
     }
 
     public static class Builder {
-        private int accountId;
-        private long accountNumber;
+        private String accountNumber;
         private String accountType;
         private double accountBalance;
         private double currency;
@@ -121,15 +114,9 @@ import java.util.List;
         private User user;
         private Card card;
         private List<Transaction> transactions;
-        private List<LoanPayment> loanpayement;
+        private List<Loan> loan;
 
-
-        public Builder setAccountId(int accountId) {
-            this.accountId = accountId;
-            return this;
-        }
-
-        public Builder setAccountNumber(long accountNumber) {
+        public Builder setAccountNumber(String accountNumber) {
             this.accountNumber = accountNumber;
             return this;
         }
@@ -173,8 +160,8 @@ import java.util.List;
             return this;
         }
 
-        public Builder setLoans(List<LoanPayment> loanpayment) {
-            this.loanpayement = loanpayment;
+        public Builder setLoan(List<Loan> loan) {
+            this.loan = loan;
             return this;
         }
 

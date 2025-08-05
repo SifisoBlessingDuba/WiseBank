@@ -7,11 +7,10 @@ import java.time.LocalDateTime;
 
 public class LoanPaymentFactory {
 
-    public static LoanPayment createLoanPayment(Integer paymentId, Integer loanId, LocalDateTime paymentDate, Double amountPaid, String status, Loan loan) {
+    public static LoanPayment createLoanPayment(Integer paymentId, LocalDateTime paymentDate, Double amountPaid, String status, Loan loan) {
 
         return new LoanPayment.Builder()
                 .setPaymentId(paymentId)
-                .setLoanId(loanId)
                 .setPaymentDate(paymentDate)
                 .setAmountPaid(amountPaid)
                 .setStatus(status)

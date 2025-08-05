@@ -9,7 +9,7 @@ import java.util.List;
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer cardId;
+    @Column(name = "card_id")
     private String cardNumber;
     private String cardType;
     private Boolean status;
@@ -17,12 +17,13 @@ public class Card {
     private int cvv;
     private LocalDate expiryDate;
     private LocalDate issuedDate;
-    @OneToMany
-    @JoinColumn(name = "account_id")
-    private List<Account> account;
-    @OneToOne
-    @JoinColumn(name = "User_Id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "account_number")
+    private Account account;
 
 
     protected Card() {
@@ -30,7 +31,6 @@ public class Card {
     }
 
     public Card(Builder builder) {
-        this.cardId = builder.cardId;
         this.cardNumber = builder.cardNumber;
         this.cardType = builder.cardType;
         this.status = builder.status;
@@ -40,10 +40,6 @@ public class Card {
         this.issuedDate = builder.issuedDate;
         this.account = builder.account;
         this.user = builder.user;
-    }
-
-    public Integer getCardId() {
-        return cardId;
     }
 
     public String getCardNumber() {
@@ -74,7 +70,7 @@ public class Card {
         return issuedDate;
     }
 
-    public List<Account> getAccount() {
+    public Account getAccount() {
         return account;
     }
 
@@ -89,7 +85,6 @@ public class Card {
     @Override
     public String toString() {
         return "Card{" +
-                "cardId=" + cardId +
                 ", cardNumber='" + cardNumber + '\'' +
                 ", cardType='" + cardType + '\'' +
                 ", status=" + status +
@@ -103,7 +98,6 @@ public class Card {
     }
 
     public static class Builder {
-        private Integer cardId;
         private String cardNumber;
         private String cardType;
         private Boolean status;
@@ -111,14 +105,9 @@ public class Card {
         private int cvv;
         private LocalDate expiryDate;
         private LocalDate issuedDate;
-        private List<Account> account;
+        private Account account;
         private User user;
 
-
-        public Builder setCardId(Integer cardId) {
-            this.cardId = cardId;
-            return this;
-        }
         public Builder setCardNumber(String cardNumber) {
             this.cardNumber = cardNumber;
             return this;
@@ -147,7 +136,7 @@ public class Card {
             this.issuedDate = issuedDate;
             return this;
         }
-        public Builder setAccount(List<Account> account) {
+        public Builder setAccount(Account account) {
             this.account = account;
             return this;
         }
