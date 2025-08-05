@@ -17,7 +17,7 @@ public class Notification {
     private String isRead;
     private LocalDateTime timeStamp;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
