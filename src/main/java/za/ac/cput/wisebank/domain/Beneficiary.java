@@ -7,32 +7,26 @@ import java.time.LocalDate;
 public class Beneficiary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer beneficiaryId;
-
+    @Column(name = "account_number")
     private String accountNumber;
     private String name;
     private String bankName;
     private LocalDate addedAt;
-
-    // Many Beneficiaries → One User
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "user_id"  , referencedColumnName = "user_id")
     private User user;
 
-    protected Beneficiary() {}
+
+    protected Beneficiary() {
+
+    }
 
     public Beneficiary(Builder builder) {
-        this.beneficiaryId = builder.beneficiaryId;
         this.user = builder.user;
         this.accountNumber = builder.accountNumber;
         this.name = builder.name;
         this.bankName = builder.bankName;
         this.addedAt = builder.addedAt;
-    }
-
-    public Integer getBeneficiaryId() {
-        return beneficiaryId;
     }
 
     public User getUser() {
@@ -58,8 +52,7 @@ public class Beneficiary {
     @Override
     public String toString() {
         return "Beneficiary{" +
-                "beneficiaryId=" + beneficiaryId +
-                ", user=" + (user != null ? user.getId() : null) +
+                ", user=" + (user != null ? user.getUserid(): null) +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", bankName='" + bankName + '\'' +
@@ -68,17 +61,12 @@ public class Beneficiary {
     }
 
     public static class Builder {
-        private Integer beneficiaryId;
         private User user;
         private String accountNumber;
         private String name;
         private String bankName;
         private LocalDate addedAt;
 
-        public Builder setBeneficiaryId(Integer beneficiaryId) {
-            this.beneficiaryId = beneficiaryId;
-            return this;
-        }
 
         public Builder setUser(User user) {
             this.user = user;

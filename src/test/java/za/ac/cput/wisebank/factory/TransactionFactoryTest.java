@@ -13,10 +13,8 @@ class TransactionFactoryTest {
     @Test
     void createTransaction() {
         // Create test data
-        Long transactionId = 1L;
         Account testAccount = new Account.Builder()
-                .setAccountId(100)
-                .setAccountNumber(12345678L)
+                .setAccountNumber("563812723")
                 .setAccountType("SAVINGS")
                 .setAccountBalance(2000.00)
                 .setCurrency(1.0)
@@ -31,7 +29,6 @@ class TransactionFactoryTest {
 
         // Create transaction using factory
         Transaction transaction = TransactionFactory.createTransaction(
-                transactionId, 
                 testAccount, 
                 amount, 
                 transactionType, 
@@ -46,7 +43,6 @@ class TransactionFactoryTest {
         // Assert that all fields are set correctly
         assertEquals(transactionId, transaction.getTransactionId());
         assertNotNull(transaction.getAccount());
-        assertEquals(testAccount.getAccountId(), transaction.getAccount().getAccountId());
         assertEquals(amount, transaction.getAmount());
         assertEquals(transactionType, transaction.getTransactionType());
         assertEquals(timestamp, transaction.getTimestamp());
@@ -59,8 +55,7 @@ class TransactionFactoryTest {
         // Create test data
         Long transactionId = 2L;
         Account testAccount = new Account.Builder()
-                .setAccountId(200)
-                .setAccountNumber(87654321L)
+                .setAccountNumber("563812723")
                 .setAccountType("CHECKING")
                 .setAccountBalance(3000.00)
                 .setCurrency(1.0)
@@ -86,7 +81,6 @@ class TransactionFactoryTest {
         // Assert that all provided fields are set correctly
         assertEquals(transactionId, transaction.getTransactionId());
         assertNotNull(transaction.getAccount());
-        assertEquals(testAccount.getAccountId(), transaction.getAccount().getAccountId());
         assertEquals(amount, transaction.getAmount());
         assertEquals(transactionType, transaction.getTransactionType());
         assertEquals(timestamp, transaction.getTimestamp());

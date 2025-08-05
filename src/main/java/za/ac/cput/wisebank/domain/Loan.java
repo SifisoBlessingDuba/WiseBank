@@ -10,6 +10,7 @@ import java.util.List;
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "loan_id")
     private Integer loanId;
     private String loanType;
     private String loanStatus;
@@ -20,16 +21,17 @@ public class Loan {
     private double outstandingPayment;
     private LocalDateTime loanDate;
 
-    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "Loan_Paymenty_Id")
-    private List<LoanPayment> payments;
-    @OneToOne
-    @JoinColumn(name = "User_Id")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "Account_Id")
+    @ManyToOne
+    @JoinColumn(name = "account_number")
     private Account account;
+
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LoanPayment> payments;
+
 
     protected Loan(){
 

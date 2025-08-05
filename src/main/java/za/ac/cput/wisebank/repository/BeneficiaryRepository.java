@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Integer> {
+public interface BeneficiaryRepository extends JpaRepository<Beneficiary, String> {
     @Override
     Beneficiary save(Beneficiary beneficiary);
 
     @Override
-    void deleteById(Integer beneficiaryId);
+    void deleteById(String accountNumber);
 
     @Override
-    Optional<Beneficiary> findById(Integer beneficiaryId);
+    Optional<Beneficiary> findById(String accountNumber);
 
     @Override
     List<Beneficiary> findAll();

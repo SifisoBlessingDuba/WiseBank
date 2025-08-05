@@ -11,7 +11,7 @@ class BeneficiaryFactoryTest {
 
     @Test
     void createBeneficiary() {
-        Beneficiary beneficiary = BeneficiaryFactory.createBeneficiary(10292, 1923, "109238349", "Mike", "ABSA", LocalDate.now());
+        Beneficiary beneficiary = BeneficiaryFactory.createBeneficiary(null, "109238349", "Mike", "ABSA", LocalDate.now());
         assertNotNull(beneficiary);
         System.out.println(beneficiary);
     }

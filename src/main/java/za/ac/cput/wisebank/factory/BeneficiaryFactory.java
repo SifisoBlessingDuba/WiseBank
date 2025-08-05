@@ -9,18 +9,14 @@ import java.time.LocalDate;
 @Component
 public class BeneficiaryFactory {
 
-    public Beneficiary createBeneficiary(
-            User user,
-            String accountNumber,
-            String name,
-            String bankName
-    ) {
+    public static Beneficiary createBeneficiary(User user, String accountNumber, String name, String bankName, LocalDate date) {
+
         return new Beneficiary.Builder()
                 .setUser(user)
                 .setAccountNumber(accountNumber)
                 .setName(name)
                 .setBankName(bankName)
-                .setAddedAt(LocalDate.now())
+                .setAddedAt(date)
                 .build();
     }
 }
