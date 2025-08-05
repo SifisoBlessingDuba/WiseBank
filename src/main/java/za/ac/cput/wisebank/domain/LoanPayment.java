@@ -53,6 +53,7 @@ public class LoanPayment {
 
     public Loan getLoan() {
         return loan;
+
     }
 
     @Override
