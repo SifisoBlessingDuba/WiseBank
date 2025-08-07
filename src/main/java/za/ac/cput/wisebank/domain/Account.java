@@ -30,7 +30,7 @@ import java.util.List;
     @OneToOne(mappedBy = "account")
     private Card card;
 
-    protected Account() {
+    public Account() {
 
     }
 

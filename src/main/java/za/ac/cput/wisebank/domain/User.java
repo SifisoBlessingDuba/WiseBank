@@ -43,7 +43,7 @@ public class User {
     private List<Account> accounts;
 
 
-    protected User(){
+    public User(){
 
     }
 
