@@ -12,7 +12,7 @@ class MessageFactoryTest {
 
     @Test
     void createMessage() {
-        Message message = MessageFactory.createMessage(282948, 378837,984497, "Hi this is a test messasge", LocalDateTime.now(), "sent");
+        Message message = za.ac.cput.wisebank.factory.MessageFactory.createMessage(282948, 378837,984497, "Hi this is a test messasge", LocalDateTime.now(), "sent");
         assertNotNull(message);
         System.out.println(message);
     }
