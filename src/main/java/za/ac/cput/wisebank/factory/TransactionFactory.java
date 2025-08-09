@@ -1,4 +1,4 @@
-package za.ac.cput.wisebank.factory;
+package za.ac.cput.wisebank.Factory;
 
 import org.springframework.stereotype.Component;
 import za.ac.cput.wisebank.domain.Account;

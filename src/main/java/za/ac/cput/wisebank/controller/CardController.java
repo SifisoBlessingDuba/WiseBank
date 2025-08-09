@@ -21,6 +21,7 @@ public class CardController {
     public Card save (@RequestBody Card card) {
         return cardService.save(card);
     }
+
     @PutMapping("/update")
     public Card update (@RequestBody Card card) {
         return cardService.save(card);

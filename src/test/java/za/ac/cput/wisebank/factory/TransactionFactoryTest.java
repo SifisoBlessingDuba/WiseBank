@@ -29,11 +29,11 @@ class TransactionFactoryTest {
 
         // Create transaction using factory
         Transaction transaction = TransactionFactory.createTransaction(
-                testAccount, 
-                amount, 
-                transactionType, 
-                timestamp, 
-                description, 
+                testAccount,
+                amount,
+                transactionType,
+                timestamp,
+                description,
                 status
         );
 
@@ -66,12 +66,12 @@ class TransactionFactoryTest {
         String transactionType = "WITHDRAWAL";
         LocalDateTime timestamp = LocalDateTime.now();
 
-        // Create transaction using factory (overloaded method with fewer parameters)
+import za.ac.cput.wisebank.domain.Transaction;// Create transaction using factory (overloaded method with fewer parameters)
         Transaction transaction = TransactionFactory.createTransaction(
-                transactionId, 
-                testAccount, 
-                amount, 
-                transactionType, 
+                transactionId,
+                testAccount,
+                amount,
+                transactionType,
                 timestamp
         );
 
