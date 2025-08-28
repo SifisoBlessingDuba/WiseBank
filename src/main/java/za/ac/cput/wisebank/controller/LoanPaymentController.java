@@ -8,7 +8,7 @@ import za.ac.cput.wisebank.service.LoanPaymentService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/LoanPayment")
+@RequestMapping("/loanPayment")
 public class LoanPaymentController {
 
     private final LoanPaymentService loanPaymentService;
@@ -28,17 +28,17 @@ public class LoanPaymentController {
         return loanPaymentService.update(loanPayment);
     }
 
-    @GetMapping("/find_loanPayment{id}")
-    public LoanPayment findLoanPayment(@PathVariable Integer id) {
+    @GetMapping("/findById/{id}")
+    public LoanPayment findById(@PathVariable Integer id) {
         return loanPaymentService.findById(id);
     }
 
-    @DeleteMapping("/delete-loanPayment{id}")
+    @DeleteMapping("/deleteById/{id}")
     public void deleteById(@PathVariable Integer id) {
         loanPaymentService.deleteById(id);
     }
 
-    @GetMapping("/all-loans")
+    @GetMapping("/find-all")
     public List<LoanPayment> getAllLoans() {
         return loanPaymentService.getAll();
     }

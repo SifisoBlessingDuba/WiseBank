@@ -1,5 +1,6 @@
 package za.ac.cput.wisebank.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,15 +18,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-//import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(NotificationController.class)
@@ -41,7 +40,7 @@ public class NotificationControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws JsonProcessingException {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
@@ -52,7 +51,7 @@ public class NotificationControllerTest {
                 .setEmail("Bojabs@sample.com")
                 .build();
 
-       Notification testNotification = new Notification.Builder()
+        testNotification = new Notification.Builder()
                 .setNotificationId(1)
                 .setTitle("Welcome")
                 .setMessage("Your account has been created successfully.")
@@ -61,6 +60,8 @@ public class NotificationControllerTest {
                 .setTimeStamp(LocalDateTime.now())
                 .setUser(testUser)
                 .build();
+
+        System.out.println("Serialized Notification: " + objectMapper.writeValueAsString(testNotification));
     }
 
 
@@ -70,9 +71,10 @@ public class NotificationControllerTest {
     void testSaveNotification() throws Exception {
     when(notificationService.save(any(Notification.class))).thenReturn(testNotification);
 
-    mockMvc.perform(post("/Notification/save")
+    mockMvc.perform(post("/notification/save")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(testNotification)))
+            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.title").value("Welcome"))
             .andExpect(jsonPath("$.message").value("Your account has been created successfully."));
@@ -82,9 +84,10 @@ public class NotificationControllerTest {
     void testUpdateNotification() throws Exception {
         when(notificationService.update(any(Notification.class))).thenReturn(testNotification);
 
-        mockMvc.perform(put("/Notification/update")
+        mockMvc.perform(put("/notification/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testNotification)))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.notificationId").value(1));
 
@@ -94,7 +97,8 @@ public class NotificationControllerTest {
     void testFindNotificationById() throws Exception {
             when(notificationService.findById(1)).thenReturn(testNotification);
 
-            mockMvc.perform(get("/Notification/find_notification"))
+            mockMvc.perform(get("/notification/findById/1"))
+                    .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.notificationId").value(1));
     }
@@ -103,17 +107,19 @@ public class NotificationControllerTest {
     void testDeleteNotification() throws Exception {
         doNothing().when(notificationService).deleteById(1);
 
-        mockMvc.perform(delete("/Notification/delete/1"))
+        mockMvc.perform(delete("/notification/deleteById/1"))
+                .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(notificationService, times(1)).deleteById(1);
+        verify(notificationService).deleteById(1);
     }
 
     @Test
     void testFindAllNotifications() throws Exception {
         when(notificationService.getAll()).thenReturn(List.of(testNotification));
 
-        mockMvc.perform(get("/Notification/all-notifications"))
+        mockMvc.perform(get("/notification/find-all"))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].notificationId").value(1))
                 .andExpect(jsonPath("$[0].title").value("Welcome"))

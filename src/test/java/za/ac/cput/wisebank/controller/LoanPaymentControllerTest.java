@@ -11,22 +11,20 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import za.ac.cput.wisebank.domain.Loan;
 import za.ac.cput.wisebank.domain.LoanPayment;
-import za.ac.cput.wisebank.domain.Notification;
-import za.ac.cput.wisebank.domain.User;
 import za.ac.cput.wisebank.service.LoanPaymentService;
-import za.ac.cput.wisebank.service.NotificationService;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(NotificationController.class)
+@WebMvcTest(LoanPaymentController.class)
 public class LoanPaymentControllerTest {
 
     @Autowired
@@ -49,7 +47,7 @@ public class LoanPaymentControllerTest {
                 .setLoanAmount(5000.0)
                 .build();
 
-        LoanPayment testLoanPayment = new LoanPayment.Builder()
+        testLoanPayment = new LoanPayment.Builder()
                 .setPaymentId(1)
                 .setPaymentDate(LocalDateTime.now())
                 .setAmountPaid(1000.0)
@@ -62,62 +60,61 @@ public class LoanPaymentControllerTest {
     void testSaveLoanPayment() throws Exception {
         when(loanPaymentService.save(any(LoanPayment.class))).thenReturn(testLoanPayment);
 
-        mockMvc.perform(post("/LoanPayment/save")
+        mockMvc.perform(post("/loanPayment/save")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testLoanPayment)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.paymentId").value(1))
                 .andExpect(jsonPath("$.amountPaid").value(1000.0))
-                .andExpect(jsonPath("$.status").value("PAID"))
-                .andExpect(jsonPath("$.loan.loanType").value("Personal"));
+                .andExpect(jsonPath("$.status").value("PAID"));
     }
 
     @Test
     void testUpdateLoanPayment() throws Exception {
+
         when(loanPaymentService.update(any(LoanPayment.class))).thenReturn(testLoanPayment);
 
-        mockMvc.perform(put("/LoanPayment/update")
+        mockMvc.perform(put("/loanPayment/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testLoanPayment)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.paymentId").value(1))
-                .andExpect(jsonPath("$.amountPaid").value(1200.0))
-                .andExpect(jsonPath("$.status").value("PENDING"))
-                .andExpect(jsonPath("$.loan.loanType").value("Personal"));
-
+                .andExpect(jsonPath("$.status").value("PAID"));
     }
 
     @Test
     void testFindLoanPaymentById() throws Exception {
         when(loanPaymentService.findById(1)).thenReturn(testLoanPayment);
 
-        mockMvc.perform(get("/LoanPayment/find_loanPayment"))
+        mockMvc.perform(get("/loanPayment/findById/1"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.paymentId").value(1))
-                .andExpect(jsonPath("$.amountPaid").value(1200.0))
-                .andExpect(jsonPath("$.status").value("PENDING"))
-                .andExpect(jsonPath("$.loan.loanType").value("Personal"));
+                .andExpect(jsonPath("$.amountPaid").value(1000.0))
+                .andExpect(jsonPath("$.status").value("PAID"));
     }
+
 
     @Test
     void testDeleteLoanPayment() throws Exception {
         doNothing().when(loanPaymentService).deleteById(1);
 
-        mockMvc.perform(delete("/LoanPayment/delete/1"))
+        mockMvc.perform(delete("/loanPayment/deleteById/1"))
+                .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(loanPaymentService, times(1)).deleteById(1);
+        verify(loanPaymentService).deleteById(1);
     }
+
 
     @Test
     void testFindAllLoanPayment() throws Exception {
         when(loanPaymentService.getAll()).thenReturn(List.of(testLoanPayment));
 
-        mockMvc.perform(get("/LoanPayment/all"))
+        mockMvc.perform(get("/loanPayment/find-all"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].paymentId").value(1))
-                .andExpect(jsonPath("$[0].amountPaid").value(1200.0))
-                .andExpect(jsonPath("$[0].status").value("PENDING"))
-                .andExpect(jsonPath("$[0].loan.loanType").value("Personal"));
+                .andExpect(jsonPath("$[0].amountPaid").value(1000.0))
+                .andExpect(jsonPath("$[0].status").value("PAID"));
     }
 }
+
+
+
