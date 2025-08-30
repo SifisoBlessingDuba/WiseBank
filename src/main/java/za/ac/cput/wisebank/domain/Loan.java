@@ -33,7 +33,7 @@ public class Loan {
     private List<LoanPayment> payments;
 
 
-    protected Loan(){
+    public Loan(){
 
     }
     public Loan(Builder builder) {
