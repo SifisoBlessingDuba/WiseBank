@@ -23,6 +23,7 @@ public class Loan {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
     @ManyToOne
@@ -30,6 +31,7 @@ public class Loan {
     private Account account;
 
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<LoanPayment> payments;
 
 
@@ -111,9 +113,9 @@ public class Loan {
                 ", monthlyPayment=" + monthlyPayment +
                 ", outstandingPayment=" + outstandingPayment +
                 ", loanDate=" + loanDate +
-                ", payments=" + payments +
-                ", user=" + user +
-                ", account=" + account +
+                ", paymentsCount=" + (payments != null ? payments.size() : 0) +
+                ", userId=" + (user != null ? user.getUserid() : null) +
+                ", accountNumber=" + (account != null ? account.getAccountNumber() : null) +
                 '}';
     }
 

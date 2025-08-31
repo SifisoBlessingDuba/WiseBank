@@ -2,7 +2,7 @@ package za.ac.cput.wisebank.domain;
 
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +12,7 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private String idNumber;
     private String email;
@@ -25,22 +26,29 @@ public class User {
     private LocalDate lastLogin;
 
     @OneToMany(mappedBy = "user")
-    private List<Beneficiary> beneficiaries = new ArrayList<>();
+
+    @JsonIgnore
+    private List<Beneficiary> beneficiaries;
 
     @OneToMany(mappedBy = "user")
-    private List<Notification> notifications = new ArrayList<>();
+    @JsonIgnore
+    private List<Notification> notifications;
 
     @OneToMany(mappedBy = "user")
-    private List<Message> messages = new ArrayList<>();
+    @JsonIgnore
+    private List<Message> messages;
 
-    @OneToMany(mappedBy = "user",  orphanRemoval = true)
-    private List<Card> cards = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Card> cards;
 
     @OneToMany(mappedBy = "user")
-    private List<Loan> loans = new ArrayList<>();
+    @JsonIgnore
+    private List<Loan> loans;
 
-//    @OneToMany(mappedBy = "user", orphanRemoval = true)
-//    private List<Account> accounts = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Account> accounts;
 
 
     public User(){
@@ -65,6 +73,7 @@ public class User {
         this.loans = builder.loans;
         this.cards = builder.cards;
     }
+
     public String getEmail() {
         return email;
     }
@@ -168,6 +177,7 @@ public class User {
         private List<Notification> notifications;
         private List<Loan> loans;
         private List<Card> cards;
+
 
 
 

@@ -48,9 +48,7 @@ class UserServiceTest {
     @Test
     void testSave() {
         when(userRepository.save(user)).thenReturn(user);
-
         User saved = userService.save(user);
-
         assertNotNull(saved);
         assertEquals("U001", saved.getIdNumber());
         verify(userRepository, times(1)).save(user);
@@ -58,13 +56,13 @@ class UserServiceTest {
 
     @Test
     void testFindById() {
-        when(userRepository.findById("U001")).thenReturn(Optional.of(user));
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-        User found = userService.findById("U001");
+        User found = userService.findById(1);
 
         assertNotNull(found);
         assertEquals("John", found.getFirstName());
-        verify(userRepository, times(1)).findById("U001");
+        verify(userRepository, times(1)).findById(1);
     }
 
     @Test
@@ -92,10 +90,10 @@ class UserServiceTest {
 
     @Test
     void testDeleteById() {
-        doNothing().when(userRepository).deleteById("U001");
+        doNothing().when(userRepository).deleteById(1);
 
-        userService.deleteById("U001");
+        userService.deleteById(1);
 
-        verify(userRepository, times(1)).deleteById("U001");
+        verify(userRepository, times(1)).deleteById(1);
     }
 }

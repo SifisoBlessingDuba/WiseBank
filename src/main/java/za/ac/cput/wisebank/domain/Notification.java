@@ -19,6 +19,7 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
 

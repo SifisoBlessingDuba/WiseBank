@@ -85,9 +85,7 @@ class MessageServiceTest {
     @Test
     void testFindMessageByIdExists() {
         when(messageRepository.findById(1)).thenReturn(Optional.of(testMessage));
-
         Message found = messageService.findById(1);
-
         assertNotNull(found);
         assertEquals("1", found.getUser().getIdNumber());  // <-- compare as String
         verify(messageRepository).findById(1);
