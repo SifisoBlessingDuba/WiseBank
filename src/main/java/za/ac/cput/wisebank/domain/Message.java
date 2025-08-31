@@ -16,6 +16,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
 
@@ -55,7 +56,7 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
-                ", sender=" + (user != null ? user.getUserid() : null) +
+                ", sender=" + (user != null ? user.getIdNumber() : null) +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
                 ", status='" + status + '\'' +

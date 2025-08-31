@@ -26,11 +26,11 @@ public class LoanController {
     public Loan update (@RequestBody Loan loan) {
         return loanService.update(loan);
     }
-    @GetMapping("/find_loan{id}")
+    @GetMapping("/find_loan/{id}")
     public Loan findById(@PathVariable Integer id) {
         return loanService.findById(id);
     }
-    @DeleteMapping("/delete-loan{id}")
+    @DeleteMapping("/delete-loan/{id}")
     public void deleteById(@PathVariable Integer id) {
         loanService.deleteById(id);
     }

@@ -42,7 +42,7 @@ public class NotificationControllerTest {
     @BeforeEach
     void setUp() {
         User testUser = new User.Builder()
-                .setUserid("user456")
+                .setIdNumber("2862942")
                 .setFirstName("Fatso")
                 .setLastName("Bojatseha")
                 .setEmail("Bojabs@sample.com")

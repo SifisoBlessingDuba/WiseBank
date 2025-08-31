@@ -42,17 +42,16 @@ class UserControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
         testUser = new User.Builder()
-                .setUserid("U001")
+                .setIdNumber("83749247")
                 .setFirstName("Jane")
                 .setLastName("Doe")
                 .setEmail("jane.doe@example.com")
                 .setPassword("password123")
-                .setIdNumber(123456789)
-                .setPhoneNumber(1234567890L)
+                .setPhoneNumber("1234567890L")
                 .setAddress("456 Another St")
-                .setDateOfBirth(new Date())
+                .setDateOfBirth(LocalDate.now())
                 .setCreatedAt(LocalDate.now())
-                .setLastLogin("2025-08-08")
+                .setLastLogin(LocalDate.now())
                 .build();
     }
 
@@ -64,7 +63,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testUser)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value("U001"))
+                .andExpect(jsonPath("$.userId").value(1))
                 .andExpect(jsonPath("$.firstName").value("Jane"));
     }
 
@@ -81,21 +80,21 @@ class UserControllerTest {
 
     @Test
     void testDeleteUser() throws Exception {
-        doNothing().when(userService).deleteById("U001");
+        doNothing().when(userService).deleteById(1);
 
-        mockMvc.perform(delete("/user/deleteUserU001"))
+        mockMvc.perform(delete("/user/deleteUser/1"))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).deleteById("U001");
+        verify(userService, times(1)).deleteById(1);
     }
 
     @Test
     void testFindUserById() throws Exception {
-        when(userService.findById("U001")).thenReturn(testUser);
+        when(userService.findById(1)).thenReturn(testUser);
 
-        mockMvc.perform(get("/user/findUserU001"))
+        mockMvc.perform(get("/user/read_user/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value("U001"));
+                .andExpect(jsonPath("$.userId").value(1));
     }
 
     @Test
@@ -106,6 +105,6 @@ class UserControllerTest {
         mockMvc.perform(get("/user/all_users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].userId").value("U001"));
+                .andExpect(jsonPath("$[0].userId").value(1));
     }
 }

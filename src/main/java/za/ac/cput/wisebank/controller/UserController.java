@@ -1,16 +1,18 @@
 package za.ac.cput.wisebank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.User;
-import za.ac.cput.wisebank.service.AccountService;
 import za.ac.cput.wisebank.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4200"}, allowCredentials = "true")
 public class UserController {
     private UserService userService;
 
@@ -22,19 +24,58 @@ public class UserController {
     public User save(@RequestBody User user) {
         return userService.save(user);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+
+        User user = userService.findById(email); // you need to add this method in UserService
+        if (user != null && user.getPassword().equals(password)) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PutMapping("/change_password")
+    public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        String oldPassword = payload.get("oldPassword");
+        String newPassword = payload.get("newPassword");
+
+        User user = userService.findById(email); // finds by email
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("success", false, "message", "User not found"));
+        }
+
+        if (!user.getPassword().equals(oldPassword)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("success", false, "message", "Old password is incorrect"));
+        }
+
+        user.setPassword(newPassword);
+        userService.save(user);
+
+        return ResponseEntity.ok(Map.of("success", true, "message", "Password changed successfully"));
+    }
+
+
     @PutMapping("/update")
     public User update (@RequestBody User user) {
         return userService.save(user);
     }
-    @DeleteMapping("/deleteUser{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public void deleteById (@PathVariable String id) {
         userService.deleteById(id);
     }
-    @GetMapping("/rad_user{id}")
+    @GetMapping("/read_user/{id}")
+
     public User findById (@PathVariable String id) {
         return userService.findById(id);
     }
-    @GetMapping("/all_user")
+    @GetMapping("/all_users")
     public List<User> findAll () {
         return userService.findAll();
     }
