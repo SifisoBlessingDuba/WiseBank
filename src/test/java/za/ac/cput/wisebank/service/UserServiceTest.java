@@ -32,7 +32,7 @@ class UserServiceTest {
         MockitoAnnotations.openMocks(this);
 
         user = new User.Builder()
-                .setUserid("U001")
+                .setUserid(1)
                 .setFirstName("John")
                 .setLastName("Doe")
                 .setEmail("john.doe@example.com")
@@ -53,19 +53,19 @@ class UserServiceTest {
         User saved = userService.save(user);
 
         assertNotNull(saved);
-        assertEquals("U001", saved.getUserid());
+        assertEquals(1, saved.getUserid());
         verify(userRepository, times(1)).save(user);
     }
 
     @Test
     void testFindById() {
-        when(userRepository.findById("U001")).thenReturn(Optional.of(user));
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-        User found = userService.findById("U001");
+        User found = userService.findById(1);
 
         assertNotNull(found);
         assertEquals("John", found.getFirstName());
-        verify(userRepository, times(1)).findById("U001");
+        verify(userRepository, times(1)).findById(1);
     }
 
     @Test
@@ -76,7 +76,7 @@ class UserServiceTest {
         List<User> result = userService.findAll();
 
         assertEquals(1, result.size());
-        assertEquals("U001", result.get(0).getUserid());
+        assertEquals(1, result.get(0).getUserid());
         verify(userRepository, times(1)).findAll();
     }
 
@@ -93,10 +93,10 @@ class UserServiceTest {
 
     @Test
     void testDeleteById() {
-        doNothing().when(userRepository).deleteById("U001");
+        doNothing().when(userRepository).deleteById(1);
 
-        userService.deleteById("U001");
+        userService.deleteById(1);
 
-        verify(userRepository, times(1)).deleteById("U001");
+        verify(userRepository, times(1)).deleteById(1);
     }
 }

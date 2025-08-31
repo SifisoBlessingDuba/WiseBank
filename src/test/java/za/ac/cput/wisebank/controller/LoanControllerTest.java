@@ -44,7 +44,7 @@ public class LoanControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
 
         User testUser = new User.Builder()
-                .setUserid("user123")
+                .setUserid(1)
                 .setFirstName("Sifiso")
                 .setLastName("Duba")
                 .setEmail("sifiso@example.com")

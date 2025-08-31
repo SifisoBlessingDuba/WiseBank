@@ -19,6 +19,7 @@ public class Card {
     private LocalDate issuedDate;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
     @OneToOne

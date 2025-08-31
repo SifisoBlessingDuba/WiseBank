@@ -45,7 +45,7 @@ public class NotificationControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
 
         User testUser = new User.Builder()
-                .setUserid("user456")
+                .setUserid(1)
                 .setFirstName("Fatso")
                 .setLastName("Bojatseha")
                 .setEmail("Bojabs@sample.com")

@@ -2,7 +2,7 @@ package za.ac.cput.wisebank.domain;
 
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -11,8 +11,9 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private String userId;
+    private int userId;
     private String email;
     private String password;
     private int idNumber;
@@ -25,21 +26,27 @@ public class User {
     private String lastLogin;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Beneficiary> beneficiaries;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Notification> notifications;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Message> messages;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Card> cards;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Loan> loans;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Account> accounts;
 
 
@@ -67,7 +74,7 @@ public class User {
         this.cards = builder.cards;
     }
 
-    public String getUserid() {
+    public int getUserid() {
         return userId;
     }
 
@@ -159,7 +166,7 @@ public class User {
     }
 
     public static class Builder {
-        private String userId;
+        private int userId;
         private String email;
         private String password;
         private int idNumber;
@@ -180,7 +187,7 @@ public class User {
 
 
 
-        public Builder setUserid(String userId){
+        public Builder setUserid(int userId){
             this.userId= userId;
             return this;
     }

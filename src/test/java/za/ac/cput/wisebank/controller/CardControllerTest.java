@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
+
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,7 +33,7 @@ public class CardControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private CardService cardService;
 
     @Autowired
@@ -42,7 +44,7 @@ public class CardControllerTest {
     @BeforeEach
     void setUp() {
         User user = new User.Builder()
-                .setUserid("U123")
+                .setUserid(1)
                 .setEmail("john.doe@example.com")
                 .setPassword("password")
                 .setFirstName("John")

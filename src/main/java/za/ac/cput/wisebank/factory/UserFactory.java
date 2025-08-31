@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class UserFactory {
-    public static User createUser(String userid,
+    public static User createUser(int userid,
                                   String email,
                                   String password ,
                                   Integer idNumber,

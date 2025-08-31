@@ -16,6 +16,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
 

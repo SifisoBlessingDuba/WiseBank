@@ -4,6 +4,6 @@ import za.ac.cput.wisebank.domain.User;
 
 import java.util.List;
 
-public interface IUserService extends IService <User,String>{
+public interface IUserService extends IService <User, Integer> {
     List<User> findAll();
 }
