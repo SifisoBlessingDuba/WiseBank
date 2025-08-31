@@ -38,6 +38,30 @@ public class UserController {
         }
     }
 
+    @PutMapping("/change_password")
+    public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        String oldPassword = payload.get("oldPassword");
+        String newPassword = payload.get("newPassword");
+
+        User user = userService.findById(email); // finds by email
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("success", false, "message", "User not found"));
+        }
+
+        if (!user.getPassword().equals(oldPassword)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("success", false, "message", "Old password is incorrect"));
+        }
+
+        user.setPassword(newPassword);
+        userService.save(user);
+
+        return ResponseEntity.ok(Map.of("success", true, "message", "Password changed successfully"));
+    }
+
+
     @PutMapping("/update")
     public User update (@RequestBody User user) {
         return userService.save(user);
