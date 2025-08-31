@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import za.ac.cput.wisebank.domain.Notification;
 import za.ac.cput.wisebank.domain.User;
 import za.ac.cput.wisebank.repository.NotificationRepository;
@@ -15,16 +18,18 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 class NotificationServiceTest {
 
 @Mock
 private NotificationRepository notificationRepository;
 
-@InjectMocks
+@Autowired
 private NotificationService notificationService;
 
 private Notification testNotification;
+
+
 
 @BeforeEach
 void setUp() {
@@ -33,7 +38,7 @@ void setUp() {
     User user = new User();
 
     testNotification = new Notification.Builder()
-            .setNotificationId(1)
+
             .setTitle("New Transaction")
             .setMessage("R10000 has been deposited into your account")
             .setIsRead("Read")
@@ -44,14 +49,14 @@ void setUp() {
 
     @Test
     void testSaveNotification() {
-    when(notificationRepository.save(testNotification)).thenReturn(testNotification);
+    //when(notificationRepository.save(testNotification)).thenReturn(testNotification);
 
     Notification saved = notificationService.save(testNotification);
 
     assertNotNull(saved);
     assertEquals(testNotification.getNotificationId(), saved.getNotificationId());
-    verify(notificationRepository).save(testNotification);
-
+    //verify(notificationRepository).save(testNotification);
+        System.out.println(saved);
     }
 
     @Test
