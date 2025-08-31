@@ -19,18 +19,22 @@ import java.util.List;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "account")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Loan> loans;
 
     @OneToOne(mappedBy = "account")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Card card;
 
-    protected Account() {
+    public Account() {
 
     }
 
@@ -91,16 +95,16 @@ import java.util.List;
     @Override
     public String toString() {
         return "Account{" +
-                ", accountNumber=" + accountNumber +
+                "accountNumber=" + accountNumber +
                 ", accountBalance=" + accountBalance +
                 ", accountType='" + accountType + '\'' +
                 ", currency=" + currency +
                 ", bankName='" + bankName + '\'' +
                 ", status='" + status + '\'' +
-                ", user=" + user +
-                ", card=" + card+
-                ", transactions=" + transactions +
-                ", loan=" + loans +
+                ", userId=" + (user != null ? user.getIdNumber() : null) +
+                ", cardNumber=" + (card != null ? card.getCardNumber() : null) +
+                ", transactionsCount=" + (transactions != null ? transactions.size() : 0) +
+                ", loansCount=" + (loans != null ? loans.size() : 0) +
                 '}';
     }
 

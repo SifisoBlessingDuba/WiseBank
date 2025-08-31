@@ -14,6 +14,7 @@ public class Beneficiary {
     private LocalDate addedAt;
     @ManyToOne
     @JoinColumn(name = "user_id"  , referencedColumnName = "user_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
 
@@ -52,7 +53,7 @@ public class Beneficiary {
     @Override
     public String toString() {
         return "Beneficiary{" +
-                ", user=" + (user != null ? user.getUserid(): null) +
+                ", user=" + (user != null ? user.getIdNumber(): null) +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", bankName='" + bankName + '\'' +

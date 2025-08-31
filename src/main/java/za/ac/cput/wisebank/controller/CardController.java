@@ -21,15 +21,16 @@ public class CardController {
     public Card save (@RequestBody Card card) {
         return cardService.save(card);
     }
+
     @PutMapping("/update")
     public Card update (@RequestBody Card card) {
         return cardService.save(card);
     }
-    @DeleteMapping("/deleteCard{id}")
+    @DeleteMapping("/deleteCard/{id}")
     public void deleteById (@PathVariable String id) {
         cardService.deleteById(id);
     }
-    @GetMapping("/rad_card{id}")
+    @GetMapping("/rad_card/{id}")
     public Card findById (@PathVariable String id) {
         return cardService.findById(id);
     }
