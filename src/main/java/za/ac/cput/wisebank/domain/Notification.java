@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Notification {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "notification_id")
     private Integer notificationId;
     private String title;
@@ -17,7 +17,7 @@ public class Notification {
     private String isRead;
     private LocalDateTime timeStamp;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
@@ -74,7 +74,7 @@ public class Notification {
                 ", notificationType='" + notificationType + '\'' +
                 ", isRead='" + isRead + '\'' +
                 ", timeStamp=" + timeStamp +
-                ", user=" + user.getUserid() +
+                ", user=" + user+
                 '}';
     }
 
@@ -119,6 +119,17 @@ public class Notification {
 
         public Builder setTimeStamp(LocalDateTime timeStamp) {
             this.timeStamp = timeStamp;
+            return this;
+        }
+
+        public Builder copy(Notification notification) {
+            this.notificationId = notification.notificationId;
+            this.title = notification.title;
+            this.message = notification.message;
+            this.notificationType = notification.notificationType;
+            this.isRead = notification.isRead;
+            this.timeStamp = notification.timeStamp;
+            this.user = notification.user;
             return this;
         }
 

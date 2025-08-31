@@ -27,8 +27,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Beneficiary> beneficiaries;
 
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+//    @OneToMany(mappedBy = "user")
+//    private List<Notification> notifications;
 
     @OneToMany(mappedBy = "user")
     private List<Message> messages;
@@ -62,7 +62,7 @@ public class User {
         this.accounts = builder.accounts;
         this.beneficiaries = builder.beneficiaries;
         this.messages = builder.messages;
-        this.notifications = builder.notifications;
+//        this.notifications = builder.notifications;
         this.loans = builder.loans;
         this.cards = builder.cards;
     }
@@ -123,9 +123,9 @@ public class User {
         return messages;
     }
 
-    public List<Notification> getNotification() {
-        return notifications;
-    }
+//    public List<Notification> getNotification() {
+//        return notifications;
+//    }
 
     public List<Loan> getLoan() {
         return loans;
@@ -152,7 +152,7 @@ public class User {
                 ", account=" + accounts +
                 ", beneficiary=" + beneficiaries +
                 ", message=" + messages +
-                ", notification=" + notifications +
+//                ", notification=" + notifications +
                 ", loan=" + loans +
                 ", card=" + cards +
                 '}';
@@ -174,7 +174,7 @@ public class User {
 
         private List<Beneficiary> beneficiaries;
         private List<Message> messages;
-        private List<Notification> notifications;
+//        private List<Notification> notifications;
         private List<Loan> loans;
         private List<Card> cards;
 
@@ -236,10 +236,10 @@ public class User {
             this.messages= messages;
             return this;
   }
-  public Builder setNotification(List<Notification> notifications){
-            this.notifications = notifications;
-            return this;
-  }
+//  public Builder setNotification(List<Notification> notifications){
+//            this.notifications = notifications;
+//            return this;
+//  }
   public Builder setLoan(List<Loan> loans){
             this.loans = loans;
             return this;

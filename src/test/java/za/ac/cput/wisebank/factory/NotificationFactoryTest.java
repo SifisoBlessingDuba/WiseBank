@@ -14,5 +14,6 @@ class NotificationFactoryTest {
 
         Notification notification = NotificationFactory.createNotification(123456,  "Loan", "Loan payment in process", "Message/Income", "False", LocalDateTime.now(), null );
         assertNotNull(notification);
+        System.out.println(notification);
     }
 }

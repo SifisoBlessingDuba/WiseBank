@@ -24,7 +24,7 @@ public class UserFactory {
                                   List<LoanPayment> loanpayment,
                                   List<Beneficiary> beneficiary,
                                   List<Message> messages,
-                                 List<Notification> notifications,
+//                                 List<Notification> notifications,
                                   List<Card> cards,
                                   List<Loan> loans
 
@@ -45,7 +45,7 @@ public class UserFactory {
                 .setAccount(account)
                 .setBeneficiary(beneficiary)
                 .setMessage(messages)
-                .setNotification(notifications)
+//                .setNotification(notifications)
                 .build();
 
     }

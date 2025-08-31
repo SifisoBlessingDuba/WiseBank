@@ -15,7 +15,7 @@ class UserFactoryTest {
     @Test
     void createUser() {
         User user = UserFactory.createUser("03120467373", "bedeshoitumeleng@gmail.com", "TGGY", 999999, "Sky", "Walker", new Date(),
-                8333388L, "123 Sunset Blvd, Soweto", LocalDate.now(), "2025-07-02 18:00:00",null, null, null,
+                8333388L, "123 Sunset Blvd, Soweto", LocalDate.now(), "2025-07-02 18:00:00",null, null,
                 null, null, null, null);
 
         assertNotNull(user);
