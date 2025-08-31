@@ -32,17 +32,16 @@ class UserServiceTest {
         MockitoAnnotations.openMocks(this);
 
         user = new User.Builder()
-                .setUserid("U001")
+                .setIdNumber("2387234")
                 .setFirstName("John")
                 .setLastName("Doe")
                 .setEmail("john.doe@example.com")
                 .setPassword("securePass123")
-                .setIdNumber(123456789)
-                .setPhoneNumber(1234567890L)
+                .setPhoneNumber("1234567890L")
                 .setAddress("123 Main St")
-                .setDateOfBirth(new Date())
+                .setDateOfBirth(LocalDate.now())
                 .setCreatedAt(LocalDate.now())
-                .setLastLogin("2025-08-08")
+                .setLastLogin(LocalDate.now())
                 .build();
     }
 
@@ -53,7 +52,7 @@ class UserServiceTest {
         User saved = userService.save(user);
 
         assertNotNull(saved);
-        assertEquals("U001", saved.getUserid());
+        assertEquals("U001", saved.getIdNumber());
         verify(userRepository, times(1)).save(user);
     }
 
@@ -76,7 +75,7 @@ class UserServiceTest {
         List<User> result = userService.findAll();
 
         assertEquals(1, result.size());
-        assertEquals("U001", result.get(0).getUserid());
+        assertEquals("U001", result.get(0).getIdNumber());
         verify(userRepository, times(1)).findAll();
     }
 

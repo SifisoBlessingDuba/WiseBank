@@ -4,6 +4,7 @@ package za.ac.cput.wisebank.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,35 +13,34 @@ public class User {
 
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private String idNumber;
     private String email;
     private String password;
-    private int idNumber;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
-    private Long phoneNumber;
+    private LocalDate dateOfBirth;
+    private String phoneNumber;
     private String address;
     private LocalDate createdAt;
-    private String lastLogin;
+    private LocalDate lastLogin;
 
     @OneToMany(mappedBy = "user")
-    private List<Beneficiary> beneficiaries;
+    private List<Beneficiary> beneficiaries = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+    private List<Notification> notifications = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Card> cards;
+    @OneToMany(mappedBy = "user",  orphanRemoval = true)
+    private List<Card> cards = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Loan> loans;
+    private List<Loan> loans = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accounts;
+//    @OneToMany(mappedBy = "user", orphanRemoval = true)
+//    private List<Account> accounts = new ArrayList<>();
 
 
     public User(){
@@ -48,7 +48,6 @@ public class User {
     }
 
     public User (Builder builder) {
-        this.userId = builder.userId;
         this.email = builder.email;
         this.password = builder.password;
         this.idNumber = builder.idNumber;
@@ -59,18 +58,13 @@ public class User {
         this.address = builder.address;
         this.createdAt = builder.createdAt;
         this.lastLogin = builder.lastLogin;
-        this.accounts = builder.accounts;
+       // this.accounts = builder.accounts;
         this.beneficiaries = builder.beneficiaries;
         this.messages = builder.messages;
         this.notifications = builder.notifications;
         this.loans = builder.loans;
         this.cards = builder.cards;
     }
-
-    public String getUserid() {
-        return userId;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -79,7 +73,7 @@ public class User {
         return password;
     }
 
-    public int getIdNumber() {
+    public String getIdNumber() {
         return idNumber;
     }
 
@@ -91,11 +85,11 @@ public class User {
         return lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -107,13 +101,13 @@ public class User {
         return createdAt;
     }
 
-    public String getLastLogin() {
+    public LocalDate getLastLogin() {
         return lastLogin;
     }
 
-    public List<Account> getAccount() {
-        return accounts;
-    }
+  //  public List<Account> getAccount() {
+//        return accounts;
+//    }
 
     public List<Beneficiary> getBeneficiary() {
         return beneficiaries;
@@ -138,7 +132,6 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userid=" + userId +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", idNumber=" + idNumber +
@@ -149,7 +142,7 @@ public class User {
                 ", address='" + address + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLogin='" + lastLogin + '\'' +
-                ", account=" + accounts +
+      //          ", account=" + accounts +
                 ", beneficiary=" + beneficiaries +
                 ", message=" + messages +
                 ", notification=" + notifications +
@@ -159,19 +152,17 @@ public class User {
     }
 
     public static class Builder {
-        private String userId;
+        private String idNumber;
         private String email;
         private String password;
-        private int idNumber;
         private String firstName;
         private String lastName;
-        private Date dateOfBirth;
-        private Long phoneNumber;
+        private LocalDate dateOfBirth;
+        private String phoneNumber;
         private String address;
         private LocalDate createdAt;
-        private String lastLogin;
-        private List<Account> accounts;
-
+        private LocalDate lastLogin;
+      //  private List<Account> accounts;
         private List<Beneficiary> beneficiaries;
         private List<Message> messages;
         private List<Notification> notifications;
@@ -180,10 +171,6 @@ public class User {
 
 
 
-        public Builder setUserid(String userId){
-            this.userId= userId;
-            return this;
-    }
     public Builder setEmail(String email){
             this.email = email;
             return this;
@@ -192,7 +179,7 @@ public class User {
             this.password = password;
             return this;
     }
-    public Builder setIdNumber(Integer idNumber){
+    public Builder setIdNumber(String idNumber){
             this.idNumber = idNumber;
             return this;
     }
@@ -204,11 +191,11 @@ public class User {
             this.lastName = lastName;
             return this;
     }
-    public Builder setDateOfBirth(Date dateOfBirth){
+    public Builder setDateOfBirth(LocalDate dateOfBirth){
             this.dateOfBirth = dateOfBirth;
             return this;
     }
-    public Builder setPhoneNumber(Long phoneNumber){
+    public Builder setPhoneNumber(String phoneNumber){
             this.phoneNumber = phoneNumber;
             return this;
     }
@@ -220,14 +207,14 @@ public class User {
             this.createdAt = createdAt;
             return this;
     }
-    public Builder setLastLogin(String lastLogin){
+    public Builder setLastLogin(LocalDate lastLogin){
             this.lastLogin = lastLogin;
             return this;
     }
-   public Builder setAccount(List<Account> accounts){
-            this.accounts = accounts;
-            return this;
-   }
+//   public Builder setAccount(List<Account> accounts){
+//            this.accounts = accounts;
+//            return this;
+//   }
    public Builder setBeneficiary(List<Beneficiary> beneficiaries){
             this.beneficiaries = beneficiaries;
             return this;

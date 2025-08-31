@@ -42,17 +42,16 @@ class UserControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
         testUser = new User.Builder()
-                .setUserid("U001")
+                .setIdNumber("83749247")
                 .setFirstName("Jane")
                 .setLastName("Doe")
                 .setEmail("jane.doe@example.com")
                 .setPassword("password123")
-                .setIdNumber(123456789)
-                .setPhoneNumber(1234567890L)
+                .setPhoneNumber("1234567890L")
                 .setAddress("456 Another St")
-                .setDateOfBirth(new Date())
+                .setDateOfBirth(LocalDate.now())
                 .setCreatedAt(LocalDate.now())
-                .setLastLogin("2025-08-08")
+                .setLastLogin(LocalDate.now())
                 .build();
     }
 
