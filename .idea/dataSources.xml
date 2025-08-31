@@ -13,7 +13,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="wisebank@localhost" uuid="aed01e45-6b1f-43fc-b1ca-ec271193ddab">
+    <data-source source="LOCAL" name="WiseBank@localhost" uuid="aed01e45-6b1f-43fc-b1ca-ec271193ddab">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>

@@ -43,7 +43,7 @@ public class UserController {
         return userService.save(user);
     }
     @DeleteMapping("/deleteUser/{id}")
-    public void deleteById (@PathVariable int id) {
+    public void deleteById (@PathVariable String id) {
         userService.deleteById(id);
     }
     @GetMapping("/read_user/{id}")

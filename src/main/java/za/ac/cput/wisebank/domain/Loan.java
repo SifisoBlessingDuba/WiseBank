@@ -114,7 +114,7 @@ public class Loan {
                 ", outstandingPayment=" + outstandingPayment +
                 ", loanDate=" + loanDate +
                 ", paymentsCount=" + (payments != null ? payments.size() : 0) +
-                ", userId=" + (user != null ? user.getUserid() : null) +
+                ", userId=" + (user != null ? user.getIdNumber() : null) +
                 ", accountNumber=" + (account != null ? account.getAccountNumber() : null) +
                 '}';
     }

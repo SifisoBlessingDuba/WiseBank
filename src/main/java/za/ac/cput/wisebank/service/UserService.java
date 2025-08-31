@@ -29,12 +29,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(String id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public User findById(Integer id) {
+    public User findById(String id) {
         return userRepository.findById(id).orElse(null);
     }
 

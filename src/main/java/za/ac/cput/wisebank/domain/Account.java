@@ -101,7 +101,7 @@ import java.util.List;
                 ", currency=" + currency +
                 ", bankName='" + bankName + '\'' +
                 ", status='" + status + '\'' +
-                ", userId=" + (user != null ? user.getUserid() : null) +
+                ", userId=" + (user != null ? user.getIdNumber() : null) +
                 ", cardNumber=" + (card != null ? card.getCardNumber() : null) +
                 ", transactionsCount=" + (transactions != null ? transactions.size() : 0) +
                 ", loansCount=" + (loans != null ? loans.size() : 0) +
