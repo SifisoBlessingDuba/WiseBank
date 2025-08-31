@@ -19,22 +19,25 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User save (User user){
-        return userRepository.save(user);
-    }
-    @Override
-    public User update (User user){
+    public User save(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public void deleteById (String id){
+    public User update(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(String id) {
         userRepository.deleteById(id);
     }
+
     @Override
-    public User findById ( String id){
+    public User findById(String id) {
         return userRepository.findById(id).orElse(null);
     }
+
     @Override
     public List<User> findAll() {
         return userRepository.findAll();

@@ -26,11 +26,11 @@ public class AccountController {
     public Account update (@RequestBody Account account) {
         return accountService.save(account);
     }
-    @DeleteMapping("/deleteAccount{id}")
+    @DeleteMapping("/deleteAccount/{id}")
     public void deleteById (@PathVariable String id) {
         accountService.deleteById(id);
     }
-    @GetMapping("/rad_account{id}")
+    @GetMapping("/rad_account/{id}")
     public Account findById (@PathVariable String id) {
         return accountService.findById(id);
     }

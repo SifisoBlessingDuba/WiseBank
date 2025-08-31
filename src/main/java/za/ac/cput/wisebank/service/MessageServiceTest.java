@@ -27,7 +27,7 @@ class MessageServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         User user = new User.Builder()
-                .setUserid("1")  // <-- String type here
+                .setIdNumber("1324682849")  // <-- String type here
                 .build();
 
         testMessage = new Message.Builder()
@@ -85,11 +85,9 @@ class MessageServiceTest {
     @Test
     void testFindMessageByIdExists() {
         when(messageRepository.findById(1)).thenReturn(Optional.of(testMessage));
-
         Message found = messageService.findById(1);
-
         assertNotNull(found);
-        assertEquals("1", found.getUser().getUserid());  // <-- compare as String
+        assertEquals("1", found.getUser().getIdNumber());  // <-- compare as String
         verify(messageRepository).findById(1);
     }
 

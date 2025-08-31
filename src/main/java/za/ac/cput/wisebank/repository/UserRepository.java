@@ -12,7 +12,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Override
     User save(User user);
 
-
     @Override
     void deleteById(String userId);
 

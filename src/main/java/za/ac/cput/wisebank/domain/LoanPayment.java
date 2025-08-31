@@ -16,8 +16,9 @@ public class LoanPayment {
     private Double amountPaid;
     private String status;
 
-    @OneToOne()
+    @ManyToOne
     @JoinColumn(name = "loan_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private Loan loan;
 
     protected LoanPayment() {
