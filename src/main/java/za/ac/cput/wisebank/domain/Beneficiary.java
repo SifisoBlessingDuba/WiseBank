@@ -53,7 +53,7 @@ public class Beneficiary {
     @Override
     public String toString() {
         return "Beneficiary{" +
-                ", user=" + (user != null ? user.getUserid(): null) +
+                ", user=" + (user != null ? user.getIdNumber(): null) +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", bankName='" + bankName + '\'' +

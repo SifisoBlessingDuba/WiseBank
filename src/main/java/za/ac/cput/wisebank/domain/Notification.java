@@ -75,7 +75,7 @@ public class Notification {
                 ", notificationType='" + notificationType + '\'' +
                 ", isRead='" + isRead + '\'' +
                 ", timeStamp=" + timeStamp +
-                ", user=" + user.getUserid() +
+                ", user=" + user.getIdNumber() +
                 '}';
     }
 

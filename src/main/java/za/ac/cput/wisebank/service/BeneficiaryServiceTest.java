@@ -32,7 +32,7 @@ class BeneficiaryServiceTest {
 
         // Mock User with getUserid() stubbed to prevent NullPointerException in toString()
         mockUser = mock(User.class);
-        when(mockUser.getUserid()).thenReturn(123);
+        when(mockUser.getIdNumber()).thenReturn("U123");
 
         beneficiary = new Beneficiary.Builder()
                 .setAccountNumber("1234567890")

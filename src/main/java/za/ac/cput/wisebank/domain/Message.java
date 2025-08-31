@@ -56,7 +56,7 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
-                ", sender=" + (user != null ? user.getUserid() : null) +
+                ", sender=" + (user != null ? user.getIdNumber() : null) +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
                 ", status='" + status + '\'' +
