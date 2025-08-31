@@ -160,6 +160,10 @@ public class User {
                 '}';
     }
 
+    public void setPassword(String newPassword) {
+    }
+
+
     public static class Builder {
         private String idNumber;
         private String email;
