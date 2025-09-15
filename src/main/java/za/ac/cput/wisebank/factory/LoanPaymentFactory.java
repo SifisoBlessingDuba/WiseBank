@@ -2,21 +2,24 @@ package za.ac.cput.wisebank.factory;
 
 import za.ac.cput.wisebank.domain.Loan;
 import za.ac.cput.wisebank.domain.LoanPayment;
+import za.ac.cput.wisebank.util.Helper;
 
 import java.time.LocalDateTime;
 
 public class LoanPaymentFactory {
 
     public static LoanPayment createLoanPayment(Integer paymentId, LocalDateTime paymentDate, Double amountPaid, String status, Loan loan) {
-
-        //Loan loan1= new Loan( 123, "monthly", "installment", "monthly payment" , 2000.00, 3.5, 15000.00, 2000.00, 7000.00, LocalDateTime.of(2025, 5, 1, 10, 0));
-        //To be fixed...
+        if(Helper.isValidInteger(paymentId) ||
+            !Helper.isValidDouble(amountPaid) ||
+            Helper.isNullOrEmpty(status)) {
+            return null;
+        }
         return new LoanPayment.Builder()
                 .setPaymentId(paymentId)
                 .setPaymentDate(paymentDate)
                 .setAmountPaid(amountPaid)
                 .setStatus(status)
-                //.setLoan(loan1)
+                .setLoan(loan)
                 .build();
 
     }

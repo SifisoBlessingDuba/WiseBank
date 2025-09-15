@@ -33,7 +33,6 @@ class TransactionServiceTest {
     @BeforeEach
     void setUp() {
         User user1 = new User.Builder()
-                .setUserid("U001")
                 .setFirstName("John")
                 .setLastName("Doe")
                 .setEmail("john@example.com")
@@ -41,7 +40,6 @@ class TransactionServiceTest {
                 .build();
 
         User user2 = new User.Builder()
-                .setUserid("U002")
                 .setFirstName("John")
                 .setLastName("Doe")
                 .setEmail("john@example.com")
@@ -50,7 +48,6 @@ class TransactionServiceTest {
 
 
         User user3 = new User.Builder()
-                .setUserid("U003")
                 .setFirstName("John")
                 .setLastName("Doe")
                 .setEmail("john@example.com")
