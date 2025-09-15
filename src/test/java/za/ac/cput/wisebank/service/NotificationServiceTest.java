@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.cglib.core.Local;
 import za.ac.cput.wisebank.domain.Notification;
 import za.ac.cput.wisebank.domain.User;
 import za.ac.cput.wisebank.repository.NotificationRepository;
@@ -38,31 +39,29 @@ private Notification testNotification;
 void setUp() {
 
     User user = new User.Builder()
-            .setUserid("U008")
             .setFirstName("John")
             .setLastName("Doe")
             .setEmail("john.doe@example.com")
             .setPassword("securePass123")
-            .setIdNumber(123456789)
-            .setPhoneNumber(1234567890L)
+            .setIdNumber("123456789")
+            .setPhoneNumber("12345678905")
             .setAddress("123 Main St")
-            .setDateOfBirth(new Date())
+            .setDateOfBirth(LocalDate.now())
             .setCreatedAt(LocalDate.now())
-            .setLastLogin("2025-08-08")
+            .setLastLogin(LocalDate.now())
             .build();
 
     User user2 = new User.Builder()
-            .setUserid("U004")
             .setFirstName("Johnny")
             .setLastName("Doe")
             .setEmail("johnny.doe@example.com")
             .setPassword("securePass456")
-            .setIdNumber(1234569)
-            .setPhoneNumber(1234590L)
+            .setIdNumber("1234569")
+            .setPhoneNumber("1234590")
             .setAddress("123 Main St")
-            .setDateOfBirth(new Date())
+            .setDateOfBirth(LocalDate.now())
             .setCreatedAt(LocalDate.now())
-            .setLastLogin("2025-08-09")
+            .setLastLogin(LocalDate.now())
             .build();
 
     testNotification = new Notification.Builder()
@@ -82,45 +81,42 @@ void setUp() {
             .build();
 
     User user3 = new User.Builder()
-            .setUserid("U006")
             .setFirstName("Alice")
             .setLastName("Smith")
             .setEmail("alice.smith@example.com")
             .setPassword("passwordAlice789")
-            .setIdNumber(987654321)
-            .setPhoneNumber(9876543210L)
+            .setIdNumber("987654321")
+            .setPhoneNumber("9876543210")
             .setAddress("45 Oak Street")
-            .setDateOfBirth(new Date())
+            .setDateOfBirth(LocalDate.now())
             .setCreatedAt(LocalDate.now())
-            .setLastLogin("2025-08-10")
+            .setLastLogin(LocalDate.now())
             .build();
 
     User user4 = new User.Builder()
-            .setUserid("U005")
             .setFirstName("Bob")
             .setLastName("Williams")
             .setEmail("bob.williams@example.com")
             .setPassword("passwordBob123")
-            .setIdNumber(192837465)
-            .setPhoneNumber(8765432109L)
+            .setIdNumber("192837465")
+            .setPhoneNumber("8765432109")
             .setAddress("67 Pine Avenue")
-            .setDateOfBirth(new Date())
+            .setDateOfBirth(LocalDate.now())
             .setCreatedAt(LocalDate.now())
-            .setLastLogin("2025-08-11")
+            .setLastLogin(LocalDate.now())
             .build();
 
     User user5 = new User.Builder()
-            .setUserid("U007")
             .setFirstName("Sarah")
             .setLastName("Johnson")
             .setEmail("sarah.johnson@example.com")
             .setPassword("passwordSarah321")
-            .setIdNumber(564738291)
-            .setPhoneNumber(7654321098L)
+            .setIdNumber("564738291")
+            .setPhoneNumber("7654321098")
             .setAddress("89 Maple Drive")
-            .setDateOfBirth(new Date())
+            .setDateOfBirth(LocalDate.now())
             .setCreatedAt(LocalDate.now())
-            .setLastLogin("2025-08-12")
+            .setLastLogin(LocalDate.now())
             .build();
 
      testNotification3 = new Notification.Builder()

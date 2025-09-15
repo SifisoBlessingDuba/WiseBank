@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class CardFactory {
-    public static Card createCard(String cardNumber, String cardType, Boolean status, double cardLimit, int cvv, LocalDate expiryDate, LocalDate issuedDate, Account account, User user){
+    public static Card createCard(String cardNumber, String cardType, Boolean status, double cardLimit, int cvv, LocalDate expiryDate, LocalDate issuedDate, Account account){
 
         if(Helper.isNullOrEmpty(cardNumber) ||
                 Helper.isNullOrEmpty(cardType) ||
@@ -28,7 +28,6 @@ public class CardFactory {
                 .setExpiryDate(expiryDate)
                 .setIssuedDate(issuedDate)
                 .setAccount(account)
-                .setUser(user)
                 .build();
     }
 }

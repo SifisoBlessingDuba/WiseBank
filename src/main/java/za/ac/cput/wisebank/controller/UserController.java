@@ -54,7 +54,7 @@ public class UserController {
                     .body(Map.of("success", false, "message", "Old password is incorrect"));
         }
 
-        user.setPassword(newPassword);
+        //user.setPassword(newPassword);
         userService.save(user);
 
         return ResponseEntity.ok(Map.of("success", true, "message", "Password changed successfully"));
