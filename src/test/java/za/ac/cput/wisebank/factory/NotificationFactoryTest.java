@@ -1,10 +1,7 @@
 package za.ac.cput.wisebank.factory;
-
 import org.junit.jupiter.api.Test;
 import za.ac.cput.wisebank.domain.Notification;
-
 import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationFactoryTest {
