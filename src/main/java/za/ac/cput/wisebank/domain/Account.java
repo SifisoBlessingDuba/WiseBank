@@ -19,7 +19,7 @@ import java.util.List;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
-    @com.fasterxml.jackson.annotation.JsonBackReference
+  // @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -30,9 +30,9 @@ import java.util.List;
     @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Loan> loans;
 
-    @OneToOne(mappedBy = "account")
-    @com.fasterxml.jackson.annotation.JsonIgnore
-    private Card card;
+//    @OneToOne(mappedBy = "account")
+//    @com.fasterxml.jackson.annotation.JsonIgnore
+//    private Card card;
 
     public Account() {
 
@@ -46,7 +46,7 @@ import java.util.List;
         this.bankName=builder.bankName;
         this.status=builder.status;
         this.user = builder.user;
-        this.card = builder.card;
+//        this.card = builder.card;
         this.transactions =builder.transactions;
         this.loans = builder.loan;
 
@@ -80,9 +80,9 @@ import java.util.List;
         return user;
     }
 
-    public Card getCard() {
-        return card;
-    }
+//    public Card getCard() {
+//        return card;
+//    }
 
     public List<Transaction> getTransactions() {
         return transactions;
@@ -102,7 +102,7 @@ import java.util.List;
                 ", bankName='" + bankName + '\'' +
                 ", status='" + status + '\'' +
                 ", userId=" + (user != null ? user.getIdNumber() : null) +
-                ", cardNumber=" + (card != null ? card.getCardNumber() : null) +
+//                ", cardNumber=" + (card != null ? card.getCardNumber() : null) +
                 ", transactionsCount=" + (transactions != null ? transactions.size() : 0) +
                 ", loansCount=" + (loans != null ? loans.size() : 0) +
                 '}';
@@ -116,7 +116,7 @@ import java.util.List;
         private String bankName;
         private String status;
         private User user;
-        private Card card;
+//        private Card card;
         private List<Transaction> transactions;
         private List<Loan> loan;
 
@@ -154,10 +154,10 @@ import java.util.List;
             return this;
         }
 
-        public Builder setCard(Card card) {
-            this.card = card;
-            return this;
-        }
+//        public Builder setCard(Card card) {
+//            this.card = card;
+//            return this;
+//        }
 
         public Builder setTransactions(List<Transaction> transactions) {
             this.transactions = transactions;

@@ -18,14 +18,14 @@ public class UserFactory {
                                   String phoneNumber ,
                                   String address ,
                                   LocalDate createdAt,
-                                  LocalDate lastLogin ,
-                                  List<Account> account,
-                                  List<LoanPayment> loanpayment,
-                                  List<Beneficiary> beneficiary,
-                                  List<Message> messages,
+                                  LocalDate lastLogin
+//                                  List<Account> account,
+//                                  List<LoanPayment> loanpayment,
+//                                  List<Beneficiary> beneficiary,
+//                                  List<Message> messages,
 //                                 List<Notification> notifications,
-                                  List<Card> cards,
-                                  List<Loan> loans
+//                                  List<Card> cards,
+//                                  List<Loan> loans
 
 
                                   ) {
@@ -41,8 +41,8 @@ public class UserFactory {
                 .setCreatedAt(createdAt)
                 .setLastLogin(lastLogin)
 //                .setAccount(account)
-                .setBeneficiary(beneficiary)
-                .setMessage(messages)
+//                .setBeneficiary(beneficiary)
+//                .setMessage(messages)
 //                .setNotification(notifications)
                 .build();
 

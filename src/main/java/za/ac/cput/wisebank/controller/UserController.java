@@ -29,8 +29,7 @@ public class UserController {
     public ResponseEntity<User> login(@RequestBody Map<String, String> loginData) {
         String email = loginData.get("email");
         String password = loginData.get("password");
-
-        User user = userService.findById(email); // you need to add this method in UserService
+        User user = userService.findById(email);
         if (user != null && user.getPassword().equals(password)) {
             return ResponseEntity.ok(user);
         } else {
