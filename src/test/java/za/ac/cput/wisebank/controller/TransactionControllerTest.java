@@ -8,18 +8,14 @@ import org.mockito.Mockito;
 import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Transaction;
 import za.ac.cput.wisebank.service.TransactionService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -106,7 +102,18 @@ public class TransactionControllerTest {
 
     @Test
     void testFindAllTransactions() throws Exception {
-        when(transactionService.getAll()).thenReturn(List.of(testTransaction));
+        // The controller returns a list of TransactionDTO via transactionService.getAllTransactions()
+        // so we need to mock that method instead of getAll().
+        za.ac.cput.wisebank.dto.TransactionDTO dto = new za.ac.cput.wisebank.dto.TransactionDTO(
+                testTransaction.getTransactionId(),
+                testTransaction.getAccount().getAccountNumber(),
+                testTransaction.getAmount(),
+                testTransaction.getTransactionType(),
+                testTransaction.getTimestamp(),
+                testTransaction.getDescription(),
+                testTransaction.getStatus()
+        );
+        when(transactionService.getAllTransactions()).thenReturn(java.util.List.of(dto));
 
         mockMvc.perform(get("/transaction/find-all"))
                 .andExpect(status().isOk())
