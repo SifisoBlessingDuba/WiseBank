@@ -27,7 +27,7 @@ public class AccountFactory {
                 .setCurrency(currency)
                 .setStatus(status)
                 .setUser(user)
-                .setCard(card)
+//                .setCard(card)
                 .setTransactions(transactions)
                 .setLoan(loans)
                 .build();
