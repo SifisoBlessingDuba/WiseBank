@@ -16,8 +16,8 @@ public class Transaction {
     @Column(name = "transaction_id")
     private Long transactionId;
 
-    @ManyToOne
-    @JoinColumn(name = "account_number", referencedColumnName = "account_number", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_number", referencedColumnName = "account_number")
     private Account account;
 
     private BigDecimal amount;
@@ -117,6 +117,17 @@ public class Transaction {
             this.status = status;
             return this;
         }
+        public Builder copy(Transaction transaction) {
+            this.transactionId = transaction.transactionId;
+            this.account = transaction.account;
+            this.amount = transaction.amount;
+            this.transactionType = transaction.transactionType;
+            this.timestamp = transaction.timestamp;
+            this.description = transaction.description;
+            this.status = transaction.status;
+            return this;
+        }
+
         public Transaction build() {
             return new Transaction(this);
         }

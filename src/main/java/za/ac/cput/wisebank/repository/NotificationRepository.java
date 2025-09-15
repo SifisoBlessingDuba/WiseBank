@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
-    @Override
-    Notification save (Notification notification);
-
-    @Override
-    void deleteById(Integer id);
-
-    @Override
-    Optional<Notification> findById(Integer id);
-
-    @Override
-    List<Notification> findAll();
+//    @Override
+//    Notification save (Notification notification);
+//
+//    @Override
+//    void deleteById(Integer id);
+//
+//    @Override
+//    Optional<Notification> findById(Integer id);
+//
+//    @Override
+//    List<Notification> findAll();
 }

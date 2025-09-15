@@ -2,9 +2,8 @@ package za.ac.cput.wisebank.domain;
 
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,19 +11,20 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private String idNumber;
+    private String userId;
     private String email;
     private String password;
+    private int idNumber;
     private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
-    private String phoneNumber;
+    private Date dateOfBirth;
+    private Long phoneNumber;
     private String address;
     private LocalDate createdAt;
-    private LocalDate lastLogin;
-
+    private String lastLogin;
+  
+  
 //    @OneToMany(mappedBy = "user")
 //
 //    @JsonIgnore
@@ -56,6 +56,7 @@ public class User {
     }
 
     public User (Builder builder) {
+        this.userId = builder.userId;
         this.email = builder.email;
         this.password = builder.password;
         this.idNumber = builder.idNumber;
@@ -65,13 +66,15 @@ public class User {
         this.phoneNumber = builder.phoneNumber;
         this.address = builder.address;
         this.createdAt = builder.createdAt;
-        this.lastLogin = builder.lastLogin;
        // this.accounts = builder.accounts;
 //        this.beneficiaries = builder.beneficiaries;
 //        this.messages = builder.messages;
 //        this.notifications = builder.notifications;
 //        this.loans = builder.loans;
-//        this.cards = builder.cards;
+    }
+
+    public String getUserid() {
+        return userId;
     }
 
     public String getEmail() {
@@ -82,7 +85,7 @@ public class User {
         return password;
     }
 
-    public String getIdNumber() {
+    public int getIdNumber() {
         return idNumber;
     }
 
@@ -94,11 +97,11 @@ public class User {
         return lastName;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public String getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -110,14 +113,14 @@ public class User {
         return createdAt;
     }
 
-    public LocalDate getLastLogin() {
+    public String getLastLogin() {
         return lastLogin;
     }
 
-  //  public List<Account> getAccount() {
-//        return accounts;
-//    }
-
+    public List<Account> getAccount() {
+        return accounts;
+    }
+  
 //    public List<Beneficiary> getBeneficiary() {
 //        return beneficiaries;
 //    }
@@ -141,6 +144,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
+                "userid=" + userId +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", idNumber=" + idNumber +
@@ -161,13 +165,14 @@ public class User {
     }
 
     public static class Builder {
-        private String idNumber;
+        private String userId;
         private String email;
         private String password;
+        private int idNumber;
         private String firstName;
         private String lastName;
-        private LocalDate dateOfBirth;
-        private String phoneNumber;
+        private Date dateOfBirth;
+        private Long phoneNumber;
         private String address;
         private LocalDate createdAt;
         private LocalDate lastLogin;
@@ -178,9 +183,10 @@ public class User {
 //        private List<Loan> loans;
 //       private List<Card> cards;
 
-
-
-
+        public Builder setUserid(String userId){
+            this.userId= userId;
+            return this;
+    }
     public Builder setEmail(String email){
             this.email = email;
             return this;
@@ -189,7 +195,7 @@ public class User {
             this.password = password;
             return this;
     }
-    public Builder setIdNumber(String idNumber){
+    public Builder setIdNumber(Integer idNumber){
             this.idNumber = idNumber;
             return this;
     }
@@ -201,11 +207,11 @@ public class User {
             this.lastName = lastName;
             return this;
     }
-    public Builder setDateOfBirth(LocalDate dateOfBirth){
+    public Builder setDateOfBirth(Date dateOfBirth){
             this.dateOfBirth = dateOfBirth;
             return this;
     }
-    public Builder setPhoneNumber(String phoneNumber){
+    public Builder setPhoneNumber(Long phoneNumber){
             this.phoneNumber = phoneNumber;
             return this;
     }
@@ -217,7 +223,7 @@ public class User {
             this.createdAt = createdAt;
             return this;
     }
-    public Builder setLastLogin(LocalDate lastLogin){
+    public Builder setLastLogin(String lastLogin){
             this.lastLogin = lastLogin;
             return this;
     }
@@ -233,10 +239,11 @@ public class User {
 //            this.messages= messages;
 //            return this;
 //  }
+  
 //  public Builder setNotification(List<Notification> notifications){
 //            this.notifications = notifications;
 //            return this;
-//  }
+
 //  public Builder setLoan(List<Loan> loans){
 //            this.loans = loans;
 //            return this;

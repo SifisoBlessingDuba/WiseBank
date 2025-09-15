@@ -3,7 +3,6 @@
 package za.ac.cput.wisebank.factory;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.cglib.core.Local;
 import za.ac.cput.wisebank.domain.User;
 
 import java.time.LocalDate;

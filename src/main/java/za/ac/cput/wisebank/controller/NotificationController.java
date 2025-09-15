@@ -10,20 +10,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
-
-    private final NotificationService notificationService;
-
     @Autowired
-    public NotificationController(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
+    private NotificationService notificationService;
 
     @PostMapping({"/save"})
     public Notification save(@RequestBody Notification notification) {
         return notificationService.save(notification);
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Notification update(@RequestBody Notification notification) {
         return notificationService.update(notification);
     }

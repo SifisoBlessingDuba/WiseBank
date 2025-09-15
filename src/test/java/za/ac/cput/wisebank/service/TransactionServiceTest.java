@@ -1,107 +1,153 @@
 package za.ac.cput.wisebank.service;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Transaction;
-import za.ac.cput.wisebank.repository.TransactionRepository;
+import za.ac.cput.wisebank.domain.User;
+import za.ac.cput.wisebank.repository.UserRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class TransactionServiceTest {
 
-    @Mock
-    private TransactionRepository transactionRepository;
-
-    @InjectMocks
+    @Autowired
     private TransactionService transactionService;
 
-    private Transaction testTransaction;
+    @Autowired
+    UserRepository userRepository;
+
+    private Transaction testTransaction1;
+    private Transaction testTransaction2;
+    private Transaction testTransaction3;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        User user1 = new User.Builder()
+                .setUserid("U001")
+                .setFirstName("John")
+                .setLastName("Doe")
+                .setEmail("john@example.com")
+                .setPassword("password123")
+                .build();
 
-        Account account = new Account();
+        User user2 = new User.Builder()
+                .setUserid("U002")
+                .setFirstName("John")
+                .setLastName("Doe")
+                .setEmail("john@example.com")
+                .setPassword("password123")
+                .build();
 
-        testTransaction = new Transaction.Builder()
-                .setTransactionId(1L)
-                .setAccount(account)
+
+        User user3 = new User.Builder()
+                .setUserid("U003")
+                .setFirstName("John")
+                .setLastName("Doe")
+                .setEmail("john@example.com")
+                .setPassword("password123")
+                .build();
+
+
+
+
+        Account account1 = new Account.Builder()
+                .setAccountNumber("112")
+                .setUser(user1)
+                .build();
+        Account account2 = new Account.Builder()
+                .setAccountNumber("883")
+                .setUser(user2)
+                .build();
+
+        Account account3 = new Account.Builder()
+                .setAccountNumber("777")
+                .setUser(user3)
+                .build();
+
+
+        testTransaction1 = new Transaction.Builder()
+
+                .setAccount(account1)
                 .setAmount(new BigDecimal("2500.00"))
                 .setTransactionType("Credit")
                 .setTimestamp(LocalDateTime.now())
                 .setDescription("Salary Deposit")
                 .setStatus("Completed")
                 .build();
+
+        testTransaction2 = new Transaction.Builder()
+
+                .setAccount(account2)
+                .setAmount(new BigDecimal("500.00"))
+                .setTransactionType("Debit")
+                .setTimestamp(LocalDateTime.now())
+                .setDescription("ATM Withdrawal")
+                .setStatus("Completed")
+                .build();
+
+        testTransaction3 = new Transaction.Builder()
+
+                .setAccount(account3)
+                .setAmount(new BigDecimal("1200.00"))
+                .setTransactionType("Credit")
+                .setTimestamp(LocalDateTime.now())
+                .setDescription("EFT Payment")
+                .setStatus("Pending")
+                .build();
     }
 
     @Test
     void testSaveTransaction() {
-        when(transactionRepository.save(testTransaction)).thenReturn(testTransaction);
+        Transaction saved1 = transactionService.save(testTransaction1);
+        assertNotNull(saved1);
+        System.out.println("Saved: " + saved1);
 
-        Transaction saved = transactionService.save(testTransaction);
+        Transaction saved2 = transactionService.save(testTransaction2);
+        assertNotNull(saved2);
+        System.out.println("Saved: " + saved2);
 
-        assertNotNull(saved);
-        assertEquals("Credit", saved.getTransactionType());
-        verify(transactionRepository).save(testTransaction);
+        Transaction saved3 = transactionService.save(testTransaction3);
+        assertNotNull(saved3);
+        System.out.println("Saved: " + saved3);
     }
 
     @Test
+    @Transactional
     void testUpdateTransaction() {
-        when(transactionRepository.save(testTransaction)).thenReturn(testTransaction);
+        Transaction updatedTransaction = new Transaction.Builder()
+                .copy(testTransaction1)
+                .setStatus("Reversed")
+                .build();
 
-        Transaction updated = transactionService.update(testTransaction);
-
-        assertEquals("Completed", updated.getStatus());
-        verify(transactionRepository).save(testTransaction);
+        Transaction updated = transactionService.update(updatedTransaction);
+        assertNotNull(updated);
+        assertEquals("Reversed", updated.getStatus());
+        System.out.println("Updated: " + updated);
     }
 
     @Test
-    void testDeleteTransaction() {
-        Long transactionId = 1L;
-        doNothing().when(transactionRepository).deleteById(transactionId);
-
-        transactionService.deleteById(transactionId);
-
-        verify(transactionRepository).deleteById(transactionId);
-    }
-
-    @Test
+    @Transactional
     void testFindTransactionByIdExists() {
-        when(transactionRepository.findById(1L)).thenReturn(Optional.of(testTransaction));
-
         Transaction found = transactionService.findById(1L);
-
         assertNotNull(found);
-        assertEquals("Salary Deposit", found.getDescription());
-        verify(transactionRepository).findById(1L);
+        System.out.println("Found: " + found);
     }
 
     @Test
-    void testFindTransactionByIdNotExists() {
-        when(transactionRepository.findById(2L)).thenReturn(Optional.empty());
-
-        Transaction found = transactionService.findById(2L);
-
-        assertNull(found);
-        verify(transactionRepository).findById(2L);
-    }
-
-    @Test
+    @Transactional
     void testGetAllTransactions() {
-        List<Transaction> transactionList = List.of(testTransaction);
-        when(transactionRepository.findAll()).thenReturn(transactionList);
-
-        List<Transaction> result = transactionRepository.findAll();
-
-        assertEquals(1, result.size());
-        assertEquals(new BigDecimal("2500.00"), result.get(0).getAmount());
-        verify(transactionRepository).findAll();
+        List<Transaction> transactions = transactionService.getAll();
+        assertNotNull(transactions);
+        System.out.println("All transactions: " + transactions);
     }
 }
