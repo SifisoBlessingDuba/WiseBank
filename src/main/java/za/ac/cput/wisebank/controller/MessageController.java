@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/message")
+@CrossOrigin(origins = "*") // allow Flutter frontend
 public class MessageController {
 
     private final MessageService messageService;
@@ -41,5 +42,11 @@ public class MessageController {
     @GetMapping("/all")
     public List<Message> findAll() {
         return messageService.findAll();
+    }
+
+    // ✅ The only endpoint Flutter needs for user messages
+    @GetMapping("/user/{userId}")
+    public List<Message> getMessagesForUser(@PathVariable String userId) {
+        return messageService.findByUserId(userId);
     }
 }
