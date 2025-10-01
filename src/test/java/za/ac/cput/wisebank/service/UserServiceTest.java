@@ -56,13 +56,13 @@ class UserServiceTest {
 
     @Test
     void testFindById() {
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.findById("1")).thenReturn(Optional.of(user));
 
-        User found = userService.findById(1);
+        User found = userService.findById("1");
 
         assertNotNull(found);
         assertEquals("John", found.getFirstName());
-        verify(userRepository, times(1)).findById(1);
+        verify(userRepository, times(1)).findById("1");
     }
 
     @Test
@@ -90,10 +90,10 @@ class UserServiceTest {
 
     @Test
     void testDeleteById() {
-        doNothing().when(userRepository).deleteById(1);
+        doNothing().when(userRepository).deleteById("1");
 
-        userService.deleteById(1);
+        userService.deleteById("1");
 
-        verify(userRepository, times(1)).deleteById(1);
+        verify(userRepository, times(1)).deleteById("1");
     }
 }

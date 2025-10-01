@@ -49,7 +49,7 @@ public class CardControllerTest {
                 .setPassword("password")
                 .setFirstName("John")
                 .setLastName("Doe")
-                .setPhoneNumber("27123456789L")
+                .setPhoneNumber("27123456789")
                 .setAddress("123 Main Street")
                 .setCreatedAt(LocalDate.now())
                 .setLastLogin(LocalDate.now())

@@ -80,17 +80,17 @@ class UserControllerTest {
 
     @Test
     void testDeleteUser() throws Exception {
-        doNothing().when(userService).deleteById(1);
+        doNothing().when(userService).deleteById("1");
 
         mockMvc.perform(delete("/user/deleteUser/1"))
                 .andExpect(status().isOk());
 
-        verify(userService, times(1)).deleteById(1);
+        verify(userService, times(1)).deleteById("1");
     }
 
     @Test
     void testFindUserById() throws Exception {
-        when(userService.findById(1)).thenReturn(testUser);
+        when(userService.findById("1")).thenReturn(testUser);
 
         mockMvc.perform(get("/user/read_user/1"))
                 .andExpect(status().isOk())

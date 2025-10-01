@@ -3,6 +3,7 @@ package za.ac.cput.wisebank.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.wisebank.domain.Transaction;
+import za.ac.cput.wisebank.dto.TransactionDTO;
 import za.ac.cput.wisebank.repository.TransactionRepository;
 
 import java.util.List;
@@ -39,6 +40,19 @@ public class TransactionService implements ITransactionService {
     }
     @Override
     public List<Transaction> getAll() {
-        return List.of();
+        return transactionRepository.findAll();
+    }
+    public List<TransactionDTO> getAllTransactions() {
+        return transactionRepository.findAll().stream()
+                .map(tx -> new TransactionDTO(
+                        tx.getTransactionId(),
+                        tx.getAccount().getAccountNumber(),
+                        tx.getAmount(),
+                        tx.getDescription(),
+                        tx.getTimestamp(),
+                        tx.getTransactionType(),
+                        tx.getStatus()
+                ))
+                .toList();
     }
 }
