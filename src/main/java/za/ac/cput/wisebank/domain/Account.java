@@ -1,6 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import jakarta.persistence.*;
 
@@ -47,6 +48,7 @@ import java.util.List;
 
     }
 
+    @com.fasterxml.jackson.annotation.JsonProperty("accountId")
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -73,6 +75,42 @@ import java.util.List;
 
     public User getUser() {
         return user;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public void setCurrency(double currency) {
+        this.currency = currency;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 
     public List<Transaction> getTransactions() {
@@ -158,4 +196,3 @@ import java.util.List;
             return new Account(this);
         }
     }}
-

@@ -18,6 +18,11 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     @Override
     Optional<Account> findById(String accountNumber);
 
+        List<Account> findByUser_IdNumber(String idNumber);
+
+
+
+
     @Override
     List<Account> findAll();
 }
