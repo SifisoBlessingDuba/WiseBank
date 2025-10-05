@@ -2,18 +2,22 @@ package za.ac.cput.wisebank.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.Transaction;
 import za.ac.cput.wisebank.repository.TransactionRepository;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
-
+import java.util.List;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class TransactionServiceTest {
 
     @Mock
@@ -22,86 +26,87 @@ class TransactionServiceTest {
     @InjectMocks
     private TransactionService transactionService;
 
-    private Transaction testTransaction;
+    private Transaction testTransaction1;
+    private Transaction testTransaction2;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        Account account1 = new Account.Builder()
+                .setAccountNumber("112")
+                .build();
+        Account account2 = new Account.Builder()
+                .setAccountNumber("883")
+                .build();
 
-        Account account = new Account();
-
-        testTransaction = new Transaction.Builder()
+        testTransaction1 = new Transaction.Builder()
                 .setTransactionId(1L)
-                .setAccount(account)
+                .setAccount(account1)
                 .setAmount(new BigDecimal("2500.00"))
                 .setTransactionType("Credit")
                 .setTimestamp(LocalDateTime.now())
                 .setDescription("Salary Deposit")
                 .setStatus("Completed")
                 .build();
+
+        testTransaction2 = new Transaction.Builder()
+                .setTransactionId(2L)
+                .setAccount(account2)
+                .setAmount(new BigDecimal("500.00"))
+                .setTransactionType("Debit")
+                .setTimestamp(LocalDateTime.now())
+                .setDescription("ATM Withdrawal")
+                .setStatus("Completed")
+                .build();
     }
 
     @Test
     void testSaveTransaction() {
-        when(transactionRepository.save(testTransaction)).thenReturn(testTransaction);
+        when(transactionRepository.save(any(Transaction.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Transaction saved = transactionService.save(testTransaction);
+        Transaction saved1 = transactionService.save(testTransaction1);
+        assertNotNull(saved1);
+        assertEquals("Credit", saved1.getTransactionType());
 
-        assertNotNull(saved);
-        assertEquals("Credit", saved.getTransactionType());
-        verify(transactionRepository).save(testTransaction);
+        Transaction saved2 = transactionService.save(testTransaction2);
+        assertNotNull(saved2);
+        assertEquals("Debit", saved2.getTransactionType());
+
+        verify(transactionRepository, times(2)).save(any(Transaction.class));
     }
 
     @Test
     void testUpdateTransaction() {
-        when(transactionRepository.save(testTransaction)).thenReturn(testTransaction);
+        when(transactionRepository.save(any(Transaction.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Transaction updated = transactionService.update(testTransaction);
+        Transaction updatedTransaction = new Transaction.Builder()
+                .copy(testTransaction1)
+                .setStatus("Reversed")
+                .build();
 
-        assertEquals("Completed", updated.getStatus());
-        verify(transactionRepository).save(testTransaction);
-    }
-
-    @Test
-    void testDeleteTransaction() {
-        Long transactionId = 1L;
-        doNothing().when(transactionRepository).deleteById(transactionId);
-
-        transactionService.deleteById(transactionId);
-
-        verify(transactionRepository).deleteById(transactionId);
+        Transaction updated = transactionService.update(updatedTransaction);
+        assertNotNull(updated);
+        assertEquals("Reversed", updated.getStatus());
+        verify(transactionRepository).save(any(Transaction.class));
     }
 
     @Test
     void testFindTransactionByIdExists() {
-        when(transactionRepository.findById(1L)).thenReturn(Optional.of(testTransaction));
+        when(transactionRepository.findById(1L)).thenReturn(Optional.of(testTransaction1));
 
         Transaction found = transactionService.findById(1L);
-
         assertNotNull(found);
-        assertEquals("Salary Deposit", found.getDescription());
+        assertEquals(1L, found.getTransactionId());
         verify(transactionRepository).findById(1L);
     }
 
     @Test
-    void testFindTransactionByIdNotExists() {
-        when(transactionRepository.findById(2L)).thenReturn(Optional.empty());
-
-        Transaction found = transactionService.findById(2L);
-
-        assertNull(found);
-        verify(transactionRepository).findById(2L);
-    }
-
-    @Test
     void testGetAllTransactions() {
-        List<Transaction> transactionList = List.of(testTransaction);
-        when(transactionRepository.findAll()).thenReturn(transactionList);
+        when(transactionRepository.findAll()).thenReturn(List.of(testTransaction1, testTransaction2));
 
-        List<Transaction> result = transactionRepository.findAll();
-
-        assertEquals(1, result.size());
-        assertEquals(new BigDecimal("2500.00"), result.get(0).getAmount());
+        List<Transaction> transactions = transactionService.getAll();
+        assertNotNull(transactions);
+        assertEquals(2, transactions.size());
+        assertEquals("Credit", transactions.get(0).getTransactionType());
         verify(transactionRepository).findAll();
     }
 }

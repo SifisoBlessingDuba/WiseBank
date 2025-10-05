@@ -2,6 +2,7 @@ package za.ac.cput.wisebank.factory;
 
 import org.springframework.stereotype.Component;
 import za.ac.cput.wisebank.domain.*;
+import za.ac.cput.wisebank.util.Helper;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -9,26 +10,18 @@ import java.util.List;
 
 @Component
 public class UserFactory {
-    public static User createUser(String idNumber,
-                                  String email,
-                                  String password ,
-                                  String firstName,
-                                  String lastName ,
-                                  LocalDate dateOfBirth,
-                                  String phoneNumber ,
-                                  String address ,
-                                  LocalDate createdAt,
-                                  LocalDate lastLogin ,
-                                  List<Account> account,
-                                  List<LoanPayment> loanpayment,
-                                  List<Beneficiary> beneficiary,
-                                  List<Message> messages,
-                                 List<Notification> notifications,
-                                  List<Card> cards,
-                                  List<Loan> loans
+    public static User createUser(String idNumber, String email, String password , String firstName, String lastName , LocalDate dateOfBirth,
+                                  String phoneNumber , String address , LocalDate createdAt, LocalDate lastLogin) {
 
-
-                                  ) {
+        if(Helper.isNullOrEmpty(idNumber) ||
+            Helper.isNullOrEmpty(email) ||
+            Helper.isNullOrEmpty(password) ||
+            Helper.isNullOrEmpty(firstName) ||
+            Helper.isNullOrEmpty(lastName) ||
+            Helper.isNullOrEmpty(phoneNumber) ||
+            Helper.isNullOrEmpty(address)) {
+            return null;
+        }
         return new User.Builder()
                 .setEmail(email)
                 .setPassword(password)
@@ -40,10 +33,6 @@ public class UserFactory {
                 .setAddress(address)
                 .setCreatedAt(createdAt)
                 .setLastLogin(lastLogin)
-//                .setAccount(account)
-                .setBeneficiary(beneficiary)
-                .setMessage(messages)
-                .setNotification(notifications)
                 .build();
 
     }

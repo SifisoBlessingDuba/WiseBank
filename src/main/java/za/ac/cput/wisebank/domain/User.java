@@ -1,18 +1,11 @@
 package za.ac.cput.wisebank.domain;
-
-
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private String idNumber;
     private String email;
@@ -24,32 +17,6 @@ public class User {
     private String address;
     private LocalDate createdAt;
     private LocalDate lastLogin;
-
-    @OneToMany(mappedBy = "user")
-
-    @JsonIgnore
-    private List<Beneficiary> beneficiaries;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Notification> notifications;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Message> messages;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Card> cards;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Loan> loans;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Account> accounts;
-
 
     public User(){
 
@@ -66,12 +33,6 @@ public class User {
         this.address = builder.address;
         this.createdAt = builder.createdAt;
         this.lastLogin = builder.lastLogin;
-       // this.accounts = builder.accounts;
-        this.beneficiaries = builder.beneficiaries;
-        this.messages = builder.messages;
-        this.notifications = builder.notifications;
-        this.loans = builder.loans;
-        this.cards = builder.cards;
     }
 
     public String getEmail() {
@@ -114,30 +75,6 @@ public class User {
         return lastLogin;
     }
 
-  //  public List<Account> getAccount() {
-//        return accounts;
-//    }
-
-    public List<Beneficiary> getBeneficiary() {
-        return beneficiaries;
-    }
-
-    public List<Message> getMessage() {
-        return messages;
-    }
-
-    public List<Notification> getNotification() {
-        return notifications;
-    }
-
-    public List<Loan> getLoan() {
-        return loans;
-    }
-
-    public List<Card> getCard() {
-        return cards;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -151,23 +88,13 @@ public class User {
                 ", address='" + address + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLogin='" + lastLogin + '\'' +
-      //          ", account=" + accounts +
-                ", beneficiary=" + beneficiaries +
-                ", message=" + messages +
-                ", notification=" + notifications +
-                ", loan=" + loans +
-                ", card=" + cards +
                 '}';
     }
 
-    public void setPassword(String newPassword) {
-    }
-
-
     public static class Builder {
-        private String idNumber;
         private String email;
         private String password;
+        private String idNumber;
         private String firstName;
         private String lastName;
         private LocalDate dateOfBirth;
@@ -175,15 +102,6 @@ public class User {
         private String address;
         private LocalDate createdAt;
         private LocalDate lastLogin;
-      //  private List<Account> accounts;
-        private List<Beneficiary> beneficiaries;
-        private List<Message> messages;
-        private List<Notification> notifications;
-        private List<Loan> loans;
-        private List<Card> cards;
-
-
-
 
     public Builder setEmail(String email){
             this.email = email;
@@ -225,30 +143,6 @@ public class User {
             this.lastLogin = lastLogin;
             return this;
     }
-//   public Builder setAccount(List<Account> accounts){
-//            this.accounts = accounts;
-//            return this;
-//   }
-   public Builder setBeneficiary(List<Beneficiary> beneficiaries){
-            this.beneficiaries = beneficiaries;
-            return this;
-   }
-  public Builder setMessage(List<Message> messages){
-            this.messages= messages;
-            return this;
-  }
-  public Builder setNotification(List<Notification> notifications){
-            this.notifications = notifications;
-            return this;
-  }
-  public Builder setLoan(List<Loan> loans){
-            this.loans = loans;
-            return this;
-  }
-  public Builder setCard(List<Card> cards){
-            this.cards = cards;
-            return this;
-  }
 
     public User build()  {
             return new User(this);

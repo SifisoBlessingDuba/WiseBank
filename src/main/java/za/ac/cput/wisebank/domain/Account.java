@@ -1,6 +1,7 @@
 package za.ac.cput.wisebank.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import jakarta.persistence.*;
 
@@ -17,9 +18,9 @@ import java.util.List;
     private String bankName;
     private String status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
-    @com.fasterxml.jackson.annotation.JsonBackReference
+  // @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -29,10 +30,6 @@ import java.util.List;
     @OneToMany(mappedBy = "account")
     @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Loan> loans;
-
-    @OneToOne(mappedBy = "account")
-    @com.fasterxml.jackson.annotation.JsonIgnore
-    private Card card;
 
     public Account() {
 
@@ -46,12 +43,12 @@ import java.util.List;
         this.bankName=builder.bankName;
         this.status=builder.status;
         this.user = builder.user;
-        this.card = builder.card;
         this.transactions =builder.transactions;
         this.loans = builder.loan;
 
     }
 
+    @com.fasterxml.jackson.annotation.JsonProperty("accountId")
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -80,8 +77,40 @@ import java.util.List;
         return user;
     }
 
-    public Card getCard() {
-        return card;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public void setCurrency(double currency) {
+        this.currency = currency;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 
     public List<Transaction> getTransactions() {
@@ -102,7 +131,6 @@ import java.util.List;
                 ", bankName='" + bankName + '\'' +
                 ", status='" + status + '\'' +
                 ", userId=" + (user != null ? user.getIdNumber() : null) +
-                ", cardNumber=" + (card != null ? card.getCardNumber() : null) +
                 ", transactionsCount=" + (transactions != null ? transactions.size() : 0) +
                 ", loansCount=" + (loans != null ? loans.size() : 0) +
                 '}';
@@ -116,7 +144,6 @@ import java.util.List;
         private String bankName;
         private String status;
         private User user;
-        private Card card;
         private List<Transaction> transactions;
         private List<Loan> loan;
 
@@ -154,11 +181,6 @@ import java.util.List;
             return this;
         }
 
-        public Builder setCard(Card card) {
-            this.card = card;
-            return this;
-        }
-
         public Builder setTransactions(List<Transaction> transactions) {
             this.transactions = transactions;
             return this;
@@ -174,4 +196,3 @@ import java.util.List;
             return new Account(this);
         }
     }}
-

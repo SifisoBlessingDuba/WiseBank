@@ -9,14 +9,14 @@ import java.util.List;
 
 @Service
 public class NotificationService implements INotificationService {
+@Autowired
+    private NotificationRepository notificationRepository;
 
-    private final NotificationRepository notificationRepository;
-
-    @Autowired
-    public NotificationService(NotificationRepository notificationRepository){
-
-        this.notificationRepository = notificationRepository;
-    }
+//    @Autowired
+//    public NotificationService(NotificationRepository notificationRepository){
+//
+//        this.notificationRepository = notificationRepository;
+//    }
 
     @Override
     public Notification save(Notification notification){
