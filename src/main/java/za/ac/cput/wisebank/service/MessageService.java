@@ -22,7 +22,7 @@ public class MessageService {
     }
 
     public Message update(Message message) {
-        return messageRepository.save(message); // same as save
+        return messageRepository.save(message);
     }
 
     public void deleteById(Integer id) {
@@ -38,6 +38,6 @@ public class MessageService {
     }
 
     public List<Message> findByUserId(String userId) {
-        return messageRepository.findByUser_UserId(userId);
+        return messageRepository.findByUser_IdNumber(userId);
     }
 }
