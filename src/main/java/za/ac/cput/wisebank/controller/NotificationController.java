@@ -35,6 +35,7 @@ public class NotificationController {
 
     @GetMapping("/find-all")
     public List<Notification> findAll() {
+
         return notificationService.getAll();
     }
 }
