@@ -8,8 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
-    // Custom query method to fetch messages for a specific user
-    default List<Message> findByUser_UserId(String userId) {
-        return null;
-    }
+    List<Message> findByUser_IdNumber(String userId);
 }
