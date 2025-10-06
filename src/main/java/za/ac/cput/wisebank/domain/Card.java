@@ -8,12 +8,13 @@ import java.util.List;
 @Entity
 public class Card {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "card_id")
     private String cardNumber;
     private String cardType;
+    @Column(columnDefinition = "TINYINT(1)")
     private Boolean status;
-    private double cardLimit;
+    double cardLimit;
     private int cvv;
     private LocalDate expiryDate;
     private LocalDate issuedDate;
@@ -22,7 +23,7 @@ public class Card {
     @com.fasterxml.jackson.annotation.JsonBackReference
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "account_number")
     private Account account;
 
