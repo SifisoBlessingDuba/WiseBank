@@ -35,7 +35,16 @@ public class WithdrawalController {
         if(request.getAccountId() == null || request.getAccountId().isEmpty()) {
             return ResponseEntity.badRequest().body("Account ID is required");
         }
-        System.out.println("Received withdrawal request: " + request);
+        if (request.getPhoneNumber() == null || request.getPhoneNumber().isEmpty()) {
+            return ResponseEntity.badRequest().body("Phone number is required");
+        }
+        if (request.getAmount() <= 0) {
+            return ResponseEntity.badRequest().body("Amount must be greater than zero");
+        }
+        System.out.println("[WithdrawalController] Incoming request: userId=" + request.getUserId()
+                + ", accountId=" + request.getAccountId()
+                + ", phone=" + request.getPhoneNumber()
+                + ", amount=" + request.getAmount());
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -45,30 +54,46 @@ public class WithdrawalController {
 
         // Security: Ensure the account belongs to the user
         if (!account.getUser().getIdNumber().equals(user.getIdNumber())) {
+            System.err.println("[WithdrawalController] Account ownership mismatch: userId=" + user.getIdNumber()
+                    + ", accountId=" + account.getAccountNumber());
             return ResponseEntity.badRequest().body("Account does not belong to the user");
         }
 
-        Withdrawal withdrawal = withdrawalService.withdrawMoney(
-                user,
-                account,
-                request.getAmount(),
-                request.getPhoneNumber()
-        );
+        System.out.println("[WithdrawalController] Attempting withdrawal: currentBalance=" + account.getAccountBalance()
+                + ", amount=" + request.getAmount());
 
+        try {
+            Withdrawal withdrawal = withdrawalService.withdrawMoney(
+                    user,
+                    account,
+                    request.getAmount(),
+                    request.getPhoneNumber()
+            );
 
-        WithdrawalResponse response = new WithdrawalResponse(
-                account.getAccountNumber(),
-                request.getAmount(),
-                account.getAccountBalance(),
-                withdrawal.getWithdrawalStatus().name(),
-                withdrawal.getWithdrawalDate()
-        );
+            System.out.println("[WithdrawalController] Withdrawal SUCCESS: withdrawalId=" + withdrawal.getWithdrawalId()
+                    + ", newBalance=" + account.getAccountBalance());
 
-        return ResponseEntity.ok(response);
+            WithdrawalResponse response = new WithdrawalResponse(
+                    account.getAccountNumber(),
+                    request.getAmount(),
+                    account.getAccountBalance(),
+                    withdrawal.getWithdrawalStatus().name(),
+                    withdrawal.getWithdrawalDate()
+            );
+
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            System.err.println("[WithdrawalController] Withdrawal FAILED for userId=" + request.getUserId()
+                    + ", accountId=" + request.getAccountId()
+                    + ", amount=" + request.getAmount()
+                    + ": " + ex.getMessage());
+            throw ex; // will be handled by the @ExceptionHandler below
+        }
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        System.err.println("[WithdrawalController] Error response: " + ex.getMessage());
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

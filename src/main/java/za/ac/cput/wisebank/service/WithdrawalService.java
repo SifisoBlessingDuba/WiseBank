@@ -1,17 +1,16 @@
 package za.ac.cput.wisebank.service;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.wisebank.domain.Account;
 import za.ac.cput.wisebank.domain.User;
 import za.ac.cput.wisebank.domain.Withdrawal;
 import za.ac.cput.wisebank.domain.WithdrawalStatus;
-import za.ac.cput.wisebank.factory.WithdrawalFactory;
 import za.ac.cput.wisebank.repository.AccountRepository;
 import za.ac.cput.wisebank.repository.WithdrawalRepository;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Service
 public class WithdrawalService  {
@@ -28,13 +27,22 @@ public class WithdrawalService  {
 
     @Transactional
     public Withdrawal withdrawMoney(User user, Account account, double amount, String phoneNumber) {
+        // Basic validations
+        if (user == null || account == null) {
+            throw new IllegalArgumentException("User and Account are required");
+        }
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be greater than zero");
+        }
         if (account.getAccountBalance() < amount){
             throw new IllegalArgumentException("Insufficient Funds");
         }
 
+        // Deduct and persist the new balance immediately
         account.setAccountBalance(account.getAccountBalance() - amount);
-        accountRepository.save(account);
+        accountRepository.saveAndFlush(account);
 
+        // Create and persist the withdrawal record
         Withdrawal withdrawal = new Withdrawal.Builder()
                 .setUser(user)
                 .setAccount(account)
@@ -45,7 +53,4 @@ public class WithdrawalService  {
                 .build();
         return withdrawalRepository.save(withdrawal);
     }
-
-
-
 }

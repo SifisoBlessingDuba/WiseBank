@@ -14,11 +14,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/account")
 public class AccountController {
-    private AccountService accountService;
+    private final AccountService accountService;
+    private final za.ac.cput.wisebank.repository.UserRepository userRepository;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, za.ac.cput.wisebank.repository.UserRepository userRepository) {
         this.accountService = accountService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/save")
@@ -48,6 +50,23 @@ public class AccountController {
     @GetMapping("/read_account/by-user/{userId}")
     public List<Account> findByUserId(@PathVariable String userId) {
         return accountService.findByUserId(userId);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<Account>> myAccounts(java.security.Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        }
+        String name = principal.getName();
+        // name can be email or idNumber depending on how the user authenticated
+        String idNumber = userRepository.findByEmail(name)
+                .map(za.ac.cput.wisebank.domain.User::getIdNumber)
+                .orElse(name);
+        List<Account> accounts = accountService.findByUserId(idNumber);
+        if (accounts == null || accounts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(accounts);
     }
 
 
