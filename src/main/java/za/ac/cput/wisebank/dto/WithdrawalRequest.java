@@ -1,7 +1,6 @@
 package za.ac.cput.wisebank.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.antlr.v4.runtime.misc.NotNull;
 
 public class WithdrawalRequest {

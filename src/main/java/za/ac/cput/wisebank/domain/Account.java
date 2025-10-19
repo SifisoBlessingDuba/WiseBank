@@ -1,8 +1,6 @@
 package za.ac.cput.wisebank.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -50,6 +48,12 @@ import java.util.List;
 
     @com.fasterxml.jackson.annotation.JsonProperty("accountId")
     public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    // Also expose the same primary key under a generic "id" field for client compatibility
+    @com.fasterxml.jackson.annotation.JsonProperty("id")
+    public String getId() {
         return accountNumber;
     }
 

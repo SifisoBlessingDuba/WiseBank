@@ -1,6 +1,7 @@
 package za.ac.cput.wisebank.domain;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
@@ -9,6 +10,7 @@ public class User {
     @Column(name = "user_id")
     private String idNumber;
     private String email;
+    @JsonIgnore
     private String password;
     private String firstName;
     private String lastName;
@@ -41,6 +43,11 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    // Add setter to allow password updates (encoded by service layer)
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getIdNumber() {

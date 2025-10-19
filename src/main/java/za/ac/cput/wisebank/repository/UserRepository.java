@@ -20,5 +20,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Override
     List<User> findAll();
-}
 
+    // lookup by email for authentication
+    Optional<User> findByEmail(String email);
+}
