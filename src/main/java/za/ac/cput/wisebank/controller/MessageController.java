@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/message")
+@CrossOrigin(origins = "*")
 public class MessageController {
 
     private final MessageService messageService;
@@ -41,6 +42,11 @@ public class MessageController {
     @GetMapping("/all")
     public List<Message> findAll() {
         return messageService.findAll();
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Message> getMessagesForUser(@PathVariable String userId) {
+        return messageService.findByUserId(userId);
     }
 }
 //guys check if this page will show up in the final project

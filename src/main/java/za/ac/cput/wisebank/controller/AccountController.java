@@ -29,9 +29,34 @@ public class AccountController {
     }
 
     @PutMapping("/update")
-    public Account update(@RequestBody Account account) {
-        return accountService.save(account);
+    public ResponseEntity<Boolean> update(@RequestBody Account requestAccount) {
+        System.out.println(requestAccount);
+        if (requestAccount == null || requestAccount.getAccountNumber() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        double withdrawAmount = requestAccount.getAccountBalance(); // using balance as amount
+        if (withdrawAmount <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Account account = accountService.findById(requestAccount.getAccountNumber());
+        if (account == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        double currentBalance = account.getAccountBalance();
+        if (withdrawAmount > currentBalance) {
+            return ResponseEntity.ok(false);
+        }
+
+        // Subtract and save
+        account.setAccountBalance(currentBalance - withdrawAmount);
+        accountService.save(account);
+
+        return ResponseEntity.ok(true);
     }
+
 
     @DeleteMapping("/deleteAccount/{id}")
     public void deleteById(@PathVariable String id) {

@@ -8,7 +8,7 @@ import za.ac.cput.wisebank.repository.MessageRepository;
 import java.util.List;
 
 @Service
-public class MessageService implements IMessageService {
+public class MessageService {
 
     private final MessageRepository messageRepository;
 
@@ -17,39 +17,28 @@ public class MessageService implements IMessageService {
         this.messageRepository = messageRepository;
     }
 
-    @Override
     public Message save(Message message) {
         return messageRepository.save(message);
     }
 
-    @Override
     public Message update(Message message) {
         return messageRepository.save(message);
     }
 
-    @Override
-    public void deleteById(String s) {
-
-    }
-
-    @Override
-    public Message findById(String s) {
-        return null;
-    }
-
-    @Override
     public void deleteById(Integer id) {
         messageRepository.deleteById(id);
     }
 
-    @Override
     public Message findById(Integer id) {
         return messageRepository.findById(id).orElse(null);
     }
 
-    @Override
     public List<Message> findAll() {
         return messageRepository.findAll();
+    }
+
+    public List<Message> findByUserId(String userId) {
+        return messageRepository.findByUser_IdNumber(userId);
     }
 }
 //guys check if this page will show up in the final project
