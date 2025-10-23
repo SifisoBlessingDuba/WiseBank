@@ -43,3 +43,5 @@ public class LoanPaymentController {
         return loanPaymentService.getAll();
     }
 }
+//guys check if this page will show up in the final project
+//10

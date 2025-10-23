@@ -2,6 +2,8 @@ package za.ac.cput.wisebank.domain;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 @Entity
 public class User {
@@ -50,8 +52,17 @@ public class User {
         this.password = password;
     }
 
+    // Expose idNumber as JSON property "userId" so client payloads with userId map correctly
+    @JsonProperty("userId")
+    @JsonAlias({"idNumber"})
     public String getIdNumber() {
         return idNumber;
+    }
+
+    // Setter to allow Jackson to bind numeric or string userId values into the String idNumber
+    @JsonProperty("userId")
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public String getFirstName() {
@@ -157,3 +168,5 @@ public class User {
 }
 
 }
+//guys check if this page will show up in the final project
+//24

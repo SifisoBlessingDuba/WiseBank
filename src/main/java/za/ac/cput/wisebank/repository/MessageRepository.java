@@ -10,3 +10,6 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, Integer> {
     List<Message> findByUser_IdNumber(String userId);
 }
+//guys check if this page will show up in the final project
+//46
+
