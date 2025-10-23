@@ -43,3 +43,5 @@ public class BeneficiaryController {
         return beneficiaryService.findAll();
     }
 }
+//guys check if this page will show up in the final project
+//7

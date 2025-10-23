@@ -20,10 +20,9 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
         List<Account> findByUser_IdNumber(String idNumber);
 
-
-
-
     @Override
     List<Account> findAll();
 }
+//guys check if this page will show up in the final project
+//41
 
