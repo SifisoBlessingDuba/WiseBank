@@ -115,5 +115,3 @@ public class UserController {
         return ResponseEntity.ok(UserDTO.from(user));
     }
 }
-//guys check if this page will show up in the final project
-//15
