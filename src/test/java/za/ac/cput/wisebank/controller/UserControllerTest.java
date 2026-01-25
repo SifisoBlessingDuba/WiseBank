@@ -7,9 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import za.ac.cput.wisebank.domain.User;
+import za.ac.cput.wisebank.security.JwtUtil;
 import za.ac.cput.wisebank.service.UserService;
 
 import java.time.LocalDate;
@@ -30,6 +32,12 @@ class UserControllerTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private JwtUtil jwtUtil;
 
     @InjectMocks
     private UserController userController;
@@ -106,5 +114,53 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].userId").value(1));
+    }
+
+    @Test
+    void testGetCurrentUser_Success() throws Exception {
+        String token = "Bearer validtoken";
+        String userId = "83749247";
+
+        when(jwtUtil.extractUserId("validtoken")).thenReturn(userId);
+        when(userService.findById(userId)).thenReturn(testUser);
+
+        mockMvc.perform(get("/user/me")
+                        .header("Authorization", token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.userId").value("83749247"))
+                .andExpect(jsonPath("$.email").value("jane.doe@example.com"))
+                .andExpect(jsonPath("$.firstName").value("Jane"));
+
+        verify(jwtUtil, times(1)).extractUserId("validtoken");
+        verify(userService, times(1)).findById(userId);
+    }
+
+    @Test
+    void testGetCurrentUser_MissingToken() throws Exception {
+        mockMvc.perform(get("/user/me"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void testGetCurrentUser_InvalidTokenFormat() throws Exception {
+        mockMvc.perform(get("/user/me")
+                        .header("Authorization", "InvalidToken"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void testGetCurrentUser_UserNotFound() throws Exception {
+        String token = "Bearer validtoken";
+        String userId = "nonexistent";
+
+        when(jwtUtil.extractUserId("validtoken")).thenReturn(userId);
+        when(userService.findById(userId)).thenReturn(null);
+
+        mockMvc.perform(get("/user/me")
+                        .header("Authorization", token))
+                .andExpect(status().isNotFound());
+
+        verify(jwtUtil, times(1)).extractUserId("validtoken");
+        verify(userService, times(1)).findById(userId);
     }
 }

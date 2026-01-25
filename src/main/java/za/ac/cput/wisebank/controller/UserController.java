@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.wisebank.domain.User;
 import za.ac.cput.wisebank.dto.UserDTO;
+import za.ac.cput.wisebank.security.JwtUtil;
 import za.ac.cput.wisebank.service.UserService;
 
 import java.net.URI;
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/save")
@@ -92,6 +95,24 @@ public class UserController {
         }
         List<UserDTO> dtos = users.stream().map(UserDTO::from).collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUser(@RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(null);
+        }
+
+        String jwt = token.substring(7); // Remove "Bearer " prefix
+        String userId = jwtUtil.extractUserId(jwt); // Extract user ID from JWT
+
+        User user = userService.findById(userId);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.ok(UserDTO.from(user));
     }
 }
 //guys check if this page will show up in the final project
